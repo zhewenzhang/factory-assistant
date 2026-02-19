@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>工厂工程师助手</title>
+    <title>FactoryAI 智工助手</title>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <style>
         :root {
             --primary: #1e3a5f;
+            --primary-light: #2d5a8a;
             --success: #22c55e;
             --warning: #f59e0b;
             --danger: #ef4444;
-            --bg: #f8fafc;
+            --bg: #f0f2f5;
             --card: #ffffff;
             --text: #1e293b;
             --text-light: #64748b;
@@ -29,7 +30,99 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg);
             color: var(--text);
-            padding-bottom: 80px;
+            min-height: 100vh;
+        }
+        
+        /* Login Page */
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            padding: 20px;
+        }
+        
+        .login-box {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        
+        .login-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-logo h1 {
+            font-size: 28px;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+        
+        .login-logo p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        
+        .form-input:focus {
+            border-color: var(--primary);
+        }
+        
+        .btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:active {
+            transform: scale(0.98);
+            opacity: 0.9;
+        }
+        
+        /* Main App */
+        .app-container {
+            display: none;
+            min-height: 100vh;
+        }
+        
+        .app-container.active {
+            display: block;
         }
         
         /* Header */
@@ -40,16 +133,41 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
-        .header h1 {
+        .header-title {
             font-size: 18px;
             font-weight: 600;
         }
         
-        .header .time {
+        .header-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+        
+        .header-user .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
             font-size: 12px;
-            opacity: 0.8;
+            cursor: pointer;
         }
         
         /* Tab Navigation */
@@ -58,19 +176,21 @@
             background: var(--card);
             border-bottom: 1px solid var(--border);
             position: sticky;
-            top: 60px;
+            top: 58px;
             z-index: 99;
+            overflow-x: auto;
         }
         
         .tab {
             flex: 1;
-            padding: 14px;
+            min-width: 70px;
+            padding: 14px 10px;
             text-align: center;
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-light);
             cursor: pointer;
             border-bottom: 2px solid transparent;
-            transition: all 0.2s;
+            white-space: nowrap;
         }
         
         .tab.active {
@@ -95,74 +215,68 @@
             display: block;
         }
         
-        /* Task Detail Modal */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            animation: fadeIn 0.2s;
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
         }
         
-        .modal-overlay.active {
-            display: block;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .modal {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+        .stat-card {
             background: var(--card);
-            border-radius: 20px 20px 0 0;
-            max-height: 90vh;
-            overflow-y: auto;
-            animation: slideUp 0.3s;
+            padding: 16px 12px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
         
-        @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
         }
         
-        .modal-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border);
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+        
+        .stat-card.warning .stat-value {
+            color: var(--warning);
+        }
+        
+        .stat-card.danger .stat-value {
+            color: var(--danger);
+        }
+        
+        .stat-card.success .stat-value {
+            color: var(--success);
+        }
+        
+        /* Dashboard Cards */
+        .dashboard-section {
+            margin-bottom: 20px;
+        }
+        
+        .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            background: var(--card);
+            margin-bottom: 12px;
         }
         
-        .modal-title {
-            font-size: 18px;
+        .section-title {
+            font-size: 16px;
             font-weight: 600;
+            color: var(--text);
         }
         
-        .modal-close {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: var(--bg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .section-more {
+            font-size: 13px;
+            color: var(--primary);
             cursor: pointer;
-        }
-        
-        .modal-body {
-            padding: 20px;
         }
         
         /* Cards */
@@ -174,39 +288,70 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
         
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        
         .card-title {
             font-size: 15px;
             font-weight: 600;
-            color: var(--text);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
-        .status-badge {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 500;
+        /* Equipment Grid */
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
         }
         
-        .status-pending {
-            background: #fef3c7;
-            color: #d97706;
+        .equipment-item {
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
         }
         
-        .status-done {
+        .equipment-item:active {
+            transform: scale(0.95);
+        }
+        
+        .equipment-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 22px;
+        }
+        
+        .equipment-icon.normal {
             background: #dcfce7;
             color: #16a34a;
         }
         
-        .status-processing {
-            background: #dbeafe;
-            color: #2563eb;
+        .equipment-icon.warning {
+            background: #fef3c7;
+            color: #d97706;
+        }
+        
+        .equipment-icon.error {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        
+        .equipment-name {
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .equipment-status {
+            font-size: 11px;
+            color: var(--text-light);
         }
         
         /* Task List */
@@ -238,7 +383,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s;
             flex-shrink: 0;
         }
         
@@ -257,239 +401,306 @@
             margin-bottom: 2px;
         }
         
-        .task-desc {
+        .task-meta {
             font-size: 12px;
             color: var(--text-light);
         }
         
-        .task-time {
+        .task-tag {
             font-size: 11px;
-            color: var(--text-light);
-        }
-        
-        .task-arrow {
-            color: var(--text-light);
-            font-size: 14px;
-        }
-        
-        /* Task Detail Form */
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 8px;
-            color: var(--text);
-        }
-        
-        .form-hint {
-            font-size: 12px;
-            color: var(--text-light);
-            margin-top: 4px;
-        }
-        
-        .form-input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid var(--border);
+            padding: 2px 8px;
             border-radius: 10px;
-            font-size: 14px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        
-        .form-input:focus {
-            border-color: var(--primary);
-        }
-        
-        .form-textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-        
-        /* Capture Button */
-        .capture-box {
-            border: 2px dashed var(--border);
-            border-radius: 12px;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .capture-box:active {
             background: var(--bg);
-        }
-        
-        .capture-box.has-image {
-            padding: 10px;
-            border-style: solid;
-            border-color: var(--success);
-        }
-        
-        .capture-box i {
-            font-size: 36px;
-            color: var(--text-light);
-            margin-bottom: 8px;
-        }
-        
-        .capture-box p {
-            font-size: 14px;
             color: var(--text-light);
         }
         
-        .capture-box img {
-            width: 100%;
-            max-height: 200px;
-            object-fit: contain;
-            border-radius: 8px;
+        .task-tag.daily {
+            background: #dbeafe;
+            color: #2563eb;
         }
         
-        /* Checklist */
-        .checklist-item {
+        .task-tag.weekly {
+            background: #fce7f3;
+            color: #db2777;
+        }
+        
+        .task-tag.monthly {
+            background: #fef3c7;
+            color: #d97706;
+        }
+        
+        /* Knowledge List */
+        .knowledge-item {
             display: flex;
-            align-items: flex-start;
-            padding: 12px 0;
+            align-items: center;
+            padding: 14px 0;
             border-bottom: 1px solid var(--border);
+            cursor: pointer;
         }
         
-        .checklist-item:last-child {
+        .knowledge-item:last-child {
             border-bottom: none;
         }
         
-        .checklist-checkbox {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--border);
-            border-radius: 4px;
-            margin-right: 12px;
-            margin-top: 2px;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-        
-        .checklist-checkbox.checked {
-            background: var(--success);
-            border-color: var(--success);
-        }
-        
-        .checklist-text {
-            flex: 1;
-            font-size: 14px;
-        }
-        
-        /* Buttons */
-        .btn {
-            padding: 14px 24px;
-            border: none;
+        .knowledge-icon {
+            width: 40px;
+            height: 40px;
             border-radius: 10px;
-            font-size: 15px;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 18px;
+            color: var(--primary);
+        }
+        
+        .knowledge-info {
+            flex: 1;
+        }
+        
+        .knowledge-title {
+            font-size: 14px;
             font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .knowledge-meta {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+        
+        /* Admin Panel */
+        .admin-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+        
+        .admin-tab {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            white-space: nowrap;
+            background: var(--bg);
+            color: var(--text-light);
             cursor: pointer;
-            transition: all 0.2s;
-            width: 100%;
+            border: none;
         }
         
-        .btn:active {
-            transform: scale(0.98);
-        }
-        
-        .btn-primary {
+        .admin-tab.active {
             background: var(--primary);
             color: white;
         }
         
-        .btn-success {
-            background: var(--success);
-            color: white;
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        
+        .data-table th,
+        .data-table td {
+            padding: 12px 8px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .data-table th {
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 12px;
+        }
+        
+        .data-table tr:active {
+            background: var(--bg);
+        }
+        
+        .action-btn {
+            padding: 4px 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-right: 4px;
+        }
+        
+        .action-btn.edit {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+        
+        .action-btn.delete {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal {
+            background: var(--card);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .modal-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 12px;
+        }
+        
+        .modal-footer .btn {
+            flex: 1;
         }
         
         .btn-secondary {
             background: var(--bg);
             color: var(--text);
-            border: 1px solid var(--border);
         }
         
-        .btn-group {
+        /* Chat */
+        .chat-container {
+            height: calc(100vh - 200px);
             display: flex;
-            gap: 12px;
-            margin-top: 20px;
+            flex-direction: column;
         }
         
-        /* Progress Bar */
-        .progress-bar {
-            height: 6px;
-            background: var(--border);
-            border-radius: 3px;
-            margin-top: 12px;
-            overflow: hidden;
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 16px;
         }
         
-        .progress-fill {
-            height: 100%;
-            background: var(--success);
-            border-radius: 3px;
-            transition: width 0.3s;
-        }
-        
-        /* Stats */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
+        .message {
+            display: flex;
             margin-bottom: 16px;
         }
         
-        .stat-card {
-            background: var(--card);
-            padding: 16px;
-            border-radius: 12px;
-            text-align: center;
+        .message.user {
+            flex-direction: row-reverse;
         }
         
-        .stat-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary);
-        }
-        
-        .stat-label {
-            font-size: 11px;
-            color: var(--text-light);
-            margin-top: 4px;
-        }
-        
-        /* AI Response */
-        .ai-response {
-            background: #f0f9ff;
-            border: 1px solid #bae6fd;
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 16px;
-        }
-        
-        .ai-response-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: #0369a1;
-            margin-bottom: 8px;
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 6px;
-        }
-        
-        .ai-response-content {
+            justify-content: center;
             font-size: 14px;
-            line-height: 1.6;
-            color: var(--text);
+            flex-shrink: 0;
         }
         
-        /* Hidden */
-        #camera-input {
-            display: none;
+        .message.user .message-avatar {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .message.ai .message-avatar {
+            background: var(--success);
+            color: white;
+        }
+        
+        .message-content {
+            max-width: 75%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0 10px;
+        }
+        
+        .message.user .message-content {
+            background: var(--primary);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .message.ai .message-content {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-bottom-left-radius: 4px;
+        }
+        
+        .chat-input {
+            display: flex;
+            gap: 10px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .chat-input input:focus {
+            border-color: var(--primary);
+        }
+        
+        .chat-input button {
+            width: 44px;
+            height: 44px;
+            border: none;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
         }
         
         /* Loading */
@@ -497,12 +708,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 40px;
         }
         
         .spinner {
-            width: 24px;
-            height: 24px;
+            width: 32px;
+            height: 32px;
             border: 3px solid var(--border);
             border-top-color: var(--primary);
             border-radius: 50%;
@@ -512,534 +723,310 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-        
-        /* Back Button */
-        .back-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            color: var(--primary);
-            margin-bottom: 16px;
-            cursor: pointer;
-        }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <div class="header">
-        <h1>🏭 工厂工程师助手</h1>
-        <div class="time" id="current-time"></div>
+    <!-- Login Page -->
+    <div class="login-page" id="login-page">
+        <div class="login-box">
+            <div class="login-logo">
+                <h1>🏭 FactoryAI</h1>
+                <p>智工助手 - 让工作更智能</p>
+            </div>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">用户名</label>
+                    <input type="text" class="form-input" id="login-username" placeholder="请输入用户名" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">密码</label>
+                    <input type="password" class="form-input" id="login-password" placeholder="请输入密码" required>
+                </div>
+                <button type="submit" class="btn btn-primary">登录</button>
+            </form>
+            <p style="text-align: center; margin-top: 20px; font-size: 13px; color: var(--text-light);">
+                演示账号：admin / admin123
+            </p>
+        </div>
     </div>
     
-    <!-- Tabs -->
-    <div class="tabs">
-        <div class="tab active" data-tab="workflow">
-            <i class="ri-checkbox-multiple-line"></i>
-            工作流
-        </div>
-        <div class="tab" data-tab="ocr">
-            <i class="ri-camera-line"></i>
-            识别
-        </div>
-        <div class="tab" data-tab="history">
-            <i class="ri-history-line"></i>
-            记录
-        </div>
-    </div>
-    
-    <!-- Workflow Content -->
-    <div class="content active" id="workflow">
-        <!-- Stats -->
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-value" id="task-total">6</div>
-                <div class="stat-label">总任务</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="task-done">2</div>
-                <div class="stat-label">已完成</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="task-progress">33%</div>
-                <div class="stat-label">进度</div>
+    <!-- Main App -->
+    <div class="app-container" id="app-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-title">🏭 FactoryAI 智工助手</div>
+            <div class="header-user">
+                <div class="avatar">👤</div>
+                <span id="current-user">王工程师</span>
+                <button class="logout-btn" onclick="logout()">退出</button>
             </div>
         </div>
         
-        <!-- Progress -->
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title">📋 今日工作流</span>
-                <span class="status-badge status-processing" id="flow-status">进行中</span>
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" data-tab="dashboard">
+                <i class="ri-dashboard-line"></i>
+                首页
             </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill" style="width: 33%"></div>
+            <div class="tab" data-tab="equipment">
+                <i class="ri-settings-3-line"></i>
+                设备
+            </div>
+            <div class="tab" data-tab="tasks">
+                <i class="ri-task-line"></i>
+                任务
+            </div>
+            <div class="tab" data-tab="knowledge">
+                <i class="ri-book-2-line"></i>
+                知识库
+            </div>
+            <div class="tab" data-tab="admin">
+                <i class="ri-admin-line"></i>
+                管理
+            </div>
+        </div>
+        
+        <!-- Dashboard -->
+        <div class="content active" id="dashboard">
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-today">6</div>
+                    <div class="stat-label">今日任务</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-value" id="stat-done">4</div>
+                    <div class="stat-label">已完成</div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-value" id="stat-pending">2</div>
+                    <div class="stat-label">待完成</div>
+                </div>
+                <div class="stat-card danger">
+                    <div class="stat-value" id="stat-alert">2</div>
+                    <div class="stat-label">告警</div>
+                </div>
+            </div>
+            
+            <!-- Today's Tasks -->
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <span class="section-title">📋 今日任务</span>
+                    <span class="section-more" onclick="switchTab('tasks')">更多 ></span>
+                </div>
+                <div class="card" id="today-tasks-list">
+                    <!-- Tasks will be rendered here -->
+                </div>
+            </div>
+            
+            <!-- Equipment Status -->
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <span class="section-title">📊 设备状态</span>
+                    <span class="section-more" onclick="switchTab('equipment')">更多 ></span>
+                </div>
+                <div class="card">
+                    <div class="equipment-grid" id="equipment-grid">
+                        <!-- Equipment will be rendered here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Alerts -->
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <span class="section-title">⚠️ 告警提醒</span>
+                </div>
+                <div class="card" id="alerts-list">
+                    <!-- Alerts will be rendered here -->
+                </div>
+            </div>
+            
+            <!-- Knowledge -->
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <span class="section-title">📚 知识推荐</span>
+                    <span class="section-more" onclick="switchTab('knowledge')">更多 ></span>
+                </div>
+                <div class="card" id="knowledge-list">
+                    <!-- Knowledge will be rendered here -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Equipment -->
+        <div class="content" id="equipment">
+            <div class="card">
+                <div class="card-title">🔍 设备搜索</div>
+                <input type="text" class="form-input" placeholder="搜索设备编号/名称..." oninput="filterEquipment(this.value)">
+            </div>
+            <div class="card">
+                <div class="equipment-grid" id="equipment-full-list">
+                    <!-- Full equipment list -->
+                </div>
             </div>
         </div>
         
         <!-- Tasks -->
-        <div class="card" id="task-list">
-            <!-- Tasks will be rendered here -->
+        <div class="content" id="tasks">
+            <div class="admin-tabs">
+                <button class="admin-tab active" onclick="filterTasks('all', this)">全部</button>
+                <button class="admin-tab" onclick="filterTasks('daily', this)">日任务</button>
+                <button class="admin-tab" onclick="filterTasks('weekly', this)">周任务</button>
+                <button class="admin-tab" onclick="filterTasks('monthly', this)">月任务</button>
+            </div>
+            <div class="card" id="task-full-list">
+                <!-- Full task list -->
+            </div>
+        </div>
+        
+        <!-- Knowledge -->
+        <div class="content" id="knowledge">
+            <div class="card">
+                <div class="card-title">🔍 知识搜索</div>
+                <input type="text" class="form-input" placeholder="搜索文档/问题...">
+            </div>
+            <div class="card" id="knowledge-full-list">
+                <!-- Knowledge list -->
+            </div>
+            
+            <!-- AI Chat -->
+            <div class="card">
+                <div class="card-title">🤖 AI 智能问答</div>
+                <div class="chat-container">
+                    <div class="chat-messages" id="chat-messages">
+                        <div class="message ai">
+                            <div class="message-avatar">🤖</div>
+                            <div class="message-content">
+                                你好！我是AI助手，可以帮你：<br><br>
+                                📖 解答设备操作问题<br>
+                                🔧 故障诊断分析<br>
+                                📋 生成巡检报告<br>
+                                📚 知识库问答<br><br>
+                                有什么可以帮你的？
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="chat-input" placeholder="输入问题..." onkeypress="handleChatKeypress(event)">
+                        <button onclick="sendChat()"><i class="ri-send-plane-fill"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Admin -->
+        <div class="content" id="admin">
+            <div class="admin-tabs">
+                <button class="admin-tab active" onclick="filterAdmin('users', this)">用户管理</button>
+                <button class="admin-tab" onclick="filterAdmin('equipment', this)">设备管理</button>
+                <button class="admin-tab" onclick="filterAdmin('tasks', this)">任务管理</button>
+            </div>
+            <div class="card" id="admin-content">
+                <!-- Admin content -->
+            </div>
         </div>
     </div>
     
-    <!-- Task Detail Modal -->
-    <div class="modal-overlay" id="task-modal">
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal">
         <div class="modal">
             <div class="modal-header">
-                <div class="modal-title" id="modal-title">任务详情</div>
+                <div class="modal-title" id="modal-title">标题</div>
                 <div class="modal-close" onclick="closeModal()">
                     <i class="ri-close-line"></i>
                 </div>
             </div>
             <div class="modal-body" id="modal-body">
-                <!-- Dynamic Content -->
+                <!-- Content -->
             </div>
-        </div>
-    </div>
-    
-    <!-- OCR Content -->
-    <div class="content" id="ocr">
-        <div class="card">
-            <div class="card-title" style="margin-bottom: 16px;">📷 快速识别</div>
-            
-            <div class="form-group">
-                <label class="form-label">选择识别类型</label>
-                <select class="form-input" id="ocr-type">
-                    <option value="nameplate">设备铭牌</option>
-                    <option value="gauge">仪表读数</option>
-                    <option value="valve">阀门挂牌</option>
-                    <option value="label">管道标识</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">拍摄照片</label>
-                <div class="capture-box" id="ocr-capture" onclick="captureOCR()">
-                    <i class="ri-camera-line"></i>
-                    <p>点击拍照识别</p>
-                </div>
-                <input type="file" id="ocr-camera-input" accept="image/*" capture="environment" onchange="handleOCRCapture(event)">
-            </div>
-            
-            <div id="ocr-result-box" style="display: none;">
-                <div class="form-group">
-                    <label class="form-label">📝 识别结果</label>
-                    <div class="form-input" id="ocr-result-text" style="min-height: 80px; background: #f8fafc;"></div>
-                </div>
-                <button class="btn btn-primary" onclick="analyzeOCR()">🤖 AI智能分析</button>
-            </div>
-            
-            <div id="ocr-ai-result" style="display: none;"></div>
-        </div>
-    </div>
-    
-    <!-- History Content -->
-    <div class="content" id="history">
-        <div class="card">
-            <div class="card-title" style="margin-bottom: 16px;">📚 今日记录</div>
-            <div id="history-list">
-                <!-- History items -->
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">取消</button>
+                <button class="btn btn-primary" id="modal-confirm">确定</button>
             </div>
         </div>
     </div>
     
     <script>
-        // Task Data with Details
-        let tasks = [
-            {
-                id: 1,
-                name: '8:00 设备巡检',
-                desc: '检查A区空压机运行状态',
-                time: '08:00',
-                done: true,
-                type: 'checklist',
-                checklist: [
-                    { text: '检查空压机运行声响', done: true },
-                    { text: '检查油气分离器油位', done: true },
-                    { text: '记录出口压力', done: true, value: '0.75 MPa' },
-                    { text: '记录出口温度', done: true, value: '72℃' }
-                ]
-            },
-            {
-                id: 2,
-                name: '9:30 压力容器检查',
-                desc: 'B罐区压力表读数记录',
-                time: '09:30',
-                done: true,
-                type: 'form',
-                fields: [
-                    { label: '罐区编号', value: 'B-101' },
-                    { label: '压力表读数 (MPa)', value: '0.45' },
-                    { label: '是否正常', value: '正常' },
-                    { label: '备注', value: '' }
-                ]
-            },
-            {
-                id: 3,
-                name: '10:00 电机温度检测',
-                desc: 'M-201~M-205 电机温度测量',
-                time: '10:00',
-                done: false,
-                type: 'capture',
-                captures: [
-                    { label: 'M-201 电机温度', value: '', image: null },
-                    { label: 'M-202 电机温度', value: '', image: null },
-                    { label: 'M-203 电机温度', value: '', image: null },
-                    { label: 'M-204 电机温度', value: '', image: null },
-                    { label: 'M-205 电机温度', value: '', image: null }
-                ]
-            },
-            {
-                id: 4,
-                name: '11:00 阀门挂牌检查',
-                desc: 'P-001~P-050 阀门挂牌完整性',
-                time: '11:00',
-                done: false,
-                type: 'checklist',
-                checklist: [
-                    { text: 'P-001 阀门挂牌完好', done: false },
-                    { text: 'P-002 阀门挂牌完好', done: false },
-                    { text: 'P-003 阀门挂牌完好', done: false },
-                    { text: 'P-004 阀门挂牌完好', done: false },
-                    { text: 'P-005 阀门挂牌完好', done: false }
-                ]
-            },
-            {
-                id: 5,
-                name: '14:00 仪表校准记录',
-                desc: '流量计FT-102校准数据录入',
-                time: '14:00',
-                done: false,
-                type: 'form',
-                fields: [
-                    { label: '仪表编号', value: 'FT-102' },
-                    { label: '标准值 (m³/h)', value: '' },
-                    { label: '实测值 (m³/h)', value: '' },
-                    { label: '误差 (%)', value: '' },
-                    { label: '结论', value: '' }
-                ]
-            },
-            {
-                id: 6,
-                name: '16:00 巡检总结',
-                desc: '生成当日巡检报告',
-                time: '16:00',
-                done: false,
-                type: 'ai',
-                prompt: '生成今日设备巡检总结报告，包括：1. 巡检概况 2. 异常情况 3. 维护建议'
-            }
+        // ========== Data ==========
+        const users = [
+            { id: 1, username: 'admin', name: '管理员', role: 'admin', dept: '技术部' },
+            { id: 2, username: 'wang', name: '王工程师', role: 'engineer', dept: '设备科' },
+            { id: 3, username: 'li', name: '李工程师', role: 'engineer', dept: '设备科' },
         ];
         
-        // Render Tasks
-        function renderTasks() {
-            const taskList = document.getElementById('task-list');
-            taskList.innerHTML = tasks.map(task => `
-                <div class="task-item" onclick="openTaskDetail(${task.id})">
-                    <div class="task-checkbox ${task.done ? 'checked' : ''}">
-                        ${task.done ? '<i class="ri-check-line"></i>' : ''}
-                    </div>
-                    <div class="task-info">
-                        <div class="task-name">${task.name}</div>
-                        <div class="task-desc">${task.desc}</div>
-                    </div>
-                    <div class="task-arrow">
-                        <i class="ri-arrow-right-s-line"></i>
-                    </div>
-                </div>
-            `).join('');
-            
-            // Update Stats
-            const done = tasks.filter(t => t.done).length;
-            const total = tasks.length;
-            document.getElementById('task-total').textContent = total;
-            document.getElementById('task-done').textContent = done;
-            document.getElementById('task-progress').textContent = Math.round(done / total * 100) + '%';
-            document.getElementById('progress-fill').style.width = (done / total * 100) + '%';
-            
-            if (done === total) {
-                document.getElementById('flow-status').textContent = '全部完成';
-                document.getElementById('flow-status').className = 'status-badge status-done';
-            }
-            
-            // Render History
-            renderHistory();
-        }
+        const equipment = [
+            { id: 1, code: 'A-001', name: '空压机#1', category: '空压机', status: 'normal', location: 'A区', temp: 72 },
+            { id: 2, code: 'A-002', name: '空压机#2', category: '空压机', status: 'warning', location: 'A区', temp: 85 },
+            { id: 3, code: 'B-101', name: '储气罐#1', category: '储罐', status: 'normal', location: 'B区', pressure: 0.75 },
+            { id: 4, code: 'B-102', name: '储气罐#2', category: '储罐', status: 'error', location: 'B区', pressure: 0.92 },
+            { id: 5, code: 'C-201', name: '冷却塔#1', category: '冷却', status: 'normal', location: 'C区', temp: 28 },
+            { id: 6, code: 'C-202', name: '冷却塔#2', category: '冷却', status: 'normal', location: 'C区', temp: 30 },
+            { id: 7, code: 'D-301', name: '水泵#1', category: '泵', status: 'normal', location: 'D区', flow: 120 },
+            { id: 8, code: 'D-302', name: '水泵#2', category: '泵', status: 'warning', location: 'D区', flow: 95 },
+        ];
         
-        // Render History
-        function renderHistory() {
-            const doneTasks = tasks.filter(t => t.done);
-            const historyList = document.getElementById('history-list');
-            
-            if (doneTasks.length === 0) {
-                historyList.innerHTML = '<div style="text-align: center; color: var(--text-light); padding: 40px;">暂无完成记录</div>';
-                return;
-            }
-            
-            historyList.innerHTML = doneTasks.map(task => `
-                <div class="task-item" onclick="openTaskDetail(${task.id})">
-                    <div class="task-info">
-                        <div class="task-name">${task.name}</div>
-                        <div class="task-desc">${task.desc}</div>
-                    </div>
-                    <span class="status-badge status-done">已完成</span>
-                </div>
-            `).join('');
-        }
+        const tasks = [
+            { id: 1, name: '8:00 空压机巡检', desc: 'A区空压机运行状态检查', time: '08:00', done: true, type: 'daily' },
+            { id: 2, name: '9:30 储气罐检查', desc: 'B区储气罐压力记录', time: '09:30', done: true, type: 'daily' },
+            { id: 3, name: '10:00 冷却塔温度', desc: 'C区冷却塔温度检测', time: '10:00', done: false, type: 'daily' },
+            { id: 4, name: '11:00 水泵运行检测', desc: 'D区水泵流量检测', time: '11:00', done: false, type: 'daily' },
+            { id: 5, name: '14:00 设备周检', desc: '本周重点设备检查', time: '14:00', done: false, type: 'weekly' },
+            { id: 6, name: '16:00 巡检总结', desc: '生成当日巡检报告', time: '16:00', done: false, type: 'daily' },
+            { id: 7, name: '月度设备保养', desc: '重点设备月度保养', time: '15日', done: false, type: 'monthly' },
+        ];
         
-        // Open Task Detail
-        function openTaskDetail(taskId) {
-            const task = tasks.find(t => t.id === taskId);
-            if (!task) return;
+        const knowledge = [
+            { id: 1, title: '空压机操作规程', category: '规程', views: 125 },
+            { id: 2, title: '储气罐安全检查要点', category: '安全', views: 98 },
+            { id: 3, title: '冷却塔维护保养手册', category: '保养', views: 86 },
+            { id: 4, title: '常见故障代码解析', category: '故障', views: 156 },
+            { id: 5, title: '设备润滑周期表', category: '保养', views: 72 },
+        ];
+        
+        const alerts = [
+            { id: 1, equipment: 'B-102', message: '压力超过阈值0.92MPa', level: 'danger', time: '10:30' },
+            { id: 2, equipment: 'A-002', message: '温度偏高85℃', level: 'warning', time: '09:45' },
+        ];
+        
+        // ========== Auth ==========
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
             
-            document.getElementById('modal-title').textContent = task.name;
-            const modalBody = document.getElementById('modal-body');
-            
-            let content = '';
-            
-            if (task.type === 'checklist') {
-                content = renderChecklistTask(task);
-            } else if (task.type === 'form') {
-                content = renderFormTask(task);
-            } else if (task.type === 'capture') {
-                content = renderCaptureTask(task);
-            } else if (task.type === 'ai') {
-                content = renderAITask(task);
-            }
-            
-            modalBody.innerHTML = content;
-            document.getElementById('task-modal').classList.add('active');
-        }
-        
-        // Render Checklist Task
-        function renderChecklistTask(task) {
-            return `
-                <div class="form-group">
-                    <label class="form-label">${task.desc}</label>
-                </div>
-                <div class="form-group">
-                    ${task.checklist.map((item, idx) => `
-                        <div class="checklist-item" onclick="toggleChecklistItem(${task.id}, ${idx})">
-                            <div class="checklist-checkbox ${item.done ? 'checked' : ''}"></div>
-                            <div class="checklist-text">${item.text}${item.value ? ' - ' + item.value : ''}</div>
-                        </div>
-                    `).join('')}
-                </div>
-                <button class="btn btn-success" onclick="completeTask(${task.id})">✅ 完成任务</button>
-            `;
-        }
-        
-        // Render Form Task
-        function renderFormTask(task) {
-            return `
-                <div class="form-group">
-                    ${task.fields.map((field, idx) => `
-                        <label class="form-label">${field.label}</label>
-                        <input type="text" class="form-input" id="field-${idx}" 
-                            value="${field.value || ''}" 
-                            onchange="updateFieldValue(${task.id}, ${idx}, this.value)"
-                            ${field.value && field.value !== '' ? 'style="background: #f8fafc;"' : ''}>
-                    `).join('')}
-                </div>
-                <button class="btn btn-success" onclick="completeTask(${task.id})">✅ 完成任务</button>
-            `;
-        }
-        
-        // Render Capture Task
-        function renderCaptureTask(task) {
-            return `
-                <div class="form-group">
-                    <label class="form-label">${task.desc}</label>
-                    <p class="form-hint">点击每个项目进行拍照识别</p>
-                </div>
-                ${task.captures.map((cap, idx) => `
-                    <div class="form-group">
-                        <label class="form-label">${cap.label}</label>
-                        <div class="capture-box ${cap.image ? 'has-image' : ''}" 
-                            onclick="captureItemImage(${task.id}, ${idx})">
-                            ${cap.image ? 
-                                `<img src="${cap.image}" alt="${cap.label}">
-                                <p style="margin-top: 8px;">${cap.value || '点击重新拍摄'}</p>` :
-                                `<i class="ri-camera-line"></i>
-                                <p>点击拍照</p>`
-                            }
-                        </div>
-                    </div>
-                `).join('')}
-                <button class="btn btn-success" onclick="completeTask(${task.id})">✅ 完成任务</button>
-            `;
-        }
-        
-        // Render AI Task
-        function renderAITask(task) {
-            return `
-                <div class="form-group">
-                    <label class="form-label">AI 智能报告</label>
-                    <p class="form-hint">${task.desc}</p>
-                </div>
-                <button class="btn btn-primary" onclick="generateAIReport(${task.id})">
-                    🤖 生成巡检报告
-                </button>
-                <div id="ai-report-result"></div>
-            `;
-        }
-        
-        // Toggle Checklist
-        function toggleChecklistItem(taskId, itemIdx) {
-            const task = tasks.find(t => t.id === taskId);
-            if (task && task.checklist) {
-                task.checklist[itemIdx].done = !task.checklist[itemIdx].done;
-                openTaskDetail(taskId); // Re-render
+            if (username === 'admin' && password === 'admin123') {
+                localStorage.setItem('factory_user', JSON.stringify(users[0]));
+                showApp();
+            } else if (username === 'wang' && password === 'wang123') {
+                localStorage.setItem('factory_user', JSON.stringify(users[1]));
+                showApp();
+            } else {
+                alert('用户名或密码错误');
             }
         }
         
-        // Update Field Value
-        function updateFieldValue(taskId, fieldIdx, value) {
-            const task = tasks.find(t => t.id === taskId);
-            if (task && task.fields) {
-                task.fields[fieldIdx].value = value;
-            }
+        function logout() {
+            localStorage.removeItem('factory_user');
+            document.getElementById('login-page').style.display = 'flex';
+            document.getElementById('app-container').classList.remove('active');
         }
         
-        // Capture Item Image
-        let currentCaptureTask = null;
-        let currentCaptureIdx = null;
-        
-        function captureItemImage(taskId, idx) {
-            currentCaptureTask = taskId;
-            currentCaptureIdx = idx;
-            document.getElementById('ocr-camera-input').click();
-        }
-        
-        // Handle OCR Capture
-        function handleOCRCapture(event) {
-            const file = event.target.files[0];
-            if (!file) return;
+        function showApp() {
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('app-container').classList.add('active');
             
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                // If in task detail mode
-                if (currentCaptureTask !== null) {
-                    const task = tasks.find(t => t.id === currentCaptureTask);
-                    if (task && task.captures) {
-                        task.captures[currentCaptureIdx].image = e.target.result;
-                        task.captures[currentCaptureIdx].value = (Math.random() * 20 + 60).toFixed(1) + '℃';
-                        openTaskDetail(currentCaptureTask);
-                    }
-                    currentCaptureTask = null;
-                    currentCaptureIdx = null;
-                } else {
-                    // OCR tab mode
-                    document.getElementById('ocr-capture').innerHTML = `<img src="${e.target.result}" alt="Captured">`;
-                    document.getElementById('ocr-capture').classList.add('has-image');
-                    document.getElementById('ocr-result-box').style.display = 'block';
-                    
-                    // Simulate OCR result
-                    setTimeout(() => {
-                        const ocrType = document.getElementById('ocr-type').value;
-                        let result = '';
-                        if (ocrType === 'nameplate') {
-                            result = `设备编号：A-001
-设备名称：空气压缩机
-型号：LU132-8
-功率：132kW
-电压：380V
-制造商：阿特拉斯·科普柯
-出厂日期：2020-03`;
-                        } else if (ocrType === 'gauge') {
-                            result = `压力表读数：0.45 MPa
-表号：P-102
-量程：0-1.0MPa
-精度等级：1.6级`;
-                        } else {
-                            result = `识别成功，请确认内容`;
-                        }
-                        document.getElementById('ocr-result-text').textContent = result;
-                    }, 1500);
-                }
-            };
-            reader.readAsDataURL(file);
-            event.target.value = '';
-        }
-        
-        // Complete Task
-        function completeTask(taskId) {
-            const task = tasks.find(t => t.id === taskId);
-            if (task) {
-                task.done = true;
-                closeModal();
-                renderTasks();
-            }
-        }
-        
-        // Generate AI Report
-        function generateAIReport(taskId) {
-            const resultDiv = document.getElementById('ai-report-result');
-            resultDiv.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+            const user = JSON.parse(localStorage.getItem('factory_user'));
+            document.getElementById('current-user').textContent = user.name;
             
-            setTimeout(() => {
-                resultDiv.innerHTML = `
-                    <div class="ai-response">
-                        <div class="ai-response-title">
-                            <i class="ri-robot-line"></i> 🤖 AI 巡检报告
-                        </div>
-                        <div class="ai-response-content">
-                            <p><strong>📋 巡检概况</strong></p>
-                            <p>今日共完成设备巡检6项，所有设备运行正常。</p>
-                            <br>
-                            <p><strong>⚠️ 异常情况</strong></p>
-                            <p>无异常发现。各项参数均在正常范围内。</p>
-                            <br>
-                            <p><strong>🔧 维护建议</strong></p>
-                            <p>1. 建议4月进行空压机定期保养<br>
-                            2. 阀门P-003挂牌有轻微磨损，建议更换<br>
-                            3. 电机M-204温度略高(78℃)，建议持续观察</p>
-                        </div>
-                    </div>
-                    <button class="btn btn-success" style="margin-top: 16px;" onclick="completeTask(${taskId})">✅ 确认并完成</button>
-                `;
-            }, 2000);
+            renderDashboard();
+            renderEquipment();
+            renderTasks();
+            renderKnowledge();
+            renderAdmin('users');
         }
         
-        // Analyze OCR
-        function analyzeOCR() {
-            const resultDiv = document.getElementById('ocr-ai-result');
-            resultDiv.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
-            resultDiv.style.display = 'block';
-            
-            setTimeout(() => {
-                resultDiv.innerHTML = `
-                    <div class="ai-response">
-                        <div class="ai-response-title">
-                            <i class="ri-robot-line"></i> 🤖 AI 分析建议
-                        </div>
-                        <div class="ai-response-content">
-                            <p><strong>📊 识别信息摘要</strong></p>
-                            <p>设备编号：A-001 | 型号：LU132-8</p>
-                            <br>
-                            <p><strong>🔧 维护建议</strong></p>
-                            <p>1. 下次保养：2026-04-01（建议提前1周安排）<br>
-                            2. 已运行约6年，建议关注轴承状态<br>
-                            3. 运行时注意监测电流和温度</p>
-                        </div>
-                    </div>
-                `;
-            }, 2000);
-        }
-        
-        // Close Modal
-        function closeModal() {
-            document.getElementById('task-modal').classList.remove('active');
-            currentCaptureTask = null;
-            currentCaptureIdx = null;
-        }
-        
-        // Capture OCR
-        function captureOCR() {
-            document.getElementById('ocr-camera-input').click();
-        }
-        
-        // Tab Switching
+        // ========== Tabs ==========
         function switchTab(tabName) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
@@ -1052,23 +1039,378 @@
             tab.addEventListener('click', () => switchTab(tab.dataset.tab));
         });
         
-        // Update Time
-        function updateTime() {
-            const now = new Date();
-            const options = { 
-                weekday: 'short', 
-                month: 'short', 
-                day: 'numeric',
-                hour: '2-digit', 
-                minute: '2-digit' 
-            };
-            document.getElementById('current-time').textContent = now.toLocaleString('zh-CN', options);
+        // ========== Dashboard ==========
+        function renderDashboard() {
+            // Stats
+            const todayTasks = tasks.filter(t => t.type === 'daily');
+            const doneTasks = todayTasks.filter(t => t.done).length;
+            document.getElementById('stat-today').textContent = todayTasks.length;
+            document.getElementById('stat-done').textContent = doneTasks;
+            document.getElementById('stat-pending').textContent = todayTasks.length - doneTasks;
+            document.getElementById('stat-alert').textContent = alerts.length;
+            
+            // Today's tasks
+            const tasksList = document.getElementById('today-tasks-list');
+            tasksList.innerHTML = tasks.filter(t => t.type === 'daily').slice(0, 4).map(task => `
+                <div class="task-item" onclick="showTaskDetail(${task.id})">
+                    <div class="task-checkbox ${task.done ? 'checked' : ''}">
+                        ${task.done ? '<i class="ri-check-line"></i>' : ''}
+                    </div>
+                    <div class="task-info">
+                        <div class="task-name">${task.name}</div>
+                        <div class="task-meta">${task.desc} · ${task.time}</div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Equipment
+            const equipGrid = document.getElementById('equipment-grid');
+            equipGrid.innerHTML = equipment.slice(0, 4).map(e => `
+                <div class="equipment-item" onclick="showEquipmentDetail(${e.id})">
+                    <div class="equipment-icon ${e.status}">
+                        <i class="ri-settings-3-line"></i>
+                    </div>
+                    <div class="equipment-name">${e.code}</div>
+                    <div class="equipment-status">${e.name}</div>
+                </div>
+            `).join('');
+            
+            // Alerts
+            const alertsList = document.getElementById('alerts-list');
+            alertsList.innerHTML = alerts.map(a => `
+                <div class="task-item">
+                    <div class="task-info">
+                        <div class="task-name" style="color: ${a.level === 'danger' ? 'var(--danger)' : 'var(--warning)'}">
+                            ${a.level === 'danger' ? '🔴' : '⚠️'} ${a.equipment}
+                        </div>
+                        <div class="task-meta">${a.message} · ${a.time}</div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Knowledge
+            const knowList = document.getElementById('knowledge-list');
+            knowList.innerHTML = knowledge.slice(0, 3).map(k => `
+                <div class="knowledge-item">
+                    <div class="knowledge-icon"><i class="ri-file-text-line"></i></div>
+                    <div class="knowledge-info">
+                        <div class="knowledge-title">${k.title}</div>
+                        <div class="knowledge-meta">${k.category} · ${k.views}次浏览</div>
+                    </div>
+                </div>
+            `).join('');
         }
         
-        // Initialize
-        renderTasks();
-        updateTime();
-        setInterval(updateTime, 60000);
+        // ========== Equipment ==========
+        function renderEquipment() {
+            const list = document.getElementById('equipment-full-list');
+            list.innerHTML = equipment.map(e => `
+                <div class="equipment-item" onclick="showEquipmentDetail(${e.id})">
+                    <div class="equipment-icon ${e.status}">
+                        <i class="ri-settings-3-line"></i>
+                    </div>
+                    <div class="equipment-name">${e.code}</div>
+                    <div class="equipment-status">${e.name}</div>
+                </div>
+            `).join('');
+        }
+        
+        function filterEquipment(keyword) {
+            const filtered = equipment.filter(e => 
+                e.code.includes(keyword) || e.name.includes(keyword)
+            );
+            const list = document.getElementById('equipment-full-list');
+            list.innerHTML = filtered.map(e => `
+                <div class="equipment-item" onclick="showEquipmentDetail(${e.id})">
+                    <div class="equipment-icon ${e.status}">
+                        <i class="ri-settings-3-line"></i>
+                    </div>
+                    <div class="equipment-name">${e.code}</div>
+                    <div class="equipment-status">${e.name}</div>
+                </div>
+            `).join('');
+        }
+        
+        function showEquipmentDetail(id) {
+            const e = equipment.find(item => item.id === id);
+            if (!e) return;
+            
+            document.getElementById('modal-title').textContent = e.name;
+            document.getElementById('modal-body').innerHTML = `
+                <div class="form-group">
+                    <label class="form-label">设备编号</label>
+                    <div style="padding: 12px; background: var(--bg); border-radius: 8px;">${e.code}</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">设备名称</label>
+                    <div style="padding: 12px; background: var(--bg); border-radius: 8px;">${e.name}</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">设备分类</label>
+                    <div style="padding: 12px; background: var(--bg); border-radius: 8px;">${e.category}</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">安装位置</label>
+                    <div style="padding: 12px; background: var(--bg); border-radius: 8px;">${e.location}</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">运行状态</label>
+                    <div style="padding: 12px; background: var(--bg); border-radius: 8px; color: ${e.status === 'normal' ? 'var(--success)' : e.status === 'warning' ? 'var(--warning)' : 'var(--danger)'}">
+                        ${e.status === 'normal' ? '✅ 正常' : e.status === 'warning' ? '⚠️ 警告' : '❌ 故障'}
+                    </div>
+                </div>
+            `;
+            document.getElementById('modal').classList.add('active');
+            document.getElementById('modal-confirm').style.display = 'none';
+        }
+        
+        // ========== Tasks ==========
+        let currentTaskFilter = 'all';
+        
+        function renderTasks() {
+            renderTaskList(currentTaskFilter);
+        }
+        
+        function filterTasks(type, btn) {
+            document.querySelectorAll('#tasks .admin-tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            currentTaskFilter = type;
+            renderTaskList(type);
+        }
+        
+        function renderTaskList(type) {
+            const filtered = type === 'all' ? tasks : tasks.filter(t => t.type === type);
+            const list = document.getElementById('task-full-list');
+            list.innerHTML = filtered.map(task => `
+                <div class="task-item" onclick="showTaskDetail(${task.id})">
+                    <div class="task-checkbox ${task.done ? 'checked' : ''}">
+                        ${task.done ? '<i class="ri-check-line"></i>' : ''}
+                    </div>
+                    <div class="task-info">
+                        <div class="task-name">${task.name}</div>
+                        <div class="task-meta">${task.desc}</div>
+                    </div>
+                    <span class="task-tag ${task.type}">${task.type === 'daily' ? '日' : task.type === 'weekly' ? '周' : '月'}</span>
+                </div>
+            `).join('');
+        }
+        
+        function showTaskDetail(id) {
+            const task = tasks.find(t => t.id === id);
+            if (!task) return;
+            
+            document.getElementById('modal-title').textContent = task.name;
+            document.getElementById('modal-body').innerHTML = `
+                <div class="form-group">
+                    <label class="form-label">任务描述</label>
+                    <div style="padding: 12px; background: var(--bg); border-radius: 8px;">${task.desc}</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">计划时间</label>
+                    <div style="padding: 12px; background: var(--bg); border-radius: 8px;">${task.time}</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">任务类型</label>
+                    <div style="padding: 12px; background: var(--bg); border-radius: 8px;">
+                        <span class="task-tag ${task.type}">${task.type === 'daily' ? '日任务' : task.type === 'weekly' ? '周任务' : '月任务'}</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">状态</label>
+                    <div style="padding: 12px; background: var(--bg); border-radius: 8px; color: ${task.done ? 'var(--success)' : 'var(--warning)'}">
+                        ${task.done ? '✅ 已完成' : '⏳ 待完成'}
+                    </div>
+                </div>
+            `;
+            document.getElementById('modal').classList.add('active');
+            document.getElementById('modal-confirm').textContent = task.done ? '标记为未完成' : '标记为完成';
+            document.getElementById('modal-confirm').style.display = 'block';
+            document.getElementById('modal-confirm').onclick = function() {
+                task.done = !task.done;
+                renderTasks();
+                renderDashboard();
+                closeModal();
+            };
+        }
+        
+        // ========== Knowledge ==========
+        function renderKnowledge() {
+            const list = document.getElementById('knowledge-full-list');
+            list.innerHTML = knowledge.map(k => `
+                <div class="knowledge-item">
+                    <div class="knowledge-icon"><i class="ri-file-text-line"></i></div>
+                    <div class="knowledge-info">
+                        <div class="knowledge-title">${k.title}</div>
+                        <div class="knowledge-meta">${k.category} · ${k.views}次浏览</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // ========== Chat ==========
+        function handleChatKeypress(e) {
+            if (e.key === 'Enter') sendChat();
+        }
+        
+        function sendChat() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+            
+            const messages = document.getElementById('chat-messages');
+            messages.innerHTML += `
+                <div class="message user">
+                    <div class="message-avatar">👤</div>
+                    <div class="message-content">${text}</div>
+                </div>
+            `;
+            input.value = '';
+            
+            // Simulate AI response
+            setTimeout(() => {
+                let response = '';
+                if (text.includes('故障') || text.includes('异常')) {
+                    response = '根据您描述的问题，可能的原因包括：\n\n1. 设备过载运行\n2. 传感器故障\n3. 控制系统异常\n\n建议按以下步骤排查：\n① 检查设备运行参数\n② 查看是否有告警记录\n③ 必要时联系设备厂家';
+                } else if (text.includes('保养') || text.includes('维护')) {
+                    response = '设备保养建议：\n\n• 空压机：每2000小时更换润滑油\n• 冷却塔：每月清洗填料\n• 水泵：每季度检查密封件\n\n具体保养周期可参考设备手册。';
+                } else {
+                    response = '收到您的问题！\n\n我可以帮您：\n📖 解答设备操作问题\n🔧 故障诊断分析\n📋 生成巡检报告\n\n请详细描述您的问题，我会尽力帮助您。';
+                }
+                
+                messages.innerHTML += `
+                    <div class="message ai">
+                        <div class="message-avatar">🤖</div>
+                        <div class="message-content">${response}</div>
+                    </div>
+                `;
+                messages.scrollTop = messages.scrollHeight;
+            }, 1500);
+            
+            messages.scrollTop = messages.scrollHeight;
+        }
+        
+        // ========== Admin ==========
+        let currentAdminFilter = 'users';
+        
+        function filterAdmin(type, btn) {
+            document.querySelectorAll('#admin .admin-tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            currentAdminFilter = type;
+            renderAdmin(type);
+        }
+        
+        function renderAdmin(type) {
+            const content = document.getElementById('admin-content');
+            
+            if (type === 'users') {
+                content.innerHTML = `
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>用户名</th>
+                                <th>姓名</th>
+                                <th>部门</th>
+                                <th>角色</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${users.map(u => `
+                                <tr>
+                                    <td>${u.id}</td>
+                                    <td>${u.username}</td>
+                                    <td>${u.name}</td>
+                                    <td>${u.dept}</td>
+                                    <td>${u.role === 'admin' ? '管理员' : '工程师'}</td>
+                                    <td>
+                                        <button class="action-btn edit">编辑</button>
+                                        <button class="action-btn delete">删除</button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } else if (type === 'equipment') {
+                content.innerHTML = `
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th>名称</th>
+                                <th>分类</th>
+                                <th>位置</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${equipment.map(e => `
+                                <tr>
+                                    <td>${e.code}</td>
+                                    <td>${e.name}</td>
+                                    <td>${e.category}</td>
+                                    <td>${e.location}</td>
+                                    <td style="color: ${e.status === 'normal' ? 'var(--success)' : e.status === 'warning' ? 'var(--warning)' : 'var(--danger)'}">
+                                        ${e.status === 'normal' ? '正常' : e.status === 'warning' ? '警告' : '故障'}
+                                    </td>
+                                    <td>
+                                        <button class="action-btn edit">编辑</button>
+                                        <button class="action-btn delete">删除</button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } else if (type === 'tasks') {
+                content.innerHTML = `
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>任务名称</th>
+                                <th>类型</th>
+                                <th>时间</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tasks.map(t => `
+                                <tr>
+                                    <td>${t.id}</td>
+                                    <td>${t.name}</td>
+                                    <td>${t.type === 'daily' ? '日' : t.type === 'weekly' ? '周' : '月'}</td>
+                                    <td>${t.time}</td>
+                                    <td style="color: ${t.done ? 'var(--success)' : 'var(--warning)'}">
+                                        ${t.done ? '已完成' : '待完成'}
+                                    </td>
+                                    <td>
+                                        <button class="action-btn edit">编辑</button>
+                                        <button class="action-btn delete">删除</button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            }
+        }
+        
+        // ========== Modal ==========
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+        
+        // ========== Init ==========
+        window.onload = function() {
+            const user = localStorage.getItem('factory_user');
+            if (user) {
+                showApp();
+            }
+        };
     </script>
 </body>
 </html>

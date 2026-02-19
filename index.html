@@ -18,27 +18,21 @@
             --text-light: #64748b;
             --border: #e2e8f0;
         }
-        
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
         
         /* Login */
         .login-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); padding: 20px; }
-        .login-box { background: var(--card); border-radius: 16px; padding: 40px 30px; width: 100%; max-width: 380px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
-        .login-logo { text-align: center; margin-bottom: 30px; }
-        .login-logo h1 { font-size: 28px; color: var(--primary); margin-bottom: 8px; }
-        .login-logo p { color: var(--text-light); font-size: 14px; }
-        .form-group { margin-bottom: 20px; }
-        .form-label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; }
-        .form-input { width: 100%; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px; font-size: 15px; outline: none; }
+        .login-box { background: var(--card); border-radius: 16px; padding: 30px; width: 100%; max-width: 400px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+        .login-logo { text-align: center; margin-bottom: 24px; }
+        .login-logo h1 { font-size: 24px; color: var(--primary); margin-bottom: 6px; }
+        .login-logo p { color: var(--text-light); font-size: 13px; }
+        .form-group { margin-bottom: 16px; }
+        .form-label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+        .form-input { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; font-size: 14px; outline: none; }
         .form-input:focus { border-color: var(--primary); }
-        .btn { padding: 14px 24px; border: none; border-radius: 10px; font-size: 15px; font-weight: 500; cursor: pointer; width: 100%; }
+        .form-select { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; font-size: 14px; background: white; }
+        .btn { padding: 12px 20px; border: none; border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer; width: 100%; }
         .btn-primary { background: var(--primary); color: white; }
         .btn:active { transform: scale(0.98); }
         
@@ -47,142 +41,133 @@
         .app-container.active { display: block; }
         
         /* Header */
-        .header { background: var(--primary); color: white; padding: 16px 20px; position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
-        .header-title { font-size: 18px; font-weight: 600; }
-        .header-user { display: flex; align-items: center; gap: 10px; font-size: 14px; }
-        .header-user .avatar { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; }
-        .logout-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+        .header { background: var(--primary); color: white; padding: 14px 16px; position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
+        .header-title { font-size: 16px; font-weight: 600; }
+        .header-info { display: flex; align-items: center; gap: 10px; font-size: 12px; }
+        .role-badge { background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 12px; font-size: 11px; }
+        
+        /* User Bar */
+        .user-bar { background: var(--card); padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
+        .user-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .user-info { flex: 1; }
+        .user-name { font-size: 15px; font-weight: 600; }
+        .user-role { font-size: 12px; color: var(--text-light); }
         
         /* Tabs */
-        .tabs { display: flex; background: var(--card); border-bottom: 1px solid var(--border); position: sticky; top: 58px; z-index: 99; overflow-x: auto; }
-        .tab { flex: 1; min-width: 70px; padding: 14px 10px; text-align: center; font-size: 12px; color: var(--text-light); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
+        .tabs { display: flex; background: var(--card); border-bottom: 1px solid var(--border); overflow-x: auto; }
+        .tab { flex: 1; min-width: 60px; padding: 12px 8px; text-align: center; font-size: 11px; color: var(--text-light); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
         .tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
-        .tab i { display: block; font-size: 20px; margin-bottom: 4px; }
+        .tab i { display: block; font-size: 18px; margin-bottom: 2px; }
         
         .content { padding: 16px; display: none; }
         .content.active { display: block; }
         
         /* Stats */
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
-        .stat-card { background: var(--card); padding: 16px 12px; border-radius: 12px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .stat-value { font-size: 24px; font-weight: 700; color: var(--primary); }
-        .stat-label { font-size: 11px; color: var(--text-light); margin-top: 4px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
+        .stat-card { background: var(--card); padding: 14px 10px; border-radius: 12px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .stat-value { font-size: 22px; font-weight: 700; color: var(--primary); }
+        .stat-label { font-size: 10px; color: var(--text-light); margin-top: 4px; }
         .stat-card.warning .stat-value { color: var(--warning); }
         .stat-card.danger .stat-value { color: var(--danger); }
         .stat-card.success .stat-value { color: var(--success); }
         
-        .dashboard-section { margin-bottom: 20px; }
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .section-title { font-size: 16px; font-weight: 600; }
-        .section-more { font-size: 13px; color: var(--primary); cursor: pointer; }
-        
         .card { background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         .card-title { font-size: 15px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
         
-        /* Equipment */
-        .equipment-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        .equipment-item { background: var(--bg); border-radius: 10px; padding: 14px; text-align: center; cursor: pointer; }
-        .equipment-item:active { transform: scale(0.95); }
-        .equipment-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 22px; }
-        .equipment-icon.normal { background: #dcfce7; color: #16a34a; }
-        .equipment-icon.warning { background: #fef3c7; color: #d97706; }
-        .equipment-icon.error { background: #fee2e2; color: #dc2626; }
-        .equipment-name { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
-        .equipment-status { font-size: 11px; color: var(--text-light); }
+        /* Dashboard for different roles */
+        .role-dashboard { }
+        
+        /* Production Dashboard */
+        .kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+        .kpi-card { background: var(--card); border-radius: 12px; padding: 16px; text-align: center; }
+        .kpi-value { font-size: 28px; font-weight: 700; }
+        .kpi-value.green { color: var(--success); }
+        .kpi-value.red { color: var(--danger); }
+        .kpi-value.yellow { color: var(--warning); }
+        .kpi-label { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+        
+        /* Equipment Dashboard */
+        .equipment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .equip-card { background: var(--bg); border-radius: 10px; padding: 14px 10px; text-align: center; cursor: pointer; }
+        .equip-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-size: 20px; }
+        .equip-icon.normal { background: #dcfce7; color: #16a34a; }
+        .equip-icon.warning { background: #fef3c7; color: #d97706; }
+        .equip-icon.error { background: #fee2e2; color: #dc2626; }
+        .equip-name { font-size: 12px; font-weight: 500; }
+        .equip-status { font-size: 11px; color: var(--text-light); }
+        
+        /* Quality Dashboard */
+        .quality-alert { display: flex; align-items: center; padding: 12px; background: #fef3c7; border-radius: 10px; margin-bottom: 10px; }
+        .quality-alert.danger { background: #fee2e2; }
+        .quality-icon { font-size: 24px; margin-right: 12px; }
+        .quality-info { flex: 1; }
+        .quality-title { font-size: 14px; font-weight: 500; }
+        .quality-desc { font-size: 12px; color: var(--text-light); }
         
         /* Tasks */
         .task-item { display: flex; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
         .task-item:last-child { border-bottom: none; }
         .task-item:active { background: var(--bg); margin: 0 -16px; padding-left: 16px; padding-right: 16px; }
-        .task-status-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; font-size: 18px; flex-shrink: 0; }
-        .task-status-icon.pending { background: #fef3c7; color: #d97706; }
-        .task-status-icon.processing { background: #dbeafe; color: #2563eb; }
-        .task-status-icon.done { background: #dcfce7; color: #16a34a; }
+        .task-priority { width: 4px; height: 40px; border-radius: 2px; margin-right: 12px; }
+        .task-priority.high { background: var(--danger); }
+        .task-priority.medium { background: var(--warning); }
+        .task-priority.low { background: var(--success); }
         .task-info { flex: 1; }
         .task-name { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
         .task-meta { font-size: 12px; color: var(--text-light); }
-        .task-type-tag { font-size: 11px; padding: 2px 8px; border-radius: 10px; }
-        .task-type-tag.inspection { background: #dbeafe; color: #2563eb; }
-        .task-type-tag.maintenance { background: #fce7f3; color: #db2777; }
-        .task-type-tag.repair { background: #fee2e2; color: #dc2626; }
-        .task-type-tag.data { background: #dcfce7; color: #16a34a; }
+        .task-tag { font-size: 10px; padding: 2px 8px; border-radius: 10px; background: var(--bg); color: var(--text-light); }
         
-        /* Task Flow Steps */
-        .flow-steps { margin-top: 16px; }
-        .flow-step { display: flex; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--border); }
-        .flow-step:last-child { border-bottom: none; }
-        .step-number { width: 28px; height: 28px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; margin-right: 12px; flex-shrink: 0; }
-        .step-number.done { background: var(--success); }
-        .step-content { flex: 1; }
-        .step-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
-        .step-desc { font-size: 13px; color: var(--text-light); margin-bottom: 8px; }
-        .step-action { font-size: 13px; color: var(--primary); }
+        /* AI Planning */
+        .ai-plan { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; padding: 16px; color: white; margin-bottom: 16px; cursor: pointer; }
+        .ai-plan:active { transform: scale(0.98); }
+        .ai-plan-title { font-size: 15px; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .ai-plan-desc { font-size: 13px; opacity: 0.9; }
         
-        /* Step Input Types */
-        .step-check { display: flex; align-items: center; gap: 8px; }
-        .step-check input { width: 18px; height: 18px; }
-        .step-input { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; }
-        .step-capture { display: flex; align-items: center; gap: 8px; padding: 10px; background: var(--bg); border-radius: 8px; cursor: pointer; }
-        .step-capture:active { background: #e2e8f0; }
-        
-        /* Knowledge */
-        .knowledge-item { display: flex; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
-        .knowledge-item:last-child { border-bottom: none; }
-        .knowledge-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--bg); display: flex; align-items: center; justify-content: center; margin-right: 12px; font-size: 18px; color: var(--primary); }
-        .knowledge-info { flex: 1; }
-        .knowledge-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
-        .knowledge-meta { font-size: 12px; color: var(--text-light); }
+        /* Records */
+        .record-item { display: flex; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); }
+        .record-item:last-child { border-bottom: none; }
+        .record-date { width: 50px; text-align: center; margin-right: 12px; }
+        .record-day { font-size: 18px; font-weight: 700; color: var(--primary); }
+        .record-month { font-size: 11px; color: var(--text-light); }
+        .record-info { flex: 1; }
+        .record-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+        .record-stats { font-size: 12px; color: var(--text-light); }
         
         /* Admin */
-        .admin-tabs { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 8px; }
-        .admin-tab { padding: 8px 16px; border-radius: 20px; font-size: 13px; white-space: nowrap; background: var(--bg); color: var(--text-light); cursor: pointer; border: none; }
+        .admin-tabs { display: flex; gap: 8px; margin-bottom: 12px; overflow-x: auto; }
+        .admin-tab { padding: 8px 14px; border-radius: 20px; font-size: 12px; background: var(--bg); color: var(--text-light); cursor: pointer; border: none; white-space: nowrap; }
         .admin-tab.active { background: var(--primary); color: white; }
         
-        .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        .data-table th, .data-table td { padding: 12px 8px; text-align: left; border-bottom: 1px solid var(--border); }
-        .data-table th { font-weight: 600; color: var(--text-light); font-size: 12px; }
-        .data-table tr:active { background: var(--bg); }
-        .action-btn { padding: 4px 10px; border: none; border-radius: 6px; font-size: 12px; cursor: margin-right: 4px; }
-        .action-btn.edit { background: #dbeafe; color: #2563eb; }
-        .action-btn.delete { background: #fee2e2; color: #dc2626; }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        .data-table th, .data-table td { padding: 10px 6px; text-align: left; border-bottom: 1px solid var(--border); }
+        .data-table th { font-weight: 600; color: var(--text-light); font-size: 11px; }
         
         /* Modal */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 16px; }
         .modal-overlay.active { display: flex; }
         .modal { background: var(--card); border-radius: 16px; width: 100%; max-width: 500px; max-height: 85vh; overflow-y: auto; }
-        .modal-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: var(--card); }
-        .modal-title { font-size: 18px; font-weight: 600; }
-        .modal-close { width: 32px; height: 32px; border-radius: 50%; background: var(--bg); display: flex; align-items: center; justify-content: center; cursor: pointer; }
-        .modal-body { padding: 20px; }
-        .modal-footer { padding: 16px 20px; border-top: 1px solid var(--border); display: flex; gap: 12px; }
+        .modal-header { padding: 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .modal-title { font-size: 16px; font-weight: 600; }
+        .modal-close { width: 28px; height: 28px; border-radius: 50%; background: var(--bg); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .modal-body { padding: 16px; }
+        .modal-footer { padding: 12px 16px; border-top: 1px solid var(--border); display: flex; gap: 10px; }
         .modal-footer .btn { flex: 1; }
         .btn-secondary { background: var(--bg); color: var(--text); }
         
         /* Chat */
-        .chat-container { height: calc(100vh - 280px); display: flex; flex-direction: column; }
-        .chat-messages { flex: 1; overflow-y: auto; padding-bottom: 16px; }
-        .message { display: flex; margin-bottom: 16px; }
+        .chat-box { height: 300px; display: flex; flex-direction: column; }
+        .chat-messages { flex: 1; overflow-y: auto; }
+        .message { display: flex; margin-bottom: 12px; }
         .message.user { flex-direction: row-reverse; }
-        .message-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+        .message-avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
         .message.user .message-avatar { background: var(--primary); color: white; }
-        .message.ai .message-avatar { background: var(--success); color: white; }
-        .message-content { max-width: 75%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; margin: 0 10px; }
+        .message.ai .message-avatar { background: #667eea; color: white; }
+        .message-content { max-width: 75%; padding: 10px 12px; border-radius: 12px; font-size: 13px; line-height: 1.5; margin: 0 8px; }
         .message.user .message-content { background: var(--primary); color: white; border-bottom-right-radius: 4px; }
-        .message.ai .message-content { background: var(--card); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
-        .chat-input { display: flex; gap: 10px; padding-top: 12px; border-top: 1px solid var(--border); }
-        .chat-input input { flex: 1; padding: 12px 16px; border: 1px solid var(--border); border-radius: 24px; font-size: 14px; outline: none; }
-        .chat-input input:focus { border-color: var(--primary); }
-        .chat-input button { width: 44px; height: 44px; border: none; background: var(--primary); color: white; border-radius: 50%; cursor: pointer; }
-        
-        /* Capture Box */
-        .capture-box { border: 2px dashed var(--border); border-radius: 12px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.2s; }
-        .capture-box:active { background: var(--bg); }
-        .capture-box.has-image { border-style: solid; border-color: var(--success); padding: 10px; }
-        .capture-box i { font-size: 28px; color: var(--text-light); margin-bottom: 6px; }
-        .capture-box p { font-size: 13px; color: var(--text-light); }
-        .capture-box img { width: 100%; max-height: 150px; object-fit: contain; border-radius: 8px; }
-        
-        #camera-input { display: none; }
+        .message.ai .message-content { background: var(--bg); border-bottom-left-radius: 4px; }
+        .chat-input { display: flex; gap: 8px; padding-top: 10px; border-top: 1px solid var(--border); }
+        .chat-input input { flex: 1; padding: 10px 14px; border: 1px solid var(--border); border-radius: 20px; font-size: 13px; outline: none; }
+        .chat-input button { width: 38px; height: 38px; border: none; background: var(--primary); color: white; border-radius: 50%; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -195,275 +180,215 @@
             </div>
             <form onsubmit="handleLogin(event)">
                 <div class="form-group">
+                    <label class="form-label">选择角色登录</label>
+                    <select class="form-select" id="login-role" onchange="updateDemoInfo()">
+                        <option value="production">📦 生管工程师 - 生产排配</option>
+                        <option value="equipment">🔧 设备工程师 - 设备维护</option>
+                        <option value="quality">✅ 品保工程师 - 品质管控</option>
+                        <option value="engineer">👨‍💻 工程师 - 通用</option>
+                        <option value="supervisor">👔 主管 - 团队管理</option>
+                        <option value="executive">📈 高阶主管 - 决策分析</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label class="form-label">用户名</label>
-                    <input type="text" class="form-input" id="login-username" placeholder="请输入用户名" required>
+                    <input type="text" class="form-input" id="login-username" placeholder="输入用户名" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">密码</label>
-                    <input type="password" class="form-input" id="login-password" placeholder="请输入密码" required>
+                    <input type="password" class="form-input" id="login-password" placeholder="输入密码" required>
                 </div>
                 <button type="submit" class="btn btn-primary">登录</button>
             </form>
-            <p style="text-align: center; margin-top: 20px; font-size: 13px; color: var(--text-light);">演示账号：admin / admin123</p>
         </div>
     </div>
     
     <!-- Main App -->
     <div class="app-container" id="app-container">
         <div class="header">
-            <div class="header-title">🏭 FactoryAI 智工助手</div>
-            <div class="header-user">
-                <div class="avatar">👤</div>
-                <span id="current-user">王工程师</span>
-                <button class="logout-btn" onclick="logout()">退出</button>
+            <div class="header-title">🏭 FactoryAI</div>
+            <div class="header-info">
+                <span class="role-badge" id="header-role">生管</span>
+                <button onclick="logout()" style="background: transparent; border: none; color: white; font-size: 12px; cursor: pointer;">退出</button>
             </div>
         </div>
         
-        <div class="tabs">
-            <div class="tab active" data-tab="dashboard"><i class="ri-dashboard-line"></i>首页</div>
-            <div class="tab" data-tab="equipment"><i class="ri-settings-3-line"></i>设备</div>
-            <div class="tab" data-tab="tasks"><i class="ri-task-line"></i>任务</div>
-            <div class="tab" data-tab="knowledge"><i class="ri-book-2-line"></i>知识库</div>
-            <div class="tab" data-tab="admin"><i class="ri-admin-line"></i>管理</div>
+        <div class="user-bar">
+            <div class="user-avatar" id="user-avatar">👤</div>
+            <div class="user-info">
+                <div class="user-name" id="user-name">生管工程师</div>
+                <div class="user-role" id="user-role">生产管理部</div>
+            </div>
+            <button class="btn btn-primary" style="width: auto; padding: 8px 16px; font-size: 13px;" onclick="openAIPlanning()">🤖 AI规划</button>
         </div>
         
-        <!-- Dashboard -->
-        <div class="content active" id="dashboard">
-            <div class="stats-grid">
-                <div class="stat-card"><div class="stat-value" id="stat-today">6</div><div class="stat-label">今日任务</div></div>
-                <div class="stat-card success"><div class="stat-value" id="stat-done">2</div><div class="stat-label">已完成</div></div>
-                <div class="stat-card warning"><div class="stat-value" id="stat-pending">4</div><div class="stat-label">进行中</div></div>
-                <div class="stat-card danger"><div class="stat-value" id="stat-alert">2</div><div class="stat-label">告警</div></div>
-            </div>
-            
-            <div class="dashboard-section">
-                <div class="section-header">
-                    <span class="section-title">📋 今日任务（含工作流）</span>
-                    <span class="section-more" onclick="switchTab('tasks')">更多 ></span>
-                </div>
-                <div class="card" id="today-tasks-list"></div>
-            </div>
-            
-            <div class="dashboard-section">
-                <div class="section-header">
-                    <span class="section-title">📊 设备状态</span>
-                </div>
-                <div class="card">
-                    <div class="equipment-grid" id="equipment-grid"></div>
-                </div>
-            </div>
+        <div class="tabs" id="main-tabs">
+            <!-- Dynamic tabs will be rendered -->
         </div>
         
-        <!-- Equipment -->
-        <div class="content" id="equipment">
-            <div class="card">
-                <div class="card-title">🔍 设备搜索</div>
-                <input type="text" class="form-input" placeholder="搜索设备编号/名称..." oninput="filterEquipment(this.value)">
-            </div>
-            <div class="card"><div class="equipment-grid" id="equipment-full-list"></div></div>
-        </div>
-        
-        <!-- Tasks -->
-        <div class="content" id="tasks">
-            <div class="admin-tabs">
-                <button class="admin-tab active" onclick="filterTasks('all', this)">全部</button>
-                <button class="admin-tab" onclick="filterTasks('inspection', this)">巡检</button>
-                <button class="admin-tab" onclick="filterTasks('maintenance', this)">保养</button>
-                <button class="admin-tab" onclick="filterTasks('repair', this)">维修</button>
-                <button class="admin-tab" onclick="filterTasks('data', this)">数据记录</button>
-            </div>
-            <div class="card" id="task-full-list"></div>
-        </div>
-        
-        <!-- Knowledge -->
-        <div class="content" id="knowledge">
-            <div class="card"><div id="knowledge-full-list"></div></div>
-            <div class="card">
-                <div class="card-title">🤖 AI 智能问答</div>
-                <div class="chat-container">
-                    <div class="chat-messages" id="chat-messages">
-                        <div class="message ai">
-                            <div class="message-avatar">🤖</div>
-                            <div class="message-content">你好！我是AI助手，可以帮你：<br><br>📖 解答设备操作问题<br>🔧 故障诊断分析<br>📋 生成巡检报告<br>📚 知识库问答</div>
-                        </div>
-                    </div>
-                    <div class="chat-input">
-                        <input type="text" id="chat-input" placeholder="输入问题..." onkeypress="handleChatKeypress(event)">
-                        <button onclick="sendChat()"><i class="ri-send-plane-fill"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Admin -->
-        <div class="content" id="admin">
-            <div class="admin-tabs">
-                <button class="admin-tab active" onclick="filterAdmin('taskTemplate', this)">任务模板</button>
-                <button class="admin-tab" onclick="filterAdmin('users', this)">用户</button>
-                <button class="admin-tab" onclick="filterAdmin('equipment', this)">设备</button>
-            </div>
-            <div class="card" id="admin-content"></div>
+        <div id="tab-contents">
+            <!-- Dynamic content will be rendered -->
         </div>
     </div>
     
-    <!-- Modal -->
-    <div class="modal-overlay" id="modal">
+    <!-- AI Planning Modal -->
+    <div class="modal-overlay" id="ai-modal">
         <div class="modal">
             <div class="modal-header">
-                <div class="modal-title" id="modal-title">任务详情</div>
+                <div class="modal-title">🤖 AI 工作规划助手</div>
                 <div class="modal-close" onclick="closeModal()"><i class="ri-close-line"></i></div>
             </div>
-            <div class="modal-body" id="modal-body"></div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal()">取消</button>
-                <button class="btn btn-primary" id="modal-confirm">保存</button>
+            <div class="modal-body">
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin-bottom: 16px;">
+                    <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">🎯 功能说明</div>
+                    <div style="font-size: 13px; opacity: 0.9;">描述您每天的工作内容，AI会自动分析并生成个性化的工作任务清单</div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">描述您的工作内容</label>
+                    <textarea class="form-input" id="work-desc" rows="4" placeholder="例如：我是生管工程师，每天需要确认生产排配达成情况，检查生产线产能利用率，处理缺料问题，协调出货..."></textarea>
+                </div>
+                
+                <button class="btn btn-primary" onclick="runAIPlanning()">🤖 生成工作任务</button>
+                
+                <div id="ai-result" style="display: none; margin-top: 16px;">
+                    <div class="card-title">📋 生成的每日任务</div>
+                    <div id="ai-tasks"></div>
+                </div>
             </div>
         </div>
     </div>
     
-    <input type="file" id="camera-input" accept="image/*" capture="environment" onchange="handleCapture(event)">
-    
     <script>
-        // ========== Data ==========
-        const equipment = [
-            { id: 1, code: 'A-001', name: '空压机#1', category: '空压机', status: 'normal', location: 'A区' },
-            { id: 2, code: 'A-002', name: '空压机#2', category: '空压机', status: 'warning', location: 'A区' },
-            { id: 3, code: 'B-101', name: '储气罐#1', category: '储罐', status: 'normal', location: 'B区' },
-            { id: 4, code: 'B-102', name: '储气罐#2', category: '储罐', status: 'error', location: 'B区' },
-            { id: 5, code: 'C-201', name: '冷却塔#1', category: '冷却', status: 'normal', location: 'C区' },
-            { id: 6, code: 'C-202', name: '冷却塔#2', category: '冷却', status: 'normal', location: 'C区' },
-        ];
-        
-        // 任务模板 - 定义每种任务的工作流程
-        const taskTemplates = [
-            {
-                type: 'inspection',
-                name: '巡检任务',
-                icon: '🔍',
-                steps: [
-                    { id: 1, title: '设备外观检查', desc: '检查设备外观是否正常，有无异常', type: 'check' },
-                    { id: 2, title: '运行参数记录', desc: '记录设备运行参数（温度、压力、电流等）', type: 'input', unit: '' },
-                    { id: 3, title: '拍照确认', desc: '拍摄设备铭牌和现场照片', type: 'capture' },
-                    { id: 4, title: 'AI分析', desc: 'AI分析巡检数据，给出建议', type: 'ai' }
-                ]
+        // ========== Role Configurations ==========
+        const roles = {
+            production: {
+                name: '生管工程师',
+                dept: '生产管理部',
+                avatar: '📦',
+                tabs: ['首页', '排配', '任务', '记录'],
+                color: '#22c55e'
             },
-            {
-                type: 'maintenance',
-                name: '保养任务',
-                icon: '🔧',
-                steps: [
-                    { id: 1, title: '设备停机确认', desc: '确认设备已停机并断开电源', type: 'check' },
-                    { id: 2, title: '清洁保养', desc: '按保养手册完成清洁工作', type: 'check' },
-                    { id: 3, title: '更换配件', desc: '更换需要更换的配件', type: 'input', placeholder: '填写更换的配件名称' },
-                    { id: 4, title: '记录保养内容', desc: '详细记录保养内容', type: 'input', placeholder: '填写保养详情' },
-                    { id: 5, title: '拍照存档', desc: '拍摄保养完成后照片', type: 'capture' }
-                ]
+            equipment: {
+                name: '设备工程师',
+                dept: '设备维护部',
+                avatar: '🔧',
+                tabs: ['首页', '设备', '保养', '记录'],
+                color: '#3b82f6'
             },
-            {
-                type: 'repair',
-                name: '维修任务',
-                icon: '🔧',
-                steps: [
-                    { id: 1, title: '故障描述', desc: '描述设备故障现象', type: 'input', placeholder: '详细描述故障现象' },
-                    { id: 2, title: '故障拍照', desc: '拍摄故障部位照片', type: 'capture' },
-                    { id: 3, title: 'AI诊断', desc: 'AI分析可能原因', type: 'ai' },
-                    { id: 4, title: '维修处理', desc: '记录维修措施', type: 'input', placeholder: '填写维修措施' },
-                    { id: 5, title: '结果确认', desc: '确认设备恢复正常', type: 'check' }
-                ]
+            quality: {
+                name: '品保工程师',
+                dept: '品质管理部',
+                avatar: '✅',
+                tabs: ['首页', '品质', '异常', '记录'],
+                color: '#f59e0b'
             },
-            {
-                type: 'data',
-                name: '数据记录任务',
-                icon: '📊',
-                steps: [
-                    { id: 1, title: '选择设备', desc: '选择要记录的设备', type: 'select' },
-                    { id: 2, title: '记录数据', desc: '按照表单填写数据', type: 'input', placeholder: '输入数值' },
-                    { id: 3, title: '数据确认', desc: '确认数据无误', type: 'check' }
-                ]
+            engineer: {
+                name: '工程师',
+                dept: '技术部',
+                avatar: '👨‍💻',
+                tabs: ['首页', '任务', '知识', '记录'],
+                color: '#8b5cf6'
+            },
+            supervisor: {
+                name: '主管',
+                dept: '管理部门',
+                avatar: '👔',
+                tabs: ['首页', '团队', '审核', '报表'],
+                color: '#ec4899'
+            },
+            executive: {
+                name: '高阶主管',
+                dept: '经营层',
+                avatar: '📈',
+                tabs: ['首页', '经营', '分析', '决策'],
+                color: '#dc2626'
             }
-        ];
+        };
         
-        // 实际任务 - 实例化的任务
+        // Role-specific dashboards
+        const dashboards = {
+            production: {
+                stats: [
+                    { label: '今日产出', value: '12,500', unit: '片', color: 'green' },
+                    { label: '达成率', value: '98.2%', unit: '', color: 'green' },
+                    { label: '待出货', value: '3,200', unit: '片', color: 'yellow' }
+                ],
+                content: 'production'
+            },
+            equipment: {
+                stats: [
+                    { label: '设备总数', value: '48', unit: '台', color: '' },
+                    { label: '正常运行', value: '45', unit: '台', color: 'green' },
+                    { label: '待保养', value: '3', unit: '台', color: 'yellow' }
+                ],
+                content: 'equipment'
+            },
+            quality: {
+                stats: [
+                    { label: '良率', value: '99.2%', unit: '', color: 'green' },
+                    { label: '待处理', value: '5', unit: '件', color: 'yellow' },
+                    { label: 'HOLD', value: '2', unit: '批', color: 'red' }
+                ],
+                content: 'quality'
+            },
+            supervisor: {
+                stats: [
+                    { label: '团队人数', value: '8', unit: '人', color: '' },
+                    { label: '待审核', value: '12', unit: '件', color: 'yellow' },
+                    { label: '完成率', value: '85%', unit: '', color: 'green' }
+                ],
+                content: 'supervisor'
+            },
+            executive: {
+                stats: [
+                    { label: '月营收', value: '2.8M', unit: '', color: 'green' },
+                    { label: '产能利用率', value: '92%', unit: '', color: 'green' },
+                    { label: '达成率', value: '96%', unit: '', color: 'green' }
+                ],
+                content: 'executive'
+            }
+        };
+        
+        // ========== Data ==========
         const tasks = [
-            { 
-                id: 1, 
-                name: 'A-001 空压机巡检', 
-                desc: 'A区空压机日常巡检', 
-                type: 'inspection', 
-                equipmentId: 1,
-                status: 'pending', 
-                steps: [
-                    { id: 1, done: false, value: '' },
-                    { id: 2, done: false, value: '' },
-                    { id: 3, done: false, image: null },
-                    { id: 4, done: false, value: '' }
-                ]
-            },
-            { 
-                id: 2, 
-                name: 'A-002 空压机保养', 
-                desc: 'A-002季度保养', 
-                type: 'maintenance', 
-                equipmentId: 2,
-                status: 'pending', 
-                steps: [
-                    { id: 1, done: false, value: '' },
-                    { id: 2, done: false, value: '' },
-                    { id: 3, done: false, value: '' },
-                    { id: 4, done: false, value: '' },
-                    { id: 5, done: false, image: null }
-                ]
-            },
-            { 
-                id: 3, 
-                name: 'B-102故障维修', 
-                desc: '储气罐压力异常处理', 
-                type: 'repair', 
-                equipmentId: 4,
-                status: 'pending', 
-                steps: [
-                    { id: 1, done: false, value: '' },
-                    { id: 2, done: false, image: null },
-                    { id: 3, done: false, value: '' },
-                    { id: 4, done: false, value: '' },
-                    { id: 5, done: false, value: '' }
-                ]
-            },
-            { 
-                id: 4, 
-                name: '温度数据记录', 
-                desc: '各区域温度数据记录', 
-                type: 'data', 
-                status: 'pending', 
-                steps: [
-                    { id: 1, done: false, value: '' },
-                    { id: 2, done: false, value: '' },
-                    { id: 3, done: false, value: '' }
-                ]
-            },
-            { id: 5, name: 'B-101储气罐巡检', desc: 'B区储气罐日常巡检', type: 'inspection', equipmentId: 3, status: 'done', steps: [] },
-            { id: 6, name: 'C-201冷却塔巡检', desc: 'C区冷却塔日常巡检', type: 'inspection', equipmentId: 5, status: 'done', steps: [] },
+            { id: 1, name: '确认今日生产排配', desc: '检查产线排配达成', priority: 'high', status: 'pending', role: 'production' },
+            { id: 2, name: '产能利用率检讨', desc: '各线产能分析', priority: 'medium', status: 'pending', role: 'production' },
+            { id: 3, name: '设备日常点检', desc: '关键设备点检', priority: 'high', status: 'pending', role: 'equipment' },
+            { id: 4, name: '保养计划执行', desc: '本月保养进度', priority: 'medium', status: 'pending', role: 'equipment' },
+            { id: 5, name: '品质异常处理', desc: 'IQC异常确认', priority: 'high', status: 'pending', role: 'quality' },
+            { id: 6, name: 'HOLD品复判', desc: '2批HOLD品复判', priority: 'high', status: 'pending', role: 'quality' },
         ];
         
-        const knowledge = [
-            { id: 1, title: '空压机操作规程', category: '规程' },
-            { id: 2, title: '储气罐安全检查要点', category: '安全' },
-            { id: 3, title: '冷却塔维护保养手册', category: '保养' },
-            { id: 4, title: '常见故障代码解析', category: '故障' },
+        const records = [
+            { date: '19', month: '02', title: '生产排配确认', stats: '达成率 98%' },
+            { date: '18', month: '02', title: '设备保养完成', stats: '3台设备' },
+            { date: '17', month: '02', title: '品质异常处理', stats: '5件已结案' },
+            { date: '16', month: '02', title: '周报汇总', stats: '团队8人' },
         ];
         
-        // ========== Auth ==========
+        let currentRole = 'production';
+        
+        // ========== Login ==========
+        function updateDemoInfo() {
+            const role = document.getElementById('login-role').value;
+            const roleInfo = roles[role];
+            document.getElementById('login-username').value = role === 'production' ? 'sc001' : role === 'equipment' ? 'eq001' : role === 'quality' ? 'qa001' : role === 'supervisor' ? 'sp001' : 'ex001';
+            document.getElementById('login-password').value = '123456';
+        }
+        
         function handleLogin(e) {
             e.preventDefault();
-            const username = document.getElementById('login-username').value;
-            const password = document.getElementById('login-password').value;
+            currentRole = document.getElementById('login-role').value;
+            const roleInfo = roles[currentRole];
             
-            if (username === 'admin' && password === 'admin123') {
-                localStorage.setItem('factory_user', JSON.stringify({ username: 'admin', name: '管理员', role: 'admin' }));
-                showApp();
-            } else {
-                alert('用户名或密码错误');
-            }
+            localStorage.setItem('factory_user', JSON.stringify({
+                role: currentRole,
+                name: roleInfo.name,
+                dept: roleInfo.dept
+            }));
+            
+            showApp();
         }
         
         function logout() {
@@ -475,370 +400,335 @@
         function showApp() {
             document.getElementById('login-page').style.display = 'none';
             document.getElementById('app-container').classList.add('active');
-            renderDashboard();
-            renderEquipment();
-            renderTasks();
-            renderKnowledge();
-            renderAdmin('taskTemplate');
+            
+            const roleInfo = roles[currentRole];
+            document.getElementById('header-role').textContent = roleInfo.name;
+            document.getElementById('user-name').textContent = roleInfo.name;
+            document.getElementById('user-role').textContent = roleInfo.dept;
+            document.getElementById('user-avatar').textContent = roleInfo.avatar;
+            
+            renderTabs();
+            renderContent();
         }
         
         // ========== Tabs ==========
+        function renderTabs() {
+            const roleInfo = roles[currentRole];
+            const tabsHtml = roleInfo.tabs.map((tab, idx) => 
+                `<div class="tab ${idx === 0 ? 'active' : ''}" data-tab="${tab}" onclick="switchTab('${tab}')">${tab}</div>`
+            ).join('');
+            document.getElementById('main-tabs').innerHTML = tabsHtml;
+        }
+        
         function switchTab(tabName) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
-            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
-            document.getElementById(tabName).classList.add('active');
-        }
-        document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', () => switchTab(tab.dataset.tab)));
-        
-        // ========== Dashboard ==========
-        function renderDashboard() {
-            const pending = tasks.filter(t => t.status === 'pending').length;
-            const done = tasks.filter(t => t.status === 'done').length;
-            document.getElementById('stat-today').textContent = tasks.length;
-            document.getElementById('stat-done').textContent = done;
-            document.getElementById('stat-pending').textContent = pending;
+            document.querySelector(`.tab[data-tab="${tabName}"]`).classList.add('active');
             
-            const tasksList = document.getElementById('today-tasks-list');
-            tasksList.innerHTML = tasks.slice(0, 4).map(task => {
-                const template = taskTemplates.find(t => t.type === task.type);
-                return `
-                    <div class="task-item" onclick="openTaskFlow(${task.id})">
-                        <div class="task-status-icon ${task.status === 'done' ? 'done' : task.status === 'processing' ? 'processing' : 'pending'}">
-                            ${task.status === 'done' ? '✓' : task.status === 'processing' ? '⏳' : template.icon}
-                        </div>
-                        <div class="task-info">
-                            <div class="task-name">${task.name}</div>
-                            <div class="task-meta">${task.desc}</div>
-                        </div>
-                        <span class="task-type-tag ${task.type}">${task.type === 'inspection' ? '巡检' : task.type === 'maintenance' ? '保养' : task.type === 'repair' ? '维修' : '数据'}</span>
-                    </div>
-                `;
-            }).join('');
-            
-            const equipGrid = document.getElementById('equipment-grid');
-            equipGrid.innerHTML = equipment.slice(0, 4).map(e => `
-                <div class="equipment-item" onclick="showEquipmentDetail(${e.id})">
-                    <div class="equipment-icon ${e.status}"><i class="ri-settings-3-line"></i></div>
-                    <div class="equipment-name">${e.code}</div>
-                    <div class="equipment-status">${e.name}</div>
-                </div>
-            `).join('');
+            document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+            const content = document.getElementById(`content-${tabName}`);
+            if (content) content.style.display = 'block';
         }
         
-        // ========== Task Flow ==========
-        function openTaskFlow(taskId) {
-            const task = tasks.find(t => t.id === taskId);
-            const template = taskTemplates.find(t => t.type === task.type);
+        // ========== Content ==========
+        function renderContent() {
+            const roleInfo = roles[currentRole];
+            const dashboard = dashboards[currentRole];
             
-            document.getElementById('modal-title').textContent = task.name;
+            let contentHtml = '';
             
-            const completedSteps = task.steps.filter(s => s.done).length;
-            const progress = Math.round(completedSteps / task.steps.length * 100);
-            
-            let body = `
-                <div style="margin-bottom: 16px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                        <span style="font-size: 14px; color: var(--text-light);">进度</span>
-                        <span style="font-size: 14px; color: var(--primary); font-weight: 600;">${progress}%</span>
+            // Tab 1: 首页
+            contentHtml += `
+                <div class="tab-content active" id="content-${roleInfo.tabs[0]}">
+                    <div class="stats-grid">
+                        ${dashboard.stats.map(s => `
+                            <div class="stat-card ${s.color ? s.color : ''}">
+                                <div class="stat-value">${s.value}</div>
+                                <div class="stat-label">${s.label}</div>
+                            </div>
+                        `).join('')}
                     </div>
-                    <div style="height: 6px; background: var(--border); border-radius: 3px;">
-                        <div style="height: 100%; width: ${progress}%; background: var(--success); border-radius: 3px;"></div>
+                    
+                    ${renderRoleDashboard(currentRole)}
+                    
+                    <div class="card">
+                        <div class="card-title">📋 待办任务</div>
+                        ${renderTaskList()}
                     </div>
                 </div>
-                <div style="font-size: 14px; color: var(--text-light); margin-bottom: 16px;">${task.desc}</div>
-                <div class="flow-steps">
             `;
             
-            task.steps.forEach((step, idx) => {
-                const stepDone = step.done;
-                body += `
-                    <div class="flow-step">
-                        <div class="step-number ${stepDone ? 'done' : ''}">${idx + 1}</div>
-                        <div class="step-content">
-                            <div class="step-title">${template.steps[idx].title}</div>
-                            <div class="step-desc">${template.steps[idx].desc}</div>
-                            ${renderStepInput(template.steps[idx], step, taskId, idx)}
+            // Tab 2: Role specific
+            const tab2Name = roleInfo.tabs[1];
+            contentHtml += `
+                <div class="tab-content" id="content-${tab2Name}">
+                    ${renderRoleContent(currentRole, tab2Name)}
+                </div>
+            `;
+            
+            // Tab 3: Tasks/Records
+            const tab3Name = roleInfo.tabs[2];
+            contentHtml += `
+                <div class="tab-content" id="content-${tab3Name}">
+                    ${tab3Name === '任务' || tab3Name === '记录' || tab3Name === '异常' || tab3Name === '团队' || tab3Name === '分析' ? renderTaskList() : renderRecords()}
+                </div>
+            `;
+            
+            // Tab 4: Records/Reports
+            const tab4Name = roleInfo.tabs[3];
+            contentHtml += `
+                <div class="tab-content" id="content-${tab4Name}">
+                    ${renderRecords()}
+                </div>
+            `;
+            
+            document.getElementById('tab-contents').innerHTML = contentHtml;
+        }
+        
+        function renderRoleDashboard(role) {
+            if (role === 'production') {
+                return `
+                    <div class="card">
+                        <div class="card-title">📊 生产概览</div>
+                        <div class="kpi-row">
+                            <div class="kpi-card">
+                                <div class="kpi-value green">98.2%</div>
+                                <div class="kpi-label">达成率</div>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-value">85%</div>
+                                <div class="kpi-label">产能利用率</div>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-value yellow">3</div>
+                                <div class="kpi-label">缺料项</div>
+                            </div>
                         </div>
                     </div>
                 `;
-            });
-            
-            body += '</div>';
-            document.getElementById('modal-body').innerHTML = body;
-            
-            const confirmBtn = document.getElementById('modal-confirm');
-            if (progress === 100) {
-                confirmBtn.textContent = '✅ 完成任务';
-                confirmBtn.style.background = 'var(--success)';
-            } else {
-                confirmBtn.textContent = '💾 保存进度';
-                confirmBtn.style.background = 'var(--primary)';
-            }
-            confirmBtn.onclick = () => saveTaskProgress(taskId);
-            
-            document.getElementById('modal').classList.add('active');
-        }
-        
-        function renderStepInput(templateStep, step, taskId, stepIdx) {
-            if (step.done) {
-                let value = '';
-                if (templateStep.type === 'check') value = '✓ 已确认';
-                else if (templateStep.type === 'capture' && step.image) value = '✓ 已拍照';
-                else value = step.value || '✓ 已完成';
-                return `<div class="step-action" style="color: var(--success);">${value}</div>`;
-            }
-            
-            if (templateStep.type === 'check') {
-                return `<div class="step-check"><input type="checkbox" onchange="toggleStep(${taskId}, ${stepIdx}, this.checked)"> <span>确认完成</span></div>`;
-            } else if (templateStep.type === 'input') {
-                return `<input type="text" class="step-input" placeholder="${templateStep.placeholder || '请输入'}" onchange="updateStepValue(${taskId}, ${stepIdx}, this.value)">`;
-            } else if (templateStep.type === 'capture') {
-                return `<div class="capture-box" onclick="captureStepImage(${taskId}, ${stepIdx})" id="capture-${taskId}-${stepIdx}">
-                    <i class="ri-camera-line"></i><p>点击拍照</p></div>`;
-            } else if (templateStep.type === 'ai') {
-                return `<button class="btn" style="padding: 10px; background: var(--bg); color: var(--primary);" onclick="runAIStep(${taskId}, ${stepIdx})">🤖 运行AI分析</button>`;
+            } else if (role === 'equipment') {
+                return `
+                    <div class="card">
+                        <div class="card-title">🔧 设备状态</div>
+                        <div class="equipment-grid">
+                            <div class="equip-card"><div class="equip-icon normal"><i class="ri-settings-3-line"></i></div><div class="equip-name">A-001</div><div class="equip-status">正常运行</div></div>
+                            <div class="equip-card"><div class="equip-icon normal"><i class="ri-settings-3-line"></i></div><div class="equip-name">A-002</div><div class="equip-status">正常运行</div></div>
+                            <div class="equip-card"><div class="equip-icon warning"><i class="ri-settings-3-line"></i></div><div class="equip-name">B-101</div><div class="equip-status">需保养</div></div>
+                            <div class="equip-card"><div class="equip-icon normal"><i class="ri-settings-3-line"></i></div><div class="equip-name">C-201</div><div class="equip-status">正常运行</div></div>
+                            <div class="equip-card"><div class="equip-icon error"><i class="ri-settings-3-line"></i></div><div class="equip-name">D-301</div><div class="equip-status">故障</div></div>
+                            <div class="equip-card"><div class="equip-icon normal"><i class="ri-settings-3-line"></i></div><div class="equip-name">D-302</div><div class="equip-status">正常运行</div></div>
+                        </div>
+                    </div>
+                `;
+            } else if (role === 'quality') {
+                return `
+                    <div class="card">
+                        <div class="card-title">⚠️ 品质预警</div>
+                        <div class="quality-alert">
+                            <div class="quality-icon">🔴</div>
+                            <div class="quality-info">
+                                <div class="quality-title">HOLD: LOT#20260219-001</div>
+                                <div class="quality-desc">外观异常，等待复判</div>
+                            </div>
+                        </div>
+                        <div class="quality-alert">
+                            <div class="quality-icon">🟡</div>
+                            <div class="quality-info">
+                                <div class="quality-title">IQC异常: 供应商A材料</div>
+                                <div class="quality-desc">尺寸超规，已开立异常单</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (role === 'supervisor') {
+                return `
+                    <div class="card">
+                        <div class="card-title">👥 团队概况</div>
+                        <div class="kpi-row">
+                            <div class="kpi-card">
+                                <div class="kpi-value">8</div>
+                                <div class="kpi-label">团队人数</div>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-value green">85%</div>
+                                <div class="kpi-label">任务完成率</div>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-value yellow">3</div>
+                                <div class="kpi-label">待审核</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (role === 'executive') {
+                return `
+                    <div class="card">
+                        <div class="card-title">📈 经营指标</div>
+                        <div class="kpi-row">
+                            <div class="kpi-card">
+                                <div class="kpi-value green">2.8M</div>
+                                <div class="kpi-label">月营收</div>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-value green">92%</div>
+                                <div class="kpi-label">产能利用率</div>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-value green">99.1%</div>
+                                <div class="kpi-label">良率</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
             }
             return '';
         }
         
-        function toggleStep(taskId, stepIdx, checked) {
-            const task = tasks.find(t => t.id === taskId);
-            task.steps[stepIdx].done = checked;
-            
-            // 自动进入下一步
-            if (checked && stepIdx < task.steps.length - 1) {
-                task.status = 'processing';
+        function renderRoleContent(role, tabName) {
+            if (role === 'production' && tabName === '排配') {
+                return `
+                    <div class="card">
+                        <div class="card-title">📅 今日排配</div>
+                        <div style="padding: 20px; text-align: center;">
+                            <div style="font-size: 32px; font-weight: 700; color: var(--success);">98.2%</div>
+                            <div style="color: var(--text-light);">排配达成率</div>
+                        </div>
+                        <table class="data-table">
+                            <tr><th>产线</th><th>计划</th><th>实际</th><th>达成</th></tr>
+                            <tr><td>L1</td><td>5000</td><td>4920</td><td style="color:var(--success)">98.4%</td></tr>
+                            <tr><td>L2</td><td>4500</td><td>4410</td><td style="color:var(--success)">98.0%</td></tr>
+                            <tr><td>L3</td><td>3000</td><td>3170</td><td style="color:var(--success)">105.7%</td></tr>
+                        </table>
+                    </div>
+                `;
+            } else if (role === 'equipment' && tabName === '设备') {
+                return renderRoleDashboard('equipment');
+            } else if (role === 'quality' && tabName === '品质') {
+                return `
+                    <div class="card">
+                        <div class="card-title">📊 品质指标</div>
+                        <div class="kpi-row">
+                            <div class="kpi-card">
+                                <div class="kpi-value green">99.2%</div>
+                                <div class="kpi-label">良率</div>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-value yellow">0.8%</div>
+                                <div class="kpi-label">不良率</div>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-value red">2</div>
+                                <div class="kpi-label">HOLD批</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            return '<div class="card"><div class="card-title">' + tabName + '</div><div style="padding: 40px; text-align: center; color: var(--text-light);">内容开发中...</div></div>';
+        }
+        
+        function renderTaskList() {
+            const roleTasks = tasks.filter(t => !t.role || t.role === currentRole || currentRole === 'executive');
+            return roleTasks.map(task => `
+                <div class="task-item">
+                    <div class="task-priority ${task.priority}"></div>
+                    <div class="task-info">
+                        <div class="task-name">${task.name}</div>
+                        <div class="task-meta">${task.desc}</div>
+                    </div>
+                    <span class="task-tag">${task.status === 'pending' ? '待处理' : '已完成'}</span>
+                </div>
+            `).join('');
+        }
+        
+        function renderRecords() {
+            return records.map(r => `
+                <div class="record-item">
+                    <div class="record-date">
+                        <div class="record-day">${r.date}</div>
+                        <div class="record-month">${r.month}月</div>
+                    </div>
+                    <div class="record-info">
+                        <div class="record-title">${r.title}</div>
+                        <div class="record-stats">${r.stats}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // ========== AI Planning ==========
+        function openAIPlanning() {
+            document.getElementById('ai-modal').classList.add('active');
+            document.getElementById('ai-result').style.display = 'none';
+            document.getElementById('work-desc').value = '';
+        }
+        
+        function closeModal() {
+            document.getElementById('ai-modal').classList.remove('active');
+        }
+        
+        function runAIPlanning() {
+            const workDesc = document.getElementById('work-desc').value.trim();
+            if (!workDesc) {
+                alert('请描述您的工作内容');
+                return;
             }
             
-            // 检查是否全部完成
-            const allDone = task.steps.every(s => s.done);
-            if (allDone) task.status = 'done';
-            
-            openTaskFlow(taskId);
-            renderDashboard();
-        }
-        
-        function updateStepValue(taskId, stepIdx, value) {
-            const task = tasks.find(t => t.id === taskId);
-            task.steps[stepIdx].value = value;
-            task.steps[stepIdx].done = value.length > 0;
-            task.status = 'processing';
-        }
-        
-        let currentCaptureTask = null;
-        let currentCaptureStep = null;
-        
-        function captureStepImage(taskId, stepIdx) {
-            currentCaptureTask = taskId;
-            currentCaptureStep = stepIdx;
-            document.getElementById('camera-input').click();
-        }
-        
-        function handleCapture(e) {
-            const file = e.target.files[0];
-            if (!file || !currentCaptureTask) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                const task = tasks.find(t => t.id === currentCaptureTask);
-                task.steps[currentCaptureStep].image = evt.target.result;
-                task.steps[currentCaptureStep].done = true;
-                task.status = 'processing';
-                
-                openTaskFlow(currentCaptureTask);
-                renderDashboard();
-            };
-            reader.readAsDataURL(file);
-            e.target.value = '';
-            currentCaptureTask = null;
-            currentCaptureStep = null;
-        }
-        
-        function runAIStep(taskId, stepIdx) {
-            const task = tasks.find(t => t.id === taskId);
-            const btn = event.target;
-            btn.textContent = '⏳ AI分析中...';
-            btn.disabled = true;
+            // Simulate AI analysis
+            const resultDiv = document.getElementById('ai-result');
+            const tasksDiv = document.getElementById('ai-tasks');
+            resultDiv.style.display = 'block';
+            tasksDiv.innerHTML = '<div style="text-align: center; padding: 20px;">🤖 AI分析中...</div>';
             
             setTimeout(() => {
-                let analysis = '';
-                if (task.type === 'inspection') {
-                    analysis = '📊 分析结果：\n\n• 设备运行参数正常\n• 建议：下次保养日期2026-03-01\n• 备注：温度略高，建议关注';
-                } else if (task.type === 'repair') {
-                    analysis = '🔧 可能原因：\n\n1. 压力传感器故障\n2. 阀门密封不良\n\n建议措施：\n• 检查传感器\n• 更换密封件';
-                } else {
-                    analysis = '✅ AI分析完成，数据已记录。';
-                }
-                
-                task.steps[stepIdx].value = analysis;
-                task.steps[stepIdx].done = true;
-                task.status = 'processing';
-                
-                alert(analysis);
-                openTaskFlow(taskId);
-                renderDashboard();
+                const generatedTasks = generateAITasks(workDesc, currentRole);
+                tasksDiv.innerHTML = generatedTasks.map(t => `
+                    <div class="task-item" style="background: var(--bg); margin-bottom: 8px; border-radius: 8px;">
+                        <div class="task-priority ${t.priority}"></div>
+                        <div class="task-info">
+                            <div class="task-name">${t.name}</div>
+                            <div class="task-meta">${t.desc}</div>
+                        </div>
+                    </div>
+                `).join('');
             }, 2000);
         }
         
-        function saveTaskProgress(taskId) {
-            const task = tasks.find(t => t.id === taskId);
-            const allDone = task.steps.every(s => s.done);
+        function generateAITasks(workDesc, role) {
+            // AI generates tasks based on role and work description
+            const baseTasks = {
+                production: [
+                    { name: '生产排配确认', desc: '确认当日排配计划', priority: 'high' },
+                    { name: '产能利用率分析', desc: '分析各产线产能', priority: 'medium' },
+                    { name: '缺料问题处理', desc: '跟进缺料进度', priority: 'high' },
+                    { name: '出货协调', desc: '协调出货事宜', priority: 'medium' }
+                ],
+                equipment: [
+                    { name: '设备点检', desc: '关键设备日常点检', priority: 'high' },
+                    { name: '保养计划确认', desc: '确认本月保养进度', priority: 'medium' },
+                    { name: '故障处理', desc: '处理设备故障', priority: 'high' },
+                    { name: '备件管理', desc: '检查备件库存', priority: 'low' }
+                ],
+                quality: [
+                    { name: 'IQC检验', desc: '来料检验确认', priority: 'high' },
+                    { name: '异常处理', desc: '处理品质异常', priority: 'high' },
+                    { name: 'HOLD复判', desc: 'HOLD品复判确认', priority: 'high' },
+                    { name: '良率分析', desc: '分析良率数据', priority: 'medium' }
+                ]
+            };
             
-            if (allDone) {
-                task.status = 'done';
-                alert('✅ 任务完成！');
-            } else {
-                alert('💾 进度已保存');
-            }
-            
-            closeModal();
-            renderDashboard();
+            return baseTasks[role] || baseTasks.production;
         }
         
-        // ========== Equipment ==========
-        function renderEquipment() {
-            const list = document.getElementById('equipment-full-list');
-            list.innerHTML = equipment.map(e => `
-                <div class="equipment-item" onclick="showEquipmentDetail(${e.id})">
-                    <div class="equipment-icon ${e.status}"><i class="ri-settings-3-line"></i></div>
-                    <div class="equipment-name">${e.code}</div>
-                    <div class="equipment-status">${e.name}</div>
-                </div>
-            `).join('');
-        }
-        
-        function filterEquipment(keyword) {
-            const filtered = equipment.filter(e => e.code.includes(keyword) || e.name.includes(keyword));
-            document.getElementById('equipment-full-list').innerHTML = filtered.map(e => `
-                <div class="equipment-item" onclick="showEquipmentDetail(${e.id})">
-                    <div class="equipment-icon ${e.status}"><i class="ri-settings-3-line"></i></div>
-                    <div class="equipment-name">${e.code}</div>
-                    <div class="equipment-status">${e.name}</div>
-                </div>
-            `).join('');
-        }
-        
-        function showEquipmentDetail(id) {
-            const e = equipment.find(item => item.id === id);
-            document.getElementById('modal-title').textContent = e.name;
-            document.getElementById('modal-body').innerHTML = `
-                <div class="form-group"><label class="form-label">设备编号</label><div style="padding: 12px; background: var(--bg); border-radius: 8px;">${e.code}</div></div>
-                <div class="form-group"><label class="form-label">设备分类</label><div style="padding: 12px; background: var(--bg); border-radius: 8px;">${e.category}</div></div>
-                <div class="form-group"><label class="form-label">安装位置</label><div style="padding: 12px; background: var(--bg); border-radius: 8px;">${e.location}</div></div>
-                <div class="form-group"><label class="form-label">运行状态</label><div style="padding: 12px; background: var(--bg); border-radius: 8px; color: ${e.status === 'normal' ? 'var(--success)' : 'var(--warning)'}">${e.status === 'normal' ? '✅ 正常' : '⚠️ 警告'}</div></div>
-            `;
-            document.getElementById('modal-confirm').style.display = 'none';
-            document.getElementById('modal').classList.add('active');
-        }
-        
-        // ========== Tasks ==========
-        let currentTaskFilter = 'all';
-        
-        function filterTasks(type, btn) {
-            document.querySelectorAll('#tasks .admin-tab').forEach(t => t.classList.remove('active'));
-            btn.classList.add('active');
-            currentTaskFilter = type;
-            renderTasks();
-        }
-        
-        function renderTasks() {
-            const filtered = currentTaskFilter === 'all' ? tasks : tasks.filter(t => t.type === currentTaskFilter);
-            const list = document.getElementById('task-full-list');
-            list.innerHTML = filtered.map(task => {
-                const template = taskTemplates.find(t => t.type === task.type);
-                const completedSteps = task.steps.filter(s => s.done).length;
-                const totalSteps = task.steps.length;
-                const progress = totalSteps > 0 ? Math.round(completedSteps / totalSteps * 100) : 0;
-                
-                return `
-                    <div class="task-item" onclick="openTaskFlow(${task.id})">
-                        <div class="task-status-icon ${task.status === 'done' ? 'done' : task.status === 'processing' ? 'processing' : 'pending'}">
-                            ${task.status === 'done' ? '✓' : task.status === 'processing' ? '⏳' : template.icon}
-                        </div>
-                        <div class="task-info">
-                            <div class="task-name">${task.name}</div>
-                            <div class="task-meta">${task.desc} · 进度 ${progress}%</div>
-                        </div>
-                        <span class="task-type-tag ${task.type}">${task.type === 'inspection' ? '巡检' : task.type === 'maintenance' ? '保养' : task.type === 'repair' ? '维修' : '数据'}</span>
-                    </div>
-                `;
-            }).join('');
-        }
-        
-        // ========== Knowledge ==========
-        function renderKnowledge() {
-            document.getElementById('knowledge-full-list').innerHTML = knowledge.map(k => `
-                <div class="knowledge-item">
-                    <div class="knowledge-icon"><i class="ri-file-text-line"></i></div>
-                    <div class="knowledge-info">
-                        <div class="knowledge-title">${k.title}</div>
-                        <div class="knowledge-meta">${k.category}</div>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        function handleChatKeypress(e) { if (e.key === 'Enter') sendChat(); }
-        
-        function sendChat() {
-            const input = document.getElementById('chat-input');
-            const text = input.value.trim();
-            if (!text) return;
-            
-            const messages = document.getElementById('chat-messages');
-            messages.innerHTML += `<div class="message user"><div class="message-avatar">👤</div><div class="message-content">${text}</div></div>`;
-            input.value = '';
-            
-            setTimeout(() => {
-                messages.innerHTML += `<div class="message ai"><div class="message-avatar">🤖</div><div class="message-content">收到您的问题！${text.includes('故障') ? '可能需要现场检查，建议提交维修任务。' : '请详细描述，我会尽力帮助您。'}</div></div>`;
-                messages.scrollTop = messages.scrollHeight;
-            }, 1500);
-            messages.scrollTop = messages.scrollHeight;
-        }
-        
-        // ========== Admin ==========
-        function filterAdmin(type, btn) {
-            document.querySelectorAll('#admin .admin-tab').forEach(t => t.classList.remove('active'));
-            btn.classList.add('active');
-            renderAdmin(type);
-        }
-        
-        function renderAdmin(type) {
-            const content = document.getElementById('admin-content');
-            
-            if (type === 'taskTemplate') {
-                content.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                        <span style="font-weight: 600;">任务模板管理</span>
-                        <button class="btn btn-primary" style="width: auto; padding: 8px 16px;">+ 新建模板</button>
-                    </div>
-                    <table class="data-table">
-                        <thead><tr><th>类型</th><th>模板名称</th><th>步骤数</th><th>操作</th></tr></thead>
-                        <tbody>
-                            ${taskTemplates.map(t => `
-                                <tr>
-                                    <td><span class="task-type-tag ${t.type}">${t.type === 'inspection' ? '巡检' : t.type === 'maintenance' ? '保养' : t.type === 'repair' ? '维修' : '数据'}</span></td>
-                                    <td>${t.icon} ${t.name}</td>
-                                    <td>${t.steps.length} 步</td>
-                                    <td><button class="action-btn edit">编辑</button><button class="action-btn delete">删除</button></td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                `;
-            } else if (type === 'users') {
-                content.innerHTML = `<table class="data-table"><thead><tr><th>ID</th><th>用户名</th><th>角色</th><th>操作</th></tr></thead><tbody><tr><td>1</td><td>admin</td><td>管理员</td><td><button class="action-btn edit">编辑</button></td></tr><tr><td>2</td><td>wang</td><td>工程师</td><td><button class="action-btn edit">编辑</button></td></tr></tbody></table>`;
-            } else {
-                content.innerHTML = `<table class="data-table"><thead><tr><th>编号</th><th>名称</th><th>分类</th><th>状态</th><th>操作</th></tr></thead><tbody>${equipment.map(e => `<tr><td>${e.code}</td><td>${e.name}</td><td>${e.category}</td><td style="color: ${e.status === 'normal' ? 'var(--success)' : 'var(--warning)'}">${e.status === 'normal' ? '正常' : '警告'}</td><td><button class="action-btn edit">编辑</button></td></tr>`).join('')}</tbody></table>`;
-            }
-        }
-        
-        function closeModal() { document.getElementById('modal').classList.remove('active'); }
-        
+        // ========== Init ==========
         window.onload = function() {
             const user = localStorage.getItem('factory_user');
-            if (user) showApp();
+            if (user) {
+                const userData = JSON.parse(user);
+                currentRole = userData.role;
+                showApp();
+            } else {
+                updateDemoInfo();
+            }
         };
     </script>
 </body>

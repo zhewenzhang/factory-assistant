@@ -6,12 +6,12 @@
     <title>FactoryAI 智工助手</title>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <style>
-        :root { --primary: #1e3a5f; --success: #22c55e; --warning: #f59e0b; --danger: #ef4444; --bg: #f0f2f5; --card: #ffffff; --text: #1e293b; --text-light: #64748b; --border: #e2e8f0; }
+        :root { --primary: #1e3a5f; --primary-light: #2d5a8a; --success: #22c55e; --warning: #f59e0b; --danger: #ef4444; --bg: #f0f2f5; --card: #ffffff; --text: #1e293b; --text-light: #64748b; --border: #e2e8f0; }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
         
         /* Login */
-        .login-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--primary), #2d5a8a); padding: 20px; }
+        .login-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--primary), var(--primary-light)); padding: 20px; }
         .login-box { background: var(--card); border-radius: 16px; padding: 30px; width: 100%; max-width: 360px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
         .login-logo { text-align: center; margin-bottom: 24px; }
         .login-logo h1 { font-size: 22px; color: var(--primary); }
@@ -20,26 +20,35 @@
         .form-label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; }
         .form-input, .form-select { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; font-size: 14px; }
         .btn { padding: 12px 20px; border: none; border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer; width: 100%; background: var(--primary); color: white; }
+        .btn-small { width: auto; padding: 8px 14px; font-size: 12px; }
+        .btn-secondary { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
+        .btn-danger { background: var(--danger); }
         
         /* App */
         .app-container { display: none; min-height: 100vh; }
         .app-container.active { display: block; }
         
         /* Header */
-        .header { background: var(--primary); color: white; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; }
+        .header { background: var(--primary); color: white; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .header-title { font-size: 16px; font-weight: 600; }
         .header-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; }
         
         /* User */
         .user-bar { background: var(--card); padding: 12px 16px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); }
-        .user-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center;; font-size: 16px; justify-content: center }
+        .user-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; background: var(--primary); color: white; }
         .user-info { flex: 1; }
         .user-name { font-size: 14px; font-weight: 600; }
-        .user-role { font-size: 12px; color: var(--text-light); }
+        .user-meta { font-size: 12px; color: var(--text-light); }
+        
+        /* Level Badge */
+        .level-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 500; }
+        .level-1 { background: #dbeafe; color: #2563eb; }
+        .level-2 { background: #fef3c7; color: #d97706; }
+        .level-3 { background: #fee2e2; color: #dc2626; }
         
         /* Tabs */
-        .tabs { display: flex; background: var(--card); border-bottom: 1px solid var(--border); }
-        .tab { flex: 1; padding: 12px; text-align: center; font-size: 13px; color: var(--text-light); cursor: pointer; border-bottom: 2px solid transparent; }
+        .tabs { display: flex; background: var(--card); border-bottom: 1px solid var(--border); overflow-x: auto; }
+        .tab { flex: 1; min-width: 60px; padding: 12px 8px; text-align: center; font-size: 11px; color: var(--text-light); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
         .tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
         
         .content { padding: 16px; display: none; }
@@ -51,10 +60,20 @@
         .stat-value { font-size: 20px; font-weight: 700; color: var(--primary); }
         .stat-label { font-size: 11px; color: var(--text-light); margin-top: 4px; }
         
-        /* Tasks */
+        /* Card */
         .card { background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
-        .card-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+        .card-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
         
+        /* List */
+        .list-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+        .list-item:last-child { border-bottom: none; }
+        .list-item:active { background: var(--bg); margin: 0 -16px; padding-left: 16px; padding-right: 16px; }
+        .list-info { flex: 1; }
+        .list-name { font-size: 14px; font-weight: 500; }
+        .list-meta { font-size: 12px; color: var(--text-light); }
+        .list-tag { font-size: 10px; padding: 3px 8px; border-radius: 10px; background: var(--bg); }
+        
+        /* Task */
         .task-item { display: flex; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
         .task-item:last-child { border-bottom: none; }
         .task-item:active { background: var(--bg); margin: 0 -16px; padding-left: 16px; padding-right: 16px; }
@@ -76,9 +95,7 @@
         .step-num.done { background: var(--success); }
         .step-content { flex: 1; }
         .step-title { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
-        .step-desc { font-size: 12px; color: var(--text-light); margin-bottom: 8px; }
         .step-check { display: flex; align-items: center; gap: 8px; font-size: 13px; }
-        .step-input { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; }
         
         /* Modal */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 16px; }
@@ -90,7 +107,15 @@
         .modal-body { padding: 16px; }
         .modal-footer { padding: 12px 16px; border-top: 1px solid var(--border); display: flex; gap: 10px; }
         .modal-footer .btn { flex: 1; }
-        .btn-secondary { background: var(--bg); color: var(--text); }
+        
+        /* Table */
+        .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        .data-table th, .data-table td { padding: 10px 6px; text-align: left; border-bottom: 1px solid var(--border); }
+        .data-table th { font-weight: 600; color: var(--text-light); font-size: 11px; background: var(--bg); }
+        
+        /* Admin */
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .empty { text-align: center; padding: 40px; color: var(--text-light); }
     </style>
 </head>
 <body>
@@ -99,163 +124,119 @@
         <div class="login-box">
             <div class="login-logo">
                 <h1>🏭 FactoryAI</h1>
-                <p>智工助手 - 每日任务执行</p>
+                <p>智工助手 - 任务执行系统</p>
             </div>
             <form onsubmit="handleLogin(event)">
                 <div class="form-group">
-                    <label class="form-label">选择角色</label>
-                    <select class="form-select" id="login-role">
-                        <option value="producer">📦 生管工程师</option>
-                        <option value="equipment">🔧 设备工程师</option>
-                        <option value="quality">✅ 品保工程师</option>
-                        <option value="supervisor">👔 主管</option>
-                    </select>
+                    <label class="form-label">用户名</label>
+                    <input type="text" class="form-input" id="login-user" placeholder="输入用户名" required>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-input" id="login-name" placeholder="输入姓名" required>
+                    <label class="form-label">密码</label>
+                    <input type="password" class="form-input" id="login-pass" placeholder="输入密码" required>
                 </div>
                 <button type="submit" class="btn">登录</button>
             </form>
+            <div style="margin-top: 16px; text-align: center; font-size: 12px; color: var(--text-light);">
+                <p>测试账号：</p>
+                <p>admin / admin123 (管理员)</p>
+                <p>supervisor / 123456 (主管)</p>
+                <p>engineer / 123456 (工程师)</p>
+            </div>
         </div>
     </div>
     
     <!-- App -->
     <div class="app-container" id="app-container">
         <div class="header">
-            <div class="header-title">🏭 FactoryAI 智工</div>
+            <div class="header-title">🏭 FactoryAI</div>
             <button class="header-btn" onclick="logout()">退出</button>
         </div>
         
         <div class="user-bar">
             <div class="user-avatar" id="user-avatar">👤</div>
             <div class="user-info">
-                <div class="user-name" id="user-name">工程师</div>
-                <div class="user-role" id="user-role">执行层</div>
+                <div class="user-name" id="user-name">用户</div>
+                <div class="user-meta" id="user-meta">执行层</div>
             </div>
         </div>
         
-        <div class="tabs">
-            <div class="tab active" data-tab="tasks" onclick="switchTab('tasks')">📋 任务</div>
-            <div class="tab" data-tab="records" onclick="switchTab('records')">📚 记录</div>
-            <div class="tab" data-tab="assign" onclick="switchTab('assign')" id="assign-tab" style="display:none">➕ 分配</div>
-        </div>
-        
-        <!-- Tasks -->
-        <div class="content active" id="content-tasks">
-            <div class="stats-grid">
-                <div class="stat-card"><div class="stat-value" id="stat-total">0</div><div class="stat-label">今日任务</div></div>
-                <div class="stat-card"><div class="stat-value" id="stat-pending">0</div><div class="stat-label">待完成</div></div>
-                <div class="stat-card"><div class="stat-value" id="stat-done">0</div><div class="stat-label">已完成</div></div>
-            </div>
-            <div class="card">
-                <div class="card-title">📋 今日任务列表</div>
-                <div id="task-list"></div>
-            </div>
-        </div>
-        
-        <!-- Records -->
-        <div class="content" id="content-records">
-            <div class="card">
-                <div class="card-title">📚 工作记录</div>
-                <div id="record-list"></div>
-            </div>
-        </div>
-        
-        <!-- Assign (Supervisor only) -->
-        <div class="content" id="content-assign">
-            <div class="card">
-                <div class="card-title">➕ 分配新任务</div>
-                <div class="form-group">
-                    <label class="form-label">选择工程师</label>
-                    <select class="form-select" id="assign-ee">
-                        <option value="张三">张三 - 生管</option>
-                        <option value="李四">李四 - 设备</option>
-                        <option value="王五">王五 - 品保</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">任务类型</label>
-                    <select class="form-select" id="assign-type">
-                        <option value="producer">生产排配确认</option>
-                        <option value="equipment">设备点检</option>
-                        <option value="quality">IQC检验</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">任务描述</label>
-                    <input type="text" class="form-input" id="assign-desc" placeholder="输入任务描述">
-                </div>
-                <button class="btn" onclick="assignTask()">确认分配</button>
-            </div>
-        </div>
+        <div class="tabs" id="main-tabs"></div>
+        <div id="tab-contents"></div>
     </div>
     
-    <!-- Task Modal -->
-    <div class="modal-overlay" id="task-modal">
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal">
         <div class="modal">
             <div class="modal-header">
-                <div class="modal-title" id="modal-title">任务详情</div>
+                <div class="modal-title" id="modal-title">标题</div>
                 <div class="modal-close" onclick="closeModal()">✕</div>
             </div>
             <div class="modal-body" id="modal-body"></div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal()">取消</button>
-                <button class="btn" id="modal-confirm">保存</button>
-            </div>
+            <div class="modal-footer" id="modal-footer"></div>
         </div>
     </div>
     
     <script>
+        // ========== Config ==========
+        const roleNames = { admin: '管理员', supervisor: '主管', engineer: '工程师' };
+        const roleNamesCN = { admin: '管理员', supervisor: '主管', engineer: '工程师' };
+        const levelNames = { 1: '执行层', 2: '管理层', 3: '决策层' };
+        const levelBadges = { 1: 'level-1', 2: 'level-2', 3: 'level-3' };
+        const deptNames = { producer: '生管', equipment: '设备', quality: '品保', process: '工艺', manufacturing: '制造' };
+        
         // ========== Data ==========
-        const roleNames = { producer: '生管工程师', equipment: '设备工程师', quality: '品保工程师', supervisor: '主管' };
+        // 用户数据
+        let users = [
+            { id: 'u001', username: 'admin', password: 'admin123', role: 'admin', level: 3, levelName: '决策层', dept: '管理', name: '系统管理员', avatar: '👔' },
+            { id: 'u002', username: 'supervisor', password: '123456', role: 'supervisor', level: 2, levelName: '管理层', dept: '生管', name: '张主管', avatar: '👨‍💼', subordinates: ['u003', 'u004', 'u005'] },
+            { id: 'u003', username: 'zhangsan', password: '123456', role: 'engineer', level: 1, levelName: '执行层', dept: 'producer', deptName: '生管', name: '张三', avatar: '👨‍💻', supervisor: 'u002' },
+            { id: 'u004', username: 'lisi', password: '123456', role: 'engineer', level: 1, levelName: '执行层', dept: 'equipment', deptName: '设备', name: '李四', avatar: '🔧', supervisor: 'u002' },
+            { id: 'u005', username: 'wangwu', password: '123456', role: 'engineer', level: 1, levelName: '执行层', dept: 'quality', deptName: '品保', name: '王五', avatar: '✅', supervisor: 'u002' },
+            { id: 'u006', username: 'engineer', password: '123456', role: 'engineer', level: 1, levelName: '执行层', dept: 'equipment', deptName: '设备', name: '陈工程师', avatar: '🔧', supervisor: 'u002' }
+        ];
         
-        // Task templates
-        const templates = {
-            producer: [
-                { name: '生产排配确认', desc: '确认今日排配', steps: ['打开排配系统', '确认各线排配', '记录异常'] },
-                { name: '产能利用率记录', desc: '记录产能', steps: ['采集数据', '录入系统', '分析异常'] }
-            ],
-            equipment: [
-                { name: '设备点检', desc: 'A区设备点检', steps: ['外观检查', '运行参数', '异常记录'] },
-                { name: '设备保养', desc: '设备保养', steps: ['停机确认', '清洁保养', '更换配件', '试机确认'] }
-            ],
-            quality: [
-                { name: 'IQC检验', desc: '来料检验', steps: ['外观检验', '尺寸测量', '判定结果'] },
-                { name: 'HOLD复判', desc: 'HOLD品复判', steps: ['确认原因', '复判决策', '记录归档'] }
-            ]
-        };
-        
-        // Tasks
+        // 任务数据
         let tasks = [
-            { id: 1, role: 'producer', name: '09:00 排配确认', desc: '确认今日排配', priority: 'high', status: 'pending', assignee: '张三', steps: [{done:false,t:'打开排配系统'},{done:false,t:'确认各线'},{done:false,t:'记录异常'}] },
-            { id: 2, role: 'producer', name: '11:00 产能记录', desc: '记录产能', priority: 'medium', status: 'pending', assignee: '张三', steps: [{done:false,t:'采集数据'},{done:false,t:'录入系统'},{done:false,t:'分析异常'}] },
-            { id: 3, role: 'equipment', name: '08:00 设备点检', desc: 'A区设备', priority: 'high', status: 'done', assignee: '李四', steps: [{done:true,t:'外观检查'},{done:true,t:'参数记录'},{done:true,t:'无异常'}] },
-            { id: 4, role: 'equipment', name: '14:00 设备保养', desc: 'B-101保养', priority: 'medium', status: 'pending', assignee: '李四', steps: [{done:false,t:'停机确认'},{done:false,t:'清洁保养'},{done:false,t:'更换配件'},{done:false,t:'试机确认'}] },
-            { id: 5, role: 'quality', name: '09:00 IQC检验', desc: '来料检验', priority: 'high', status: 'pending', assignee: '王五', steps: [{done:false,t:'外观检验'},{done:false,t:'尺寸测量'},{done:false,t:'判定结果'}] }
+            { id: 1, title: '09:00 排配确认', desc: '确认今日生产排配', dept: 'producer', priority: 'high', status: 'pending', assigneeId: 'u003', assigneeName: '张三', supervisorId: 'u002', steps: [{t:'打开排配系统',d:false},{t:'确认各线排配',d:false},{t:'记录异常',d:false}] },
+            { id: 2, title: '11:00 产能记录', desc: '记录产能利用率', dept: 'producer', priority: 'medium', status: 'pending', assigneeId: 'u003', assigneeName: '张三', supervisorId: 'u002', steps: [{t:'采集数据',d:false},{t:'录入系统',d:false}] },
+            { id: 3, title: '08:00 设备点检', desc: 'A区设备点检', dept: 'equipment', priority: 'high', status: 'done', assigneeId: 'u004', assigneeName: '李四', supervisorId: 'u002', steps: [{t:'外观检查',d:true},{t:'参数记录',d:true},{t:'无异常',d:true}] },
+            { id: 4, title: '14:00 设备保养', desc: 'B-101季度保养', dept: 'equipment', priority: 'medium', status: 'pending', assigneeId: 'u004', assigneeName: '李四', supervisorId: 'u002', steps: [{t:'停机确认',d:false},{t:'清洁保养',d:false},{t:'更换配件',d:false},{t:'试机确认',d:false}] },
+            { id: 5, title: '09:00 IQC检验', desc: '来料LOT检验', dept: 'quality', priority: 'high', status: 'pending', assigneeId: 'u005', assigneeName: '王五', supervisorId: 'u002', steps: [{t:'外观检验',d:false},{t:'尺寸测量',d:false},{t:'判定结果',d:false}] }
         ];
         
-        // Records
+        // 指令（决策层发布）
+        let commands = [
+            { id: 1, title: '安全生产月启动', content: '本月为重点安全生产月，请各部门加强巡检', from: 'u001', fromName: '系统管理员', to: 'u002', date: '2026-02-19', read: false }
+        ];
+        
+        // 记录
         let records = [
-            { date: '19', month: '02', title: '设备点检完成', desc: 'A区5台设备正常' },
-            { date: '18', month: '02', title: 'HOLD复判完成', desc: '2批已处理' },
-            { date: '17', month: '02', title: '周报提交', desc: '任务完成率98%' }
+            { date: '19', month: '02', title: '设备点检完成', desc: 'A区5台设备正常', user: '李四' },
+            { date: '18', month: '02', title: '排配确认完成', desc: '达成率98%', user: '张三' }
         ];
         
-        let currentUser = '';
-        let currentRole = 'producer';
+        let currentUser = null;
         
         // ========== Login ==========
         function handleLogin(e) {
             e.preventDefault();
-            currentRole = document.getElementById('login-role').value;
-            currentUser = document.getElementById('login-name').value || roleNames[currentRole];
+            const user = document.getElementById('login-user').value;
+            const pass = document.getElementById('login-pass').value;
             
-            localStorage.setItem('factory_user', JSON.stringify({ role: currentRole, name: currentUser }));
+            const found = users.find(u => u.username === user && u.password === pass);
+            if (!found) {
+                alert('用户名或密码错误');
+                return;
+            }
             
+            currentUser = found;
+            localStorage.setItem('factory_user', JSON.stringify(currentUser));
             showApp();
         }
         
         function logout() {
+            currentUser = null;
             localStorage.removeItem('factory_user');
             document.getElementById('login-page').style.display = 'flex';
             document.getElementById('app-container').classList.remove('active');
@@ -265,64 +246,286 @@
             document.getElementById('login-page').style.display = 'none';
             document.getElementById('app-container').classList.add('active');
             
-            document.getElementById('user-name').textContent = currentUser;
-            document.getElementById('user-role').textContent = currentRole === 'supervisor' ? '管理层' : '执行层';
-            document.getElementById('user-avatar').textContent = currentRole === 'supervisor' ? '👔' : currentRole === 'producer' ? '📦' : currentRole === 'equipment' ? '🔧' : '✅';
+            document.getElementById('user-name').textContent = currentUser.name;
+            document.getElementById('user-meta').innerHTML = `<span class="level-badge ${levelBadges[currentUser.level]}">${currentUser.levelName}</span> ${currentUser.deptName || currentUser.dept}`;
+            document.getElementById('user-avatar').textContent = currentUser.avatar || '👤';
             
-            // Show assign tab for supervisor
-            document.getElementById('assign-tab').style.display = currentRole === 'supervisor' ? 'block' : 'none';
-            
-            renderTasks();
-            renderRecords();
+            renderTabs();
+            renderContent();
         }
         
         // ========== Tabs ==========
-        function switchTab(tab) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelector(`.tab[data-tab="${tab}"]`).classList.add('active');
-            document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
-            document.getElementById('content-' + tab).classList.add('active');
+        function renderTabs() {
+            let tabs = [];
+            if (currentUser.level === 1) {
+                tabs = ['📋 任务', '📚 记录'];
+            } else if (currentUser.level === 2) {
+                tabs = ['📋 任务', '➕ 分配', '👥 团队', '📚 记录'];
+            } else if (currentUser.level === 3) {
+                tabs = ['📋 任务', '📢 指令', '👥 用户', '📚 记录'];
+            }
+            
+            document.getElementById('main-tabs').innerHTML = tabs.map((t, i) => 
+                `<div class="tab ${i===0?'active':''}" onclick="switchTab(${i})">${t}</div>`
+            ).join('');
         }
         
-        // ========== Tasks ==========
-        function renderTasks() {
-            // For engineer: show their tasks; for supervisor: show all
-            let myTasks = currentRole === 'supervisor' ? tasks : tasks.filter(t => t.role === currentRole);
+        function switchTab(idx) {
+            document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+            document.querySelectorAll('.tab-content').forEach((c, i) => c.style.display = i === idx ? 'block' : 'none');
+        }
+        
+        // ========== Content ==========
+        function renderContent() {
+            let html = '';
             
+            if (currentUser.level === 1) {
+                html = renderEngineerContent();
+            } else if (currentUser.level === 2) {
+                html = renderSupervisorContent();
+            } else if (currentUser.level === 3) {
+                html = renderAdminContent();
+            }
+            
+            document.getElementById('tab-contents').innerHTML = html;
+        }
+        
+        // ========== Engineer (执行层) ==========
+        function renderEngineerContent() {
+            const myTasks = tasks.filter(t => t.assigneeId === currentUser.id);
             const pending = myTasks.filter(t => t.status === 'pending').length;
             const done = myTasks.filter(t => t.status === 'done').length;
             
-            document.getElementById('stat-total').textContent = myTasks.length;
-            document.getElementById('stat-pending').textContent = pending;
-            document.getElementById('stat-done').textContent = done;
-            
-            document.getElementById('task-list').innerHTML = myTasks.map(t => `
-                <div class="task-item" onclick="openTask(${t.id})">
-                    <div class="task-priority ${t.priority}"></div>
-                    <div class="task-info">
-                        <div class="task-name">${t.name}</div>
-                        <div class="task-meta">${t.desc} · ${t.assignee}</div>
+            return `
+                <div class="tab-content" style="display:block">
+                    <div class="stats-grid">
+                        <div class="stat-card"><div class="stat-value">${myTasks.length}</div><div class="stat-label">今日任务</div></div>
+                        <div class="stat-card"><div class="stat-value">${pending}</div><div class="stat-label">待完成</div></div>
+                        <div class="stat-card"><div class="stat-value">${done}</div><div class="stat-label">已完成</div></div>
                     </div>
-                    <span class="task-status ${t.status}">${t.status === 'pending' ? '待执行' : '已完成'}</span>
+                    <div class="card">
+                        <div class="card-title">📋 我的任务</div>
+                        ${myTasks.length === 0 ? '<div class="empty">暂无任务</div>' : myTasks.map(t => `
+                            <div class="task-item" onclick="openTask(${t.id})">
+                                <div class="task-priority ${t.priority}"></div>
+                                <div class="task-info">
+                                    <div class="task-name">${t.title}</div>
+                                    <div class="task-meta">${t.desc}</div>
+                                </div>
+                                <span class="task-status ${t.status}">${t.status==='pending'?'待执行':'已完成'}</span>
+                            </div>
+                        `).join('')}
+                    </div>
                 </div>
-            `).join('');
+                <div class="tab-content">
+                    <div class="card">
+                        <div class="card-title">📚 工作记录</div>
+                        ${records.filter(r => r.user === currentUser.name).length === 0 ? '<div class="empty">暂无记录</div>' : records.filter(r => r.user === currentUser.name).map(r => `
+                            <div class="list-item">
+                                <div style="width:40px;text-align:center;margin-right:12px;">
+                                    <div style="font-size:18px;font-weight:700;color:var(--primary)">${r.date}</div>
+                                    <div style="font-size:11px;color:var(--text-light)">${r.month}月</div>
+                                </div>
+                                <div class="list-info">
+                                    <div class="list-name">${r.title}</div>
+                                    <div class="list-meta">${r.desc}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
         }
         
+        // ========== Supervisor (管理层) ==========
+        function renderSupervisorContent() {
+            // 下属列表
+            const subordinates = users.filter(u => u.supervisor === currentUser.id);
+            const myTasks = tasks.filter(t => t.supervisorId === currentUser.id);
+            const pending = myTasks.filter(t => t.status === 'pending').length;
+            
+            return `
+                <div class="tab-content" style="display:block">
+                    <div class="stats-grid">
+                        <div class="stat-card"><div class="stat-value">${subordinates.length}</div><div class="stat-label">下属人数</div></div>
+                        <div class="stat-card"><div class="stat-value">${myTasks.length}</div><div class="stat-label">分配任务</div></div>
+                        <div class="stat-card"><div class="stat-value">${pending}</div><div class="stat-label">待完成</div></div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">📋 分配的任务</div>
+                        ${myTasks.length === 0 ? '<div class="empty">暂无任务</div>' : myTasks.map(t => `
+                            <div class="task-item" onclick="openTask(${t.id})">
+                                <div class="task-priority ${t.priority}"></div>
+                                <div class="task-info">
+                                    <div class="task-name">${t.title}</div>
+                                    <div class="task-meta">执行人: ${t.assigneeName}</div>
+                                </div>
+                                <span class="task-status ${t.status}">${t.status==='pending'?'待执行':'已完成'}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <div class="card">
+                        <div class="card-title">➕ 分配新任务</div>
+                        <div class="form-group">
+                            <label class="form-label">选择执行人</label>
+                            <select class="form-input" id="assign-ee">
+                                ${subordinates.map(s => `<option value="${s.id}">${s.name} (${s.deptName})</option>`).join('')}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">任务类型</label>
+                            <select class="form-input" id="assign-type">
+                                <option value="producer">生产排配确认</option>
+                                <option value="equipment">设备点检</option>
+                                <option value="quality">IQC检验</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">任务描述</label>
+                            <input type="text" class="form-input" id="assign-desc" placeholder="输入任务描述">
+                        </div>
+                        <button class="btn" onclick="assignTask()">确认分配</button>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <div class="card">
+                        <div class="card-title">👥 我的团队 (${subordinates.length}人)</div>
+                        ${subordinates.map(s => `
+                            <div class="list-item">
+                                <div class="user-avatar" style="margin-right:12px;width:36px;height:36px;font-size:14px;">${s.avatar}</div>
+                                <div class="list-info">
+                                    <div class="list-name">${s.name}</div>
+                                    <div class="list-meta">${s.deptName} · ${s.levelName}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <div class="card">
+                        <div class="card-title">📚 团队记录</div>
+                        ${records.map(r => `
+                            <div class="list-item">
+                                <div style="width:40px;text-align:center;margin-right:12px;">
+                                    <div style="font-size:18px;font-weight:700;color:var(--primary)">${r.date}</div>
+                                    <div style="font-size:11px;color:var(--text-light)">${r.month}月</div>
+                                </div>
+                                <div class="list-info">
+                                    <div class="list-name">${r.title}</div>
+                                    <div class="list-meta">${r.desc} · ${r.user}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
+        // ========== Admin (决策层) ==========
+        function renderAdminContent() {
+            const allTasks = tasks;
+            const pending = tasks.filter(t => t.status === 'pending').length;
+            const unreadCommands = commands.filter(c => !c.read && c.to === currentUser.id).length;
+            
+            return `
+                <div class="tab-content" style="display:block">
+                    <div class="stats-grid">
+                        <div class="stat-card"><div class="stat-value">${allTasks.length}</div><div class="stat-label">总任务</div></div>
+                        <div class="stat-card"><div class="stat-value">${pending}</div><div class="stat-label">进行中</div></div>
+                        <div class="stat-card"><div class="stat-value">${users.length}</div><div class="stat-label">用户数</div></div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">📋 所有任务</div>
+                        ${allTasks.map(t => `
+                            <div class="task-item">
+                                <div class="task-priority ${t.priority}"></div>
+                                <div class="task-info">
+                                    <div class="task-name">${t.title}</div>
+                                    <div class="task-meta">${deptNames[t.dept]} · ${t.assigneeName}</div>
+                                </div>
+                                <span class="task-status ${t.status}">${t.status==='pending'?'待执行':'已完成'}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <div class="card">
+                        <div class="card-title">📢 发布指令</div>
+                        <div class="form-group">
+                            <label class="form-label">指令内容</label>
+                            <textarea class="form-input" id="command-content" rows="3" placeholder="输入指令内容"></textarea>
+                        </div>
+                        <button class="btn" onclick="publishCommand()">发布指令</button>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">📨 收到的指令</div>
+                        ${commands.filter(c => c.to === currentUser.id || c.to === 'all').map(c => `
+                            <div class="list-item">
+                                <div class="list-info">
+                                    <div class="list-name">${c.title}</div>
+                                    <div class="list-meta">${c.content}</div>
+                                    <div style="font-size:11px;color:var(--text-light);margin-top:4px;">${c.fromName} · ${c.date}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <div class="card">
+                        <div class="admin-header">
+                            <div class="card-title" style="margin:0">👥 用户管理</div>
+                            <button class="btn btn-small" onclick="showAddUser()">+ 添加用户</button>
+                        </div>
+                        <table class="data-table">
+                            <tr><th>姓名</th><th>账号</th><th>部门</th><th>层级</th><th>操作</th></tr>
+                            ${users.map(u => `
+                                <tr>
+                                    <td>${u.avatar} ${u.name}</td>
+                                    <td>${u.username}</td>
+                                    <td>${u.deptName || u.dept}</td>
+                                    <td><span class="level-badge ${levelBadges[u.level]}">${u.levelName}</span></td>
+                                    <td><button class="btn btn-small btn-secondary" onclick="editUser('${u.id}')">编辑</button></td>
+                                </tr>
+                            `).join('')}
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <div class="card">
+                        <div class="card-title">📚 全部记录</div>
+                        ${records.map(r => `
+                            <div class="list-item">
+                                <div style="width:40px;text-align:center;margin-right:12px;">
+                                    <div style="font-size:18px;font-weight:700;color:var(--primary)">${r.date}</div>
+                                    <div style="font-size:11px;color:var(--text-light)">${r.month}月</div>
+                                </div>
+                                <div class="list-info">
+                                    <div class="list-name">${r.title}</div>
+                                    <div class="list-meta">${r.desc} · ${r.user}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
+        // ========== Task Operations ==========
         function openTask(taskId) {
             const task = tasks.find(t => t.id === taskId);
             if (!task) return;
             
-            document.getElementById('modal-title').textContent = task.name;
-            
-            const doneSteps = task.steps.filter(s => s.done).length;
+            const doneSteps = task.steps.filter(s => s.d).length;
             const progress = Math.round(doneSteps / task.steps.length * 100);
             
             let body = `
-                <div style="margin-bottom: 12px; font-size: 13px; color: var(--text-light);">${task.desc}</div>
-                <div style="margin-bottom: 16px;">
-                    <span style="font-size: 13px;">进度: ${progress}%</span>
-                    <div style="height: 4px; background: var(--border); border-radius: 2px; margin-top: 6px;">
-                        <div style="height: 100%; width: ${progress}%; background: var(--success); border-radius: 2px;"></div>
+                <div style="font-size:13px;color:var(--text-light);margin-bottom:12px">${task.desc}</div>
+                <div style="margin-bottom:16px">
+                    <span>进度: ${progress}%</span>
+                    <div style="height:4px;background:var(--border);border-radius:2px;margin-top:6px">
+                        <div style="height:100%;width:${progress}%;background:var(--success);border-radius:2px"></div>
                     </div>
                 </div>
             `;
@@ -330,126 +533,246 @@
             task.steps.forEach((step, idx) => {
                 body += `
                     <div class="flow-step">
-                        <div class="step-num ${step.done ? 'done' : ''}">${idx + 1}</div>
+                        <div class="step-num ${step.d?'done':''}">${idx+1}</div>
                         <div class="step-content">
                             <div class="step-title">${step.t}</div>
-                            ${renderStepInput(taskId, idx, step)}
+                            ${step.d ? '<div style="color:var(--success)">✓ 已完成</div>' : 
+                                `<label class="step-check"><input type="checkbox" onchange="toggleStep(${taskId},${idx},this.checked)"> 确认完成</label>`}
                         </div>
                     </div>
                 `;
             });
             
+            document.getElementById('modal-title').textContent = task.title;
             document.getElementById('modal-body').innerHTML = body;
+            document.getElementById('modal-footer').innerHTML = `
+                <button class="btn btn-secondary" onclick="closeModal()">取消</button>
+                <button class="btn" onclick="${progress===100?'completeTask('+taskId+')':'saveProgress('+taskId+')'}">${progress===100?'完成任务':'保存'}</button>
+            `;
             
-            const btn = document.getElementById('modal-confirm');
-            if (progress === 100) {
-                btn.textContent = '✅ 完成任务';
-                btn.onclick = () => completeTask(taskId);
-            } else {
-                btn.textContent = '💾 保存进度';
-                btn.onclick = () => saveProgress(taskId);
-            }
-            
-            document.getElementById('task-modal').classList.add('active');
-        }
-        
-        function renderStepInput(taskId, idx, step) {
-            if (step.done) return `<div style="color: var(--success);">✓ 已完成</div>`;
-            return `<label class="step-check"><input type="checkbox" onchange="toggleStep(${taskId}, ${idx}, this.checked)"> 确认完成</label>`;
+            document.getElementById('modal').classList.add('active');
         }
         
         function toggleStep(taskId, idx, checked) {
             const task = tasks.find(t => t.id === taskId);
-            task.steps[idx].done = checked;
-            
-            const allDone = task.steps.every(s => s.done);
-            if (allDone) task.status = 'done';
-            else task.status = 'pending';
-            
+            task.steps[idx].d = checked;
+            task.status = task.steps.every(s => s.d) ? 'done' : 'pending';
             openTask(taskId);
-            renderTasks();
+            renderContent();
         }
         
         function saveProgress(taskId) {
-            const task = tasks.find(t => t.id === taskId);
-            task.status = task.steps.some(s => s.done) ? 'pending' : 'pending';
             alert('💾 已保存');
             closeModal();
-            renderTasks();
+            renderContent();
         }
         
         function completeTask(taskId) {
             const task = tasks.find(t => t.id === taskId);
             task.status = 'done';
-            task.steps.forEach(s => s.done = true);
+            task.steps.forEach(s => s.d = true);
             
-            // Add to records
+            const user = users.find(u => u.id === task.assigneeId);
             records.unshift({
                 date: new Date().getDate(),
                 month: '02',
-                title: task.name,
-                desc: '已完成'
+                title: task.title,
+                desc: '已完成',
+                user: user ? user.name : ''
             });
             
             alert('✅ 任务完成！');
             closeModal();
-            renderTasks();
-            renderRecords();
+            renderContent();
         }
         
         function closeModal() {
-            document.getElementById('task-modal').classList.remove('active');
+            document.getElementById('modal').classList.remove('active');
         }
         
-        // ========== Records ==========
-        function renderRecords() {
-            document.getElementById('record-list').innerHTML = records.map(r => `
-                <div class="task-item">
-                    <div style="width: 40px; text-align: center; margin-right: 12px;">
-                        <div style="font-size: 18px; font-weight: 700; color: var(--primary);">${r.date}</div>
-                        <div style="font-size: 11px; color: var(--text-light);">${r.month}月</div>
-                    </div>
-                    <div class="task-info">
-                        <div class="task-name">${r.title}</div>
-                        <div class="task-meta">${r.desc}</div>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        // ========== Assign ==========
+        // ========== Supervisor Functions ==========
         function assignTask() {
-            const ee = document.getElementById('assign-ee').value;
+            const eeId = document.getElementById('assign-ee').value;
             const type = document.getElementById('assign-type').value;
             const desc = document.getElementById('assign-desc').value;
             
-            const template = templates[type][0];
+            const ee = users.find(u => u.id === eeId);
+            const templates = {
+                producer: { title: '生产排配确认', steps: ['打开排配系统','确认各线','记录异常'] },
+                equipment: { title: '设备点检', steps: ['外观检查','参数记录','异常记录'] },
+                quality: { title: 'IQC检验', steps: ['外观检验','尺寸测量','判定结果'] }
+            };
             
+            const tpl = templates[type];
             const newTask = {
                 id: tasks.length + 1,
-                role: type,
-                name: template.name,
-                desc: desc || template.desc,
+                title: tpl.title,
+                desc: desc || tpl.title,
+                dept: type,
                 priority: 'medium',
                 status: 'pending',
-                assignee: ee,
-                steps: template.steps.map(s => ({done: false, t: s}))
+                assigneeId: eeId,
+                assigneeName: ee.name,
+                supervisorId: currentUser.id,
+                steps: tpl.steps.map(s => ({t: s, d: false}))
             };
             
             tasks.unshift(newTask);
-            alert('✅ 任务已分配给 ' + ee);
+            alert('✅ 任务已分配给 ' + ee.name);
             document.getElementById('assign-desc').value = '';
-            switchTab('tasks');
-            renderTasks();
+            switchTab(0);
+            renderContent();
+        }
+        
+        // ========== Admin Functions ==========
+        function showAddUser() {
+            document.getElementById('modal-title').textContent = '添加用户';
+            document.getElementById('modal-body').innerHTML = `
+                <div class="form-group">
+                    <label class="form-label">姓名</label>
+                    <input type="text" class="form-input" id="new-name" placeholder="姓名">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">用户名</label>
+                    <input type="text" class="form-input" id="new-username" placeholder="登录账号">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">密码</label>
+                    <input type="password" class="form-input" id="new-password" placeholder="密码">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">部门</label>
+                    <select class="form-input" id="new-dept">
+                        <option value="producer">生管</option>
+                        <option value="equipment">设备</option>
+                        <option value="quality">品保</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">层级</label>
+                    <select class="form-input" id="new-level">
+                        <option value="1">执行层</option>
+                        <option value="2">管理层</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">主管 (执行层需指定)</label>
+                    <select class="form-input" id="new-supervisor">
+                        <option value="">无</option>
+                        ${users.filter(u => u.level === 2).map(u => `<option value="${u.id}">${u.name}</option>`).join('')}
+                    </select>
+                </div>
+            `;
+            document.getElementById('modal-footer').innerHTML = `
+                <button class="btn btn-secondary" onclick="closeModal()">取消</button>
+                <button class="btn" onclick="addUser()">添加</button>
+            `;
+            document.getElementById('modal').classList.add('active');
+        }
+        
+        function addUser() {
+            const name = document.getElementById('new-name').value;
+            const username = document.getElementById('new-username').value;
+            const password = document.getElementById('new-password').value;
+            const dept = document.getElementById('new-dept').value;
+            const level = parseInt(document.getElementById('new-level').value);
+            const supervisor = document.getElementById('new-supervisor').value;
+            
+            if (!name || !username || !password) {
+                alert('请填写完整信息');
+                return;
+            }
+            
+            const newUser = {
+                id: 'u' + (users.length + 1),
+                username,
+                password,
+                role: level === 1 ? 'engineer' : 'supervisor',
+                level,
+                levelName: levelNames[level],
+                dept,
+                deptName: deptNames[dept],
+                name,
+                avatar: level === 1 ? '👨‍💻' : '👨‍💼',
+                supervisor: supervisor || undefined
+            };
+            
+            users.push(newUser);
+            alert('✅ 用户添加成功');
+            closeModal();
+            renderContent();
+        }
+        
+        function editUser(userId) {
+            const user = users.find(u => u.id === userId);
+            if (!user) return;
+            
+            document.getElementById('modal-title').textContent = '编辑用户';
+            document.getElementById('modal-body').innerHTML = `
+                <div class="form-group">
+                    <label class="form-label">姓名</label>
+                    <input type="text" class="form-input" id="edit-name" value="${user.name}">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">新密码 (留空保持不变)</label>
+                    <input type="password" class="form-input" id="edit-password" placeholder="新密码">
+                </div>
+            `;
+            document.getElementById('modal-footer').innerHTML = `
+                <button class="btn btn-secondary" onclick="closeModal()">取消</button>
+                <button class="btn btn-danger" onclick="deleteUser('${userId}')">删除</button>
+                <button class="btn" onclick="saveUser('${userId}')">保存</button>
+            `;
+            document.getElementById('modal').classList.add('active');
+        }
+        
+        function saveUser(userId) {
+            const user = users.find(u => u.id === userId);
+            user.name = document.getElementById('edit-name').value;
+            const newPass = document.getElementById('edit-password').value;
+            if (newPass) user.password = newPass;
+            
+            alert('✅ 已保存');
+            closeModal();
+            renderContent();
+        }
+        
+        function deleteUser(userId) {
+            if (!confirm('确定删除该用户？')) return;
+            users = users.filter(u => u.id !== userId);
+            alert('✅ 已删除');
+            closeModal();
+            renderContent();
+        }
+        
+        function publishCommand() {
+            const content = document.getElementById('command-content').value;
+            if (!content) {
+                alert('请输入指令内容');
+                return;
+            }
+            
+            commands.unshift({
+                id: commands.length + 1,
+                title: '新指令',
+                content,
+                from: currentUser.id,
+                fromName: currentUser.name,
+                to: 'all',
+                date: new Date().toISOString().split('T')[0],
+                read: false
+            });
+            
+            alert('✅ 指令已发布');
+            document.getElementById('command-content').value = '';
+            renderContent();
         }
         
         // ========== Init ==========
         window.onload = function() {
-            const user = localStorage.getItem('factory_user');
-            if (user) {
-                const u = JSON.parse(user);
-                currentRole = u.role;
-                currentUser = u.name;
+            const saved = localStorage.getItem('factory_user');
+            if (saved) {
+                currentUser = JSON.parse(saved);
                 showApp();
             }
         };

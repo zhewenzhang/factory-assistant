@@ -6,73 +6,55 @@
     <title>FactoryAI 智工助手</title>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <style>
-        :root {
-            --primary: #1e3a5f;
-            --primary-light: #2d5a8a;
-            --success: #22c55e;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --bg: #f0f2f5;
-            --card: #ffffff;
-            --text: #1e293b;
-            --text-light: #64748b;
-            --border: #e2e8f0;
-        }
+        :root { --primary: #1e3a5f; --success: #22c55e; --warning: #f59e0b; --danger: #ef4444; --bg: #f0f2f5; --card: #ffffff; --text: #1e293b; --text-light: #64748b; --border: #e2e8f0; }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
         
         /* Login */
-        .login-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); padding: 20px; }
-        .login-box { background: var(--card); border-radius: 16px; padding: 30px; width: 100%; max-width: 400px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+        .login-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--primary), #2d5a8a); padding: 20px; }
+        .login-box { background: var(--card); border-radius: 16px; padding: 30px; width: 100%; max-width: 360px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
         .login-logo { text-align: center; margin-bottom: 24px; }
-        .login-logo h1 { font-size: 24px; color: var(--primary); margin-bottom: 6px; }
-        .login-logo p { color: var(--text-light); font-size: 13px; }
+        .login-logo h1 { font-size: 22px; color: var(--primary); }
+        .login-logo p { color: var(--text-light); font-size: 12px; margin-top: 4px; }
         .form-group { margin-bottom: 16px; }
         .form-label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; }
-        .form-input, .form-select { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; font-size: 14px; background: white; }
-        .form-input:focus, .form-select:focus { border-color: var(--primary); outline: none; }
-        .btn { padding: 12px 20px; border: none; border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer; width: 100%; }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-secondary { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
+        .form-input, .form-select { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; font-size: 14px; }
+        .btn { padding: 12px 20px; border: none; border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer; width: 100%; background: var(--primary); color: white; }
         
         /* App */
         .app-container { display: none; min-height: 100vh; }
         .app-container.active { display: block; }
         
         /* Header */
-        .header { background: var(--primary); color: white; padding: 14px 16px; position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
+        .header { background: var(--primary); color: white; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; }
         .header-title { font-size: 16px; font-weight: 600; }
-        .header-actions { display: flex; gap: 10px; }
         .header-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; }
         
-        /* User Bar */
-        .user-bar { background: var(--card); padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
-        .user-avatar { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        /* User */
+        .user-bar { background: var(--card); padding: 12px 16px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); }
+        .user-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center;; font-size: 16px; justify-content: center }
         .user-info { flex: 1; }
-        .user-name { font-size: 15px; font-weight: 600; }
+        .user-name { font-size: 14px; font-weight: 600; }
         .user-role { font-size: 12px; color: var(--text-light); }
         
         /* Tabs */
-        .tabs { display: flex; background: var(--card); border-bottom: 1px solid var(--border); overflow-x: auto; }
-        .tab { flex: 1; min-width: 60px; padding: 12px 8px; text-align: center; font-size: 11px; color: var(--text-light); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
+        .tabs { display: flex; background: var(--card); border-bottom: 1px solid var(--border); }
+        .tab { flex: 1; padding: 12px; text-align: center; font-size: 13px; color: var(--text-light); cursor: pointer; border-bottom: 2px solid transparent; }
         .tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
-        .tab i { display: block; font-size: 18px; margin-bottom: 2px; }
         
         .content { padding: 16px; display: none; }
         .content.active { display: block; }
         
         /* Stats */
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
-        .stat-card { background: var(--card); padding: 14px 10px; border-radius: 12px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .stat-value { font-size: 22px; font-weight: 700; color: var(--primary); }
-        .stat-label { font-size: 10px; color: var(--text-light); margin-top: 4px; }
-        .stat-card.warning .stat-value { color: var(--warning); }
-        .stat-card.danger .stat-value { color: var(--danger); }
-        
-        .card { background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .card-title { font-size: 15px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+        .stat-card { background: var(--card); padding: 14px; border-radius: 12px; text-align: center; }
+        .stat-value { font-size: 20px; font-weight: 700; color: var(--primary); }
+        .stat-label { font-size: 11px; color: var(--text-light); margin-top: 4px; }
         
         /* Tasks */
+        .card { background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+        .card-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+        
         .task-item { display: flex; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
         .task-item:last-child { border-bottom: none; }
         .task-item:active { background: var(--bg); margin: 0 -16px; padding-left: 16px; padding-right: 16px; }
@@ -86,48 +68,29 @@
         .task-status { font-size: 11px; padding: 4px 10px; border-radius: 12px; }
         .task-status.pending { background: #fef3c7; color: #d97706; }
         .task-status.done { background: #dcfce7; color: #16a34a; }
-        .task-status.processing { background: #dbeafe; color: #2563eb; }
         
-        /* Flow Steps */
-        .flow-steps { margin-top: 16px; }
+        /* Flow */
         .flow-step { display: flex; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--border); }
         .flow-step:last-child { border-bottom: none; }
-        .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; margin-right: 12px; flex-shrink: 0; }
+        .step-num { width: 26px; height: 26px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; margin-right: 12px; flex-shrink: 0; }
         .step-num.done { background: var(--success); }
         .step-content { flex: 1; }
-        .step-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+        .step-title { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
         .step-desc { font-size: 12px; color: var(--text-light); margin-bottom: 8px; }
         .step-check { display: flex; align-items: center; gap: 8px; font-size: 13px; }
-        .step-input { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; }
-        .step-capture { display: flex; align-items: center; gap: 8px; padding: 10px; background: var(--bg); border-radius: 8px; cursor: pointer; font-size: 13px; }
+        .step-input { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; }
         
         /* Modal */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 16px; }
         .modal-overlay.active { display: flex; }
-        .modal { background: var(--card); border-radius: 16px; width: 100%; max-width: 500px; max-height: 85vh; overflow-y: auto; }
+        .modal { background: var(--card); border-radius: 16px; width: 100%; max-width: 420px; max-height: 85vh; overflow-y: auto; }
         .modal-header { padding: 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
         .modal-title { font-size: 16px; font-weight: 600; }
         .modal-close { width: 28px; height: 28px; border-radius: 50%; background: var(--bg); display: flex; align-items: center; justify-content: center; cursor: pointer; }
         .modal-body { padding: 16px; }
         .modal-footer { padding: 12px 16px; border-top: 1px solid var(--border); display: flex; gap: 10px; }
         .modal-footer .btn { flex: 1; }
-        
-        /* Admin */
-        .admin-tabs { display: flex; gap: 8px; margin-bottom: 12px; overflow-x: auto; }
-        .admin-tab { padding: 8px 14px; border-radius: 20px; font-size: 12px; background: var(--bg); color: var(--text-light); cursor: pointer; border: none; white-space: nowrap; }
-        .admin-tab.active { background: var(--primary); color: white; }
-        
-        .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-        .data-table th, .data-table td { padding: 10px 6px; text-align: left; border-bottom: 1px solid var(--border); }
-        .data-table th { font-weight: 600; color: var(--text-light); font-size: 11px; }
-        
-        /* Role badge colors */
-        .role-producer { background: linear-gradient(135deg, #22c55e, #16a34a); }
-        .role-equipment { background: linear-gradient(135deg, #3b82f6, #2563eb); }
-        .role-quality { background: linear-gradient(135deg, #f59e0b, #d97706); }
-        .role-engineer { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
-        
-        #camera-input { display: none; }
+        .btn-secondary { background: var(--bg); color: var(--text); }
     </style>
 </head>
 <body>
@@ -136,40 +99,31 @@
         <div class="login-box">
             <div class="login-logo">
                 <h1>🏭 FactoryAI</h1>
-                <p>智工助手 - 执行每一天的任务</p>
+                <p>智工助手 - 每日任务执行</p>
             </div>
             <form onsubmit="handleLogin(event)">
                 <div class="form-group">
-                    <label class="form-label">选择角色登录</label>
+                    <label class="form-label">选择角色</label>
                     <select class="form-select" id="login-role">
-                        <option value="producer">📦 生管工程师 - 执行层</option>
-                        <option value="equipment">🔧 设备工程师 - 执行层</option>
-                        <option value="quality">✅ 品保工程师 - 执行层</option>
-                        <option value="engineer">👨‍💻 工程师 - 执行层</option>
-                        <option value="supervisor">👔 主管 - 管理层</option>
-                        <option value="admin">⚙️ 管理员 - 系统设置</option>
+                        <option value="producer">📦 生管工程师</option>
+                        <option value="equipment">🔧 设备工程师</option>
+                        <option value="quality">✅ 品保工程师</option>
+                        <option value="supervisor">👔 主管</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">用户名</label>
-                    <input type="text" class="form-input" id="login-username" placeholder="输入用户名">
+                    <input type="text" class="form-input" id="login-name" placeholder="输入姓名" required>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">密码</label>
-                    <input type="password" class="form-input" id="login-password" placeholder="输入密码">
-                </div>
-                <button type="submit" class="btn btn-primary">登录</button>
+                <button type="submit" class="btn">登录</button>
             </form>
         </div>
     </div>
     
-    <!-- Main App -->
+    <!-- App -->
     <div class="app-container" id="app-container">
         <div class="header">
-            <div class="header-title">🏭 FactoryAI</div>
-            <div class="header-actions">
-                <button class="header-btn" onclick="logout()">退出</button>
-            </div>
+            <div class="header-title">🏭 FactoryAI 智工</div>
+            <button class="header-btn" onclick="logout()">退出</button>
         </div>
         
         <div class="user-bar">
@@ -180,9 +134,60 @@
             </div>
         </div>
         
-        <div class="tabs" id="main-tabs"></div>
+        <div class="tabs">
+            <div class="tab active" data-tab="tasks" onclick="switchTab('tasks')">📋 任务</div>
+            <div class="tab" data-tab="records" onclick="switchTab('records')">📚 记录</div>
+            <div class="tab" data-tab="assign" onclick="switchTab('assign')" id="assign-tab" style="display:none">➕ 分配</div>
+        </div>
         
-        <div id="tab-contents"></div>
+        <!-- Tasks -->
+        <div class="content active" id="content-tasks">
+            <div class="stats-grid">
+                <div class="stat-card"><div class="stat-value" id="stat-total">0</div><div class="stat-label">今日任务</div></div>
+                <div class="stat-card"><div class="stat-value" id="stat-pending">0</div><div class="stat-label">待完成</div></div>
+                <div class="stat-card"><div class="stat-value" id="stat-done">0</div><div class="stat-label">已完成</div></div>
+            </div>
+            <div class="card">
+                <div class="card-title">📋 今日任务列表</div>
+                <div id="task-list"></div>
+            </div>
+        </div>
+        
+        <!-- Records -->
+        <div class="content" id="content-records">
+            <div class="card">
+                <div class="card-title">📚 工作记录</div>
+                <div id="record-list"></div>
+            </div>
+        </div>
+        
+        <!-- Assign (Supervisor only) -->
+        <div class="content" id="content-assign">
+            <div class="card">
+                <div class="card-title">➕ 分配新任务</div>
+                <div class="form-group">
+                    <label class="form-label">选择工程师</label>
+                    <select class="form-select" id="assign-ee">
+                        <option value="张三">张三 - 生管</option>
+                        <option value="李四">李四 - 设备</option>
+                        <option value="王五">王五 - 品保</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">任务类型</label>
+                    <select class="form-select" id="assign-type">
+                        <option value="producer">生产排配确认</option>
+                        <option value="equipment">设备点检</option>
+                        <option value="quality">IQC检验</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">任务描述</label>
+                    <input type="text" class="form-input" id="assign-desc" placeholder="输入任务描述">
+                </div>
+                <button class="btn" onclick="assignTask()">确认分配</button>
+            </div>
+        </div>
     </div>
     
     <!-- Task Modal -->
@@ -190,107 +195,62 @@
         <div class="modal">
             <div class="modal-header">
                 <div class="modal-title" id="modal-title">任务详情</div>
-                <div class="modal-close" onclick="closeModal()"><i class="ri-close-line"></i></div>
+                <div class="modal-close" onclick="closeModal()">✕</div>
             </div>
             <div class="modal-body" id="modal-body"></div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" onclick="closeModal()">取消</button>
-                <button class="btn btn-primary" id="modal-confirm">保存进度</button>
+                <button class="btn" id="modal-confirm">保存</button>
             </div>
         </div>
     </div>
     
-    <input type="file" id="camera-input" accept="image/*" capture="environment" onchange="handleCapture(event)">
-    
     <script>
-        // ========== Roles ==========
-        const roles = {
-            producer: { name: '生管工程师', dept: '生产管理部', avatar: '📦', color: 'role-producer', level: '执行', tabs: ['首页', '任务', '记录'] },
-            equipment: { name: '设备工程师', dept: '设备维护部', avatar: '🔧', color: 'role-equipment', level: '执行', tabs: ['首页', '任务', '记录'] },
-            quality: { name: '品保工程师', dept: '品质管理部', avatar: '✅', color: 'role-quality', level: '执行', tabs: ['首页', '任务', '记录'] },
-            engineer: { name: '工程师', dept: '技术部', avatar: '👨‍💻', color: 'role-engineer', level: '执行', tabs: ['首页', '任务', '记录'] },
-            supervisor: { name: '主管', dept: '管理部门', avatar: '👔', color: 'role-producer', level: '管理', tabs: ['首页', '分配', '审核', '报表'] },
-            admin: { name: '管理员', dept: '系统管理', avatar: '⚙️', color: 'role-equipment', level: '系统', tabs: ['任务模板', '用户', '设备', '系统'] }
-        };
+        // ========== Data ==========
+        const roleNames = { producer: '生管工程师', equipment: '设备工程师', quality: '品保工程师', supervisor: '主管' };
         
-        // Task Templates (defined by admin)
-        const taskTemplates = {
+        // Task templates
+        const templates = {
             producer: [
-                { type: 'daily_check', name: '生产排配确认', steps: ['确认当日排配', '产能分析', '异常记录'] },
-                { type: 'capacity', name: '产能利用率记录', steps: ['采集数据', '录入系统', '分析异常'] },
-                { type: 'material', name: '缺料处理', steps: ['确认缺料', '协调采购', '记录进度'] }
+                { name: '生产排配确认', desc: '确认今日排配', steps: ['打开排配系统', '确认各线排配', '记录异常'] },
+                { name: '产能利用率记录', desc: '记录产能', steps: ['采集数据', '录入系统', '分析异常'] }
             ],
             equipment: [
-                { type: 'inspection', name: '设备点检', steps: ['外观检查', '运行参数', '异常记录'] },
-                { type: 'maintenance', name: '设备保养', steps: ['停机确认', '清洁保养', '更换配件', '记录归档'] },
-                { type: 'repair', name: '故障维修', steps: ['故障确认', '原因分析', '维修处理', '试机确认'] }
+                { name: '设备点检', desc: 'A区设备点检', steps: ['外观检查', '运行参数', '异常记录'] },
+                { name: '设备保养', desc: '设备保养', steps: ['停机确认', '清洁保养', '更换配件', '试机确认'] }
             ],
             quality: [
-                { type: 'iqc', name: 'IQC检验', steps: ['来料检验', '记录数据', '判定结果'] },
-                { type: 'ipqc', name: '制程巡检', steps: ['巡检确认', '数据记录', '异常处理'] },
-                { type: 'hold', name: 'HOLD复判', steps: ['确认原因', '复判决策', '记录归档'] }
+                { name: 'IQC检验', desc: '来料检验', steps: ['外观检验', '尺寸测量', '判定结果'] },
+                { name: 'HOLD复判', desc: 'HOLD品复判', steps: ['确认原因', '复判决策', '记录归档'] }
             ]
         };
         
-        // Assigned tasks (from supervisor)
-        const tasks = [
-            // Producer tasks
-            { id: 1, role: 'producer', name: '09:00 排配确认', desc: '确认今日生产排配', priority: 'high', status: 'pending', assignee: '张三', steps: [
-                { done: false, title: '打开排配系统', type: 'check' },
-                { done: false, title: '确认各线排配', type: 'check' },
-                { done: false, title: '记录异常', type: 'input', placeholder: '如有异常请记录' }
-            ]},
-            { id: 2, role: 'producer', name: '11:00 产能记录', desc: '记录产能利用率', priority: 'medium', status: 'pending', assignee: '张三', steps: [
-                { done: false, title: '采集产能数据', type: 'check' },
-                { done: false, title: '录入系统', type: 'input', placeholder: '输入利用率%' },
-                { done: false, title: '异常分析', type: 'input', placeholder: '如有异常请说明' }
-            ]},
-            // Equipment tasks
-            { id: 3, role: 'equipment', name: '08:00 设备点检', desc: 'A区设备日常点检', priority: 'high', status: 'done', assignee: '李四', steps: [
-                { done: true, title: 'A-001点检', type: 'check' },
-                { done: true, title: 'A-002点检', type: 'check' },
-                { done: true, title: '记录参数', type: 'input', value: '正常' }
-            ]},
-            { id: 4, role: 'equipment', name: '14:00 设备保养', desc: 'B-101季度保养', priority: 'medium', status: 'pending', assignee: '李四', steps: [
-                { done: false, title: '停机确认', type: 'check' },
-                { done: false, title: '清洁保养', type: 'check' },
-                { done: false, title: '更换滤芯', type: 'check' },
-                { done: false, title: '试机确认', type: 'check' },
-                { done: false, title: '记录归档', type: 'input', placeholder: '填写保养记录' }
-            ]},
-            // Quality tasks
-            { id: 5, role: 'quality', name: '09:00 IQC检验', desc: '来料LOT#20260219检验', priority: 'high', status: 'pending', assignee: '王五', steps: [
-                { done: false, title: '外观检验', type: 'check' },
-                { done: false, title: '尺寸测量', type: 'input', placeholder: '输入测量值' },
-                { done: false, title: '判定结果', type: 'check', label: 'OK/NG' }
-            ]},
-            { id: 6, role: 'quality', name: '15:00 HOLD复判', desc: 'LOT#20260218-001复判', priority: 'high', status: 'pending', assignee: '王五', steps: [
-                { done: false, title: '确认异常原因', type: 'input', placeholder: '说明异常原因' },
-                { done: false, title: '复判决策', type: 'check', label: '重工/特采/报废' },
-                { done: false, title: '记录归档', type: 'input', placeholder: '填写复判结果' }
-            ]}
+        // Tasks
+        let tasks = [
+            { id: 1, role: 'producer', name: '09:00 排配确认', desc: '确认今日排配', priority: 'high', status: 'pending', assignee: '张三', steps: [{done:false,t:'打开排配系统'},{done:false,t:'确认各线'},{done:false,t:'记录异常'}] },
+            { id: 2, role: 'producer', name: '11:00 产能记录', desc: '记录产能', priority: 'medium', status: 'pending', assignee: '张三', steps: [{done:false,t:'采集数据'},{done:false,t:'录入系统'},{done:false,t:'分析异常'}] },
+            { id: 3, role: 'equipment', name: '08:00 设备点检', desc: 'A区设备', priority: 'high', status: 'done', assignee: '李四', steps: [{done:true,t:'外观检查'},{done:true,t:'参数记录'},{done:true,t:'无异常'}] },
+            { id: 4, role: 'equipment', name: '14:00 设备保养', desc: 'B-101保养', priority: 'medium', status: 'pending', assignee: '李四', steps: [{done:false,t:'停机确认'},{done:false,t:'清洁保养'},{done:false,t:'更换配件'},{done:false,t:'试机确认'}] },
+            { id: 5, role: 'quality', name: '09:00 IQC检验', desc: '来料检验', priority: 'high', status: 'pending', assignee: '王五', steps: [{done:false,t:'外观检验'},{done:false,t:'尺寸测量'},{done:false,t:'判定结果'}] }
         ];
         
         // Records
-        const records = [
-            { date: '19', month: '02', title: '设备点检完成', stats: 'A区 5台设备' },
-            { date: '18', month: '02', title: 'HOLD复判完成', stats: '2批已处理' },
-            { date: '17', month: '02', title: '周报汇总', stats: '任务完成率98%' },
+        let records = [
+            { date: '19', month: '02', title: '设备点检完成', desc: 'A区5台设备正常' },
+            { date: '18', month: '02', title: 'HOLD复判完成', desc: '2批已处理' },
+            { date: '17', month: '02', title: '周报提交', desc: '任务完成率98%' }
         ];
         
-        let currentRole = 'producer';
         let currentUser = '';
+        let currentRole = 'producer';
         
         // ========== Login ==========
         function handleLogin(e) {
             e.preventDefault();
             currentRole = document.getElementById('login-role').value;
-            currentUser = document.getElementById('login-username').value || roles[currentRole].name;
+            currentUser = document.getElementById('login-name').value || roleNames[currentRole];
             
-            localStorage.setItem('factory_user', JSON.stringify({
-                role: currentRole,
-                name: currentUser
-            }));
+            localStorage.setItem('factory_user', JSON.stringify({ role: currentRole, name: currentUser }));
             
             showApp();
         }
@@ -305,239 +265,66 @@
             document.getElementById('login-page').style.display = 'none';
             document.getElementById('app-container').classList.add('active');
             
-            const roleInfo = roles[currentRole];
             document.getElementById('user-name').textContent = currentUser;
-            document.getElementById('user-role').textContent = roleInfo.level + ' - ' + roleInfo.dept;
-            document.getElementById('user-avatar').textContent = roleInfo.avatar;
-            document.getElementById('user-avatar').className = 'user-avatar ' + roleInfo.color;
-            document.getElementById('user-avatar').style.color = 'white';
+            document.getElementById('user-role').textContent = currentRole === 'supervisor' ? '管理层' : '执行层';
+            document.getElementById('user-avatar').textContent = currentRole === 'supervisor' ? '👔' : currentRole === 'producer' ? '📦' : currentRole === 'equipment' ? '🔧' : '✅';
             
-            renderTabs();
-            renderContent();
+            // Show assign tab for supervisor
+            document.getElementById('assign-tab').style.display = currentRole === 'supervisor' ? 'block' : 'none';
+            
+            renderTasks();
+            renderRecords();
         }
         
         // ========== Tabs ==========
-        function renderTabs() {
-            const roleInfo = roles[currentRole];
-            const tabsHtml = roleInfo.tabs.map((tab, idx) => 
-                `<div class="tab ${idx === 0 ? 'active' : ''}" data-tab="${tab}" onclick="switchTab('${tab}')">${tab}</div>`
-            ).join('');
-            document.getElementById('main-tabs').innerHTML = tabsHtml;
-        }
-        
-        function switchTab(tabName) {
+        function switchTab(tab) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelector(`.tab[data-tab="${tabName}"]`).classList.add('active');
-            
-            document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
-            document.getElementById('content-' + tabName).style.display = 'block';
+            document.querySelector(`.tab[data-tab="${tab}"]`).classList.add('active');
+            document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+            document.getElementById('content-' + tab).classList.add('active');
         }
         
-        // ========== Content ==========
-        function renderContent() {
-            const roleInfo = roles[currentRole];
-            let html = '';
+        // ========== Tasks ==========
+        function renderTasks() {
+            // For engineer: show their tasks; for supervisor: show all
+            let myTasks = currentRole === 'supervisor' ? tasks : tasks.filter(t => t.role === currentRole);
             
-            // Tab 1: 首页
-            html += `<div class="tab-content active" id="content-${roleInfo.tabs[0]}">`;
-            html += renderDashboard();
-            html += '</div>';
-            
-            // Tab 2: 任务/分配
-            const tab2 = roleInfo.tabs[1];
-            html += `<div class="tab-content" id="content-${tab2}">`;
-            if (roleInfo.level === '执行') {
-                html += renderTaskList();
-            } else {
-                html += renderSupervisorTasks();
-            }
-            html += '</div>';
-            
-            // Tab 3: 记录/审核
-            if (roleInfo.tabs[2]) {
-                const tab3 = roleInfo.tabs[2];
-                html += `<div class="tab-content" id="content-${tab3}">`;
-                html += renderRecords();
-                html += '</div>';
-            }
-            
-            // Tab 4: 报表/系统
-            if (roleInfo.tabs[3]) {
-                const tab4 = roleInfo.tabs[3];
-                html += `<div class="tab-content" id="content-${tab4}">`;
-                html += renderAdmin();
-                html += '</div>';
-            }
-            
-            document.getElementById('tab-contents').innerHTML = html;
-        }
-        
-        function renderDashboard() {
-            const myTasks = tasks.filter(t => t.role === currentRole);
             const pending = myTasks.filter(t => t.status === 'pending').length;
             const done = myTasks.filter(t => t.status === 'done').length;
-            const processing = myTasks.filter(t => t.status === 'processing').length;
             
-            let stats = '';
-            if (currentRole === 'producer') {
-                stats = `
-                    <div class="stats-grid">
-                        <div class="stat-card"><div class="stat-value">${myTasks.length}</div><div class="stat-label">今日任务</div></div>
-                        <div class="stat-card warning"><div class="stat-value">${pending}</div><div class="stat-label">待完成</div></div>
-                        <div class="stat-card"><div class="stat-value">${done}</div><div class="stat-label">已完成</div></div>
-                        <div class="stat-card"><div class="stat-value">98%</div><div class="stat-label">达成率</div></div>
-                    </div>
-                `;
-            } else if (currentRole === 'equipment') {
-                stats = `
-                    <div class="stats-grid">
-                        <div class="stat-card"><div class="stat-value">48</div><div class="stat-label">设备总数</div></div>
-                        <div class="stat-card success"><div class="stat-value">45</div><div class="stat-label">正常运行</div></div>
-                        <div class="stat-card warning"><div class="stat-value">3</div><div class="stat-label">待保养</div></div>
-                        <div class="stat-card danger"><div class="stat-value">0</div><div class="stat-label">故障</div></div>
-                    </div>
-                `;
-            } else if (currentRole === 'quality') {
-                stats = `
-                    <div class="stats-grid">
-                        <div class="stat-card"><div class="stat-value">${myTasks.length}</div><div class="stat-label">今日任务</div></div>
-                        <div class="stat-card"><div class="stat-value">99.2%</div><div class="stat-label">良率</div></div>
-                        <div class="stat-card warning"><div class="stat-value">${pending}</div><div class="stat-label">待处理</div></div>
-                        <div class="stat-card danger"><div class="stat-value">2</div><div class="stat-label">HOLD</div></div>
-                    </div>
-                `;
-            } else {
-                stats = `
-                    <div class="stats-grid">
-                        <div class="stat-card"><div class="stat-value">${myTasks.length}</div><div class="stat-label">今日任务</div></div>
-                        <div class="stat-card warning"><div class="stat-value">${pending}</div><div class="stat-label">待完成</div></div>
-                        <div class="stat-card"><div class="stat-value">${done}</div><div class="stat-label">已完成</div></div>
-                    </div>
-                `;
-            }
+            document.getElementById('stat-total').textContent = myTasks.length;
+            document.getElementById('stat-pending').textContent = pending;
+            document.getElementById('stat-done').textContent = done;
             
-            return `
-                ${stats}
-                <div class="card">
-                    <div class="card-title">📋 今日任务列表</div>
-                    ${myTasks.slice(0, 4).map(t => `
-                        <div class="task-item" onclick="openTask(${t.id})">
-                            <div class="task-priority ${t.priority}"></div>
-                            <div class="task-info">
-                                <div class="task-name">${t.name}</div>
-                                <div class="task-meta">${t.desc}</div>
-                            </div>
-                            <span class="task-status ${t.status}">${t.status === 'pending' ? '待执行' : t.status === 'processing' ? '进行中' : '已完成'}</span>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-        }
-        
-        function renderTaskList() {
-            const myTasks = tasks.filter(t => t.role === currentRole);
-            return `
-                <div class="card">
-                    <div class="card-title">📋 所有任务 (${myTasks.length})</div>
-                    ${myTasks.map(t => `
-                        <div class="task-item" onclick="openTask(${t.id})">
-                            <div class="task-priority ${t.priority}"></div>
-                            <div class="task-info">
-                                <div class="task-name">${t.name}</div>
-                                <div class="task-meta">${t.desc}</div>
-                            </div>
-                            <span class="task-status ${t.status}">${t.status === 'pending' ? '待执行' : t.status === 'processing' ? '进行中' : '已完成'}</span>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-        }
-        
-        function renderSupervisorTasks() {
-            // Supervisor can assign tasks
-            return `
-                <div class="card">
-                    <div class="card-title">👥 团队任务分配</div>
-                    <div style="padding: 20px; text-align: center;">
-                        <button class="btn btn-primary" style="margin-bottom: 16px;">+ 分配新任务</button>
-                        ${tasks.map(t => `
-                            <div class="task-item">
-                                <div class="task-priority ${t.priority}"></div>
-                                <div class="task-info">
-                                    <div class="task-name">${t.name}</div>
-                                    <div class="task-meta">执行人: ${t.assignee}</div>
-                                </div>
-                                <span class="task-status ${t.status}">${t.status}</span>
-                            </div>
-                        `).join('')}
+            document.getElementById('task-list').innerHTML = myTasks.map(t => `
+                <div class="task-item" onclick="openTask(${t.id})">
+                    <div class="task-priority ${t.priority}"></div>
+                    <div class="task-info">
+                        <div class="task-name">${t.name}</div>
+                        <div class="task-meta">${t.desc} · ${t.assignee}</div>
                     </div>
+                    <span class="task-status ${t.status}">${t.status === 'pending' ? '待执行' : '已完成'}</span>
                 </div>
-            `;
+            `).join('');
         }
         
-        function renderRecords() {
-            return `
-                <div class="card">
-                    <div class="card-title">📚 工作记录</div>
-                    ${records.map(r => `
-                        <div class="task-item">
-                            <div style="width: 40px; text-align: center; margin-right: 12px;">
-                                <div style="font-size: 18px; font-weight: 700; color: var(--primary);">${r.date}</div>
-                                <div style="font-size: 11px; color: var(--text-light);">${r.month}月</div>
-                            </div>
-                            <div class="task-info">
-                                <div class="task-name">${r.title}</div>
-                                <div class="task-meta">${r.stats}</div>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-        }
-        
-        function renderAdmin() {
-            return `
-                <div class="admin-tabs">
-                    <button class="admin-tab active" onclick="filterAdmin('tasks', this)">任务模板</button>
-                    <button class="admin-tab" onclick="filterAdmin('users', this)">用户</button>
-                </div>
-                <div class="card">
-                    <div class="card-title">⚙️ 任务模板管理</div>
-                    <div style="margin-bottom: 12px;">
-                        <button class="btn btn-primary" style="width: auto; padding: 8px 16px; font-size: 13px;">+ 新建模板</button>
-                    </div>
-                    <table class="data-table">
-                        <tr><th>模板名称</th><th>类型</th><th>步骤数</th><th>操作</th></tr>
-                        ${(taskTemplates[currentRole] || []).map(t => `
-                            <tr><td>${t.name}</td><td>${t.type}</td><td>${t.steps.length}</td><td><button style="padding: 4px 8px; font-size: 11px;">编辑</button></td></tr>
-                        `).join('')}
-                    </table>
-                </div>
-            `;
-        }
-        
-        // ========== Task Flow ==========
         function openTask(taskId) {
             const task = tasks.find(t => t.id === taskId);
             if (!task) return;
             
             document.getElementById('modal-title').textContent = task.name;
             
-            const completedSteps = task.steps.filter(s => s.done).length;
-            const progress = Math.round(completedSteps / task.steps.length * 100);
+            const doneSteps = task.steps.filter(s => s.done).length;
+            const progress = Math.round(doneSteps / task.steps.length * 100);
             
             let body = `
+                <div style="margin-bottom: 12px; font-size: 13px; color: var(--text-light);">${task.desc}</div>
                 <div style="margin-bottom: 16px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                        <span style="font-size: 13px; color: var(--text-light);">进度</span>
-                        <span style="font-size: 13px; font-weight: 600; color: var(--primary);">${progress}%</span>
-                    </div>
-                    <div style="height: 6px; background: var(--border); border-radius: 3px;">
-                        <div style="height: 100%; width: ${progress}%; background: var(--success); border-radius: 3px;"></div>
+                    <span style="font-size: 13px;">进度: ${progress}%</span>
+                    <div style="height: 4px; background: var(--border); border-radius: 2px; margin-top: 6px;">
+                        <div style="height: 100%; width: ${progress}%; background: var(--success); border-radius: 2px;"></div>
                     </div>
                 </div>
-                <div style="font-size: 13px; color: var(--text-light); margin-bottom: 16px;">${task.desc}</div>
-                <div class="flow-steps">
             `;
             
             task.steps.forEach((step, idx) => {
@@ -545,69 +332,50 @@
                     <div class="flow-step">
                         <div class="step-num ${step.done ? 'done' : ''}">${idx + 1}</div>
                         <div class="step-content">
-                            <div class="step-title">${step.title}</div>
+                            <div class="step-title">${step.t}</div>
                             ${renderStepInput(taskId, idx, step)}
                         </div>
                     </div>
                 `;
             });
             
-            body += '</div>';
             document.getElementById('modal-body').innerHTML = body;
             
-            const confirmBtn = document.getElementById('modal-confirm');
+            const btn = document.getElementById('modal-confirm');
             if (progress === 100) {
-                confirmBtn.textContent = '✅ 完成任务';
-                confirmBtn.onclick = () => completeTask(taskId);
+                btn.textContent = '✅ 完成任务';
+                btn.onclick = () => completeTask(taskId);
             } else {
-                confirmBtn.textContent = '💾 保存进度';
-                confirmBtn.onclick = () => saveProgress(taskId);
+                btn.textContent = '💾 保存进度';
+                btn.onclick = () => saveProgress(taskId);
             }
             
             document.getElementById('task-modal').classList.add('active');
         }
         
-        function renderStepInput(taskId, stepIdx, step) {
-            if (step.done) {
-                if (step.type === 'check') return `<div style="color: var(--success);">✓ 已确认</div>`;
-                if (step.value) return `<div style="color: var(--success);">✓ ${step.value}</div>`;
-                return `<div style="color: var(--success);">✓ 已完成</div>`;
-            }
-            
-            if (step.type === 'check') {
-                return `<label class="step-check"><input type="checkbox" onchange="toggleStep(${taskId}, ${stepIdx}, this.checked)"> 确认完成</label>`;
-            } else if (step.type === 'input') {
-                return `<input type="text" class="step-input" placeholder="${step.placeholder || '请输入'}" onchange="updateStepValue(${taskId}, ${stepIdx}, this.value)">`;
-            }
-            return '';
+        function renderStepInput(taskId, idx, step) {
+            if (step.done) return `<div style="color: var(--success);">✓ 已完成</div>`;
+            return `<label class="step-check"><input type="checkbox" onchange="toggleStep(${taskId}, ${idx}, this.checked)"> 确认完成</label>`;
         }
         
-        function toggleStep(taskId, stepIdx, checked) {
+        function toggleStep(taskId, idx, checked) {
             const task = tasks.find(t => t.id === taskId);
-            task.steps[stepIdx].done = checked;
+            task.steps[idx].done = checked;
             
             const allDone = task.steps.every(s => s.done);
             if (allDone) task.status = 'done';
-            else task.status = 'processing';
+            else task.status = 'pending';
             
             openTask(taskId);
-            renderContent();
-        }
-        
-        function updateStepValue(taskId, stepIdx, value) {
-            const task = tasks.find(t => t.id === taskId);
-            task.steps[stepIdx].value = value;
-            task.steps[stepIdx].done = value.length > 0;
-            task.status = 'processing';
-            
-            const allDone = task.steps.every(s => s.done);
-            if (allDone) task.status = 'done';
+            renderTasks();
         }
         
         function saveProgress(taskId) {
-            alert('💾 进度已保存');
+            const task = tasks.find(t => t.id === taskId);
+            task.status = task.steps.some(s => s.done) ? 'pending' : 'pending';
+            alert('💾 已保存');
             closeModal();
-            renderContent();
+            renderTasks();
         }
         
         function completeTask(taskId) {
@@ -615,27 +383,73 @@
             task.status = 'done';
             task.steps.forEach(s => s.done = true);
             
+            // Add to records
+            records.unshift({
+                date: new Date().getDate(),
+                month: '02',
+                title: task.name,
+                desc: '已完成'
+            });
+            
             alert('✅ 任务完成！');
             closeModal();
-            renderContent();
+            renderTasks();
+            renderRecords();
         }
         
         function closeModal() {
             document.getElementById('task-modal').classList.remove('active');
         }
         
-        function filterAdmin(type, btn) {
-            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-            btn.classList.add('active');
+        // ========== Records ==========
+        function renderRecords() {
+            document.getElementById('record-list').innerHTML = records.map(r => `
+                <div class="task-item">
+                    <div style="width: 40px; text-align: center; margin-right: 12px;">
+                        <div style="font-size: 18px; font-weight: 700; color: var(--primary);">${r.date}</div>
+                        <div style="font-size: 11px; color: var(--text-light);">${r.month}月</div>
+                    </div>
+                    <div class="task-info">
+                        <div class="task-name">${r.title}</div>
+                        <div class="task-meta">${r.desc}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // ========== Assign ==========
+        function assignTask() {
+            const ee = document.getElementById('assign-ee').value;
+            const type = document.getElementById('assign-type').value;
+            const desc = document.getElementById('assign-desc').value;
+            
+            const template = templates[type][0];
+            
+            const newTask = {
+                id: tasks.length + 1,
+                role: type,
+                name: template.name,
+                desc: desc || template.desc,
+                priority: 'medium',
+                status: 'pending',
+                assignee: ee,
+                steps: template.steps.map(s => ({done: false, t: s}))
+            };
+            
+            tasks.unshift(newTask);
+            alert('✅ 任务已分配给 ' + ee);
+            document.getElementById('assign-desc').value = '';
+            switchTab('tasks');
+            renderTasks();
         }
         
         // ========== Init ==========
         window.onload = function() {
             const user = localStorage.getItem('factory_user');
             if (user) {
-                const userData = JSON.parse(user);
-                currentRole = userData.role;
-                currentUser = userData.name;
+                const u = JSON.parse(user);
+                currentRole = u.role;
+                currentUser = u.name;
                 showApp();
             }
         };

@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>工厂工程师助手</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e3a5f;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding-bottom: 80px;
+        }
+        
+        /* Header */
+        .header {
+            background: var(--primary);
+            color: white;
+            padding: 16px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header h1 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .header .time {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        /* Tab Navigation */
+        .tabs {
+            display: flex;
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 60px;
+            z-index: 99;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 14px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-light);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .tab i {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+        
+        /* Content */
+        .content {
+            padding: 16px;
+            display: none;
+        }
+        
+        .content.active {
+            display: block;
+        }
+        
+        /* Cards */
+        .card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .card-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        
+        .status-pending {
+            background: #fef3c7;
+            color: #d97706;
+        }
+        
+        .status-done {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+        
+        .status-processing {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+        
+        /* Task List */
+        .task-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .task-item:last-child {
+            border-bottom: none;
+        }
+        
+        .task-checkbox {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            margin-right: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .task-checkbox.checked {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+        
+        .task-info {
+            flex: 1;
+        }
+        
+        .task-name {
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+        
+        .task-desc {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+        
+        .task-time {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+        
+        /* OCR Section */
+        .ocr-capture {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .ocr-capture .icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            cursor: pointer;
+        }
+        
+        .ocr-capture .icon i {
+            font-size: 36px;
+            color: white;
+        }
+        
+        .ocr-capture p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        /* OCR Result */
+        .ocr-result {
+            display: none;
+        }
+        
+        .ocr-result.show {
+            display: block;
+        }
+        
+        .ocr-image {
+            width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: #000;
+            margin-bottom: 12px;
+        }
+        
+        .ocr-text {
+            background: #f1f5f9;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        
+        .ocr-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        /* AI Chat */
+        .chat-messages {
+            height: calc(100vh - 280px);
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+        
+        .message {
+            display: flex;
+            margin-bottom: 16px;
+        }
+        
+        .message.user {
+            flex-direction: row-reverse;
+        }
+        
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        
+        .message.user .message-avatar {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .message.ai .message-avatar {
+            background: #10b981;
+            color: white;
+        }
+        
+        .message-content {
+            max-width: 75%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .message.user .message-content {
+            background: var(--primary);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .message.ai .message-content {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-bottom-left-radius: 4px;
+        }
+        
+        .chat-input {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card);
+            padding: 12px 16px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 8px;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .chat-input input:focus {
+            border-color: var(--primary);
+        }
+        
+        .chat-input button {
+            width: 44px;
+            height: 44px;
+            border: none;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card);
+            border-top: 1px solid var(--border);
+            display: flex;
+            padding: 8px 0;
+            padding-bottom: calc(8px + env(safe-area-inset-bottom));
+        }
+        
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            padding: 8px;
+            font-size: 10px;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+        
+        .nav-item.active {
+            color: var(--primary);
+        }
+        
+        .nav-item i {
+            display: block;
+            font-size: 22px;
+            margin-bottom: 2px;
+        }
+        
+        /* Progress Bar */
+        .progress-bar {
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            margin-top: 12px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--success);
+            border-radius: 3px;
+            transition: width 0.3s;
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .quick-action {
+            background: #f1f5f9;
+            padding: 16px 12px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .quick-action:active {
+            transform: scale(0.95);
+        }
+        
+        .quick-action i {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+        
+        .quick-action span {
+            font-size: 12px;
+            color: var(--text);
+        }
+        
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .stat-card {
+            background: var(--card);
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+        
+        /* Hidden file input */
+        #camera-input {
+            display: none;
+        }
+        
+        /* Loading */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>🏭 工厂工程师助手</h1>
+        <div class="time" id="current-time"></div>
+    </div>
+    
+    <!-- Tabs -->
+    <div class="tabs">
+        <div class="tab active" data-tab="workflow">
+            <i class="ri-checkbox-multiple-line"></i>
+            工作流
+        </div>
+        <div class="tab" data-tab="ocr">
+            <i class="ri-camera-line"></i>
+            OCR识别
+        </div>
+        <div class="tab" data-tab="ai">
+            <i class="ri-robot-line"></i>
+            AI助手
+        </div>
+    </div>
+    
+    <!-- Workflow Content -->
+    <div class="content active" id="workflow">
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="task-total">6</div>
+                <div class="stat-label">总任务</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="task-done">2</div>
+                <div class="stat-label">已完成</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="task-progress">33%</div>
+                <div class="stat-label">进度</div>
+            </div>
+        </div>
+        
+        <!-- Progress -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">📋 今日工作流</span>
+                <span class="status-badge status-processing" id="flow-status">进行中</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 33%"></div>
+            </div>
+        </div>
+        
+        <!-- Tasks -->
+        <div class="card" id="task-list">
+            <!-- Tasks will be rendered here -->
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="card">
+            <div class="card-title" style="margin-bottom: 12px;">⚡ 快捷操作</div>
+            <div class="quick-actions">
+                <div class="quick-action" onclick="switchTab('ocr')">
+                    <i class="ri-camera-line"></i>
+                    <span>拍照识别</span>
+                </div>
+                <div class="quick-action" onclick="switchTab('ai')">
+                    <i class="ri-question-answer-line"></i>
+                    <span>AI问答</span>
+                </div>
+                <div class="quick-action" onclick="addTask()">
+                    <i class="ri-add-line"></i>
+                    <span>添加任务</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- OCR Content -->
+    <div class="content" id="ocr">
+        <div class="card">
+            <div class="ocr-capture" id="ocr-capture">
+                <div class="icon" onclick="captureImage()">
+                    <i class="ri-camera-fill"></i>
+                </div>
+                <p>点击拍照识别设备信息</p>
+                <p style="margin-top: 8px; font-size: 12px;">支持：铭牌、仪表、标签、管道标识</p>
+            </div>
+            
+            <div class="ocr-result" id="ocr-result">
+                <img id="ocr-image" class="ocr-image" src="" alt="Captured">
+                <div class="card-title" style="margin-bottom: 8px;">📝 识别结果</div>
+                <div class="ocr-text" id="ocr-text">识别中...</div>
+                
+                <div class="ocr-actions">
+                    <button class="btn btn-primary" onclick="sendToAI()">发送给AI分析</button>
+                    <button class="btn btn-secondary" onclick="retryOCR()">重新拍摄</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- History -->
+        <div class="card">
+            <div class="card-title" style="margin-bottom: 12px;">📚 历史记录</div>
+            <div id="ocr-history">
+                <div class="task-item">
+                    <div class="task-info">
+                        <div class="task-name">设备铭牌识别</div>
+                        <div class="task-desc">A-001 空压机铭牌</div>
+                    </div>
+                    <span class="status-badge status-done">已完成</span>
+                </div>
+                <div class="task-item">
+                    <div class="task-info">
+                        <div class="task-name">仪表读数识别</div>
+                        <div class="task-desc">P-102 压力表 0.45MPa</div>
+                    </div>
+                    <span class="status-badge status-done">已完成</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- AI Content -->
+    <div class="content" id="ai">
+        <div class="chat-messages" id="chat-messages">
+            <div class="message ai">
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">
+                    您好！我是AI助手，可以帮您：<br><br>
+                    📋 生成设备检查指令<br>
+                    🔧 诊断异常情况<br>
+                    📖 解答操作问题<br>
+                    📊 分析检测数据<br><br>
+                    有什么可以帮您的？
+                </div>
+            </div>
+        </div>
+        
+        <div class="chat-input">
+            <input type="text" id="chat-input" placeholder="输入您的问题..." onkeypress="handleChatKeypress(event)">
+            <button onclick="sendMessage()"><i class="ri-send-plane-fill"></i></button>
+        </div>
+    </div>
+    
+    <!-- Hidden Camera Input -->
+    <input type="file" id="camera-input" accept="image/*" capture="environment" onchange="handleImageCapture(event)">
+    
+    <script>
+        // Task Data
+        let tasks = [
+            { id: 1, name: '8:00 设备巡检', desc: '检查A区空压机运行状态', time: '08:00', done: true },
+            { id: 2, name: '9:30 压力容器检查', desc: 'B罐区压力表读数记录', time: '09:30', done: true },
+            { id: 3, name: '10:00 电机温度检测', desc: 'M-201~M-205 电机温度测量', time: '10:00', done: false },
+            { id: 4, name: '11:00 阀门挂牌检查', desc: 'P-001~P-050 阀门挂牌完整性', time: '11:00', done: false },
+            { id: 5, name: '14:00 仪表校准记录', desc: '流量计FT-102校准数据录入', time: '14:00', done: false },
+            { id: 6, name: '16:00 巡检总结', desc: '生成当日巡检报告', time: '16:00', done: false },
+        ];
+        
+        // Render Tasks
+        function renderTasks() {
+            const taskList = document.getElementById('task-list');
+            taskList.innerHTML = tasks.map(task => `
+                <div class="task-item" onclick="toggleTask(${task.id})">
+                    <div class="task-checkbox ${task.done ? 'checked' : ''}">
+                        ${task.done ? '<i class="ri-check-line"></i>' : ''}
+                    </div>
+                    <div class="task-info">
+                        <div class="task-name">${task.name}</div>
+                        <div class="task-desc">${task.desc}</div>
+                    </div>
+                    <div class="task-time">${task.time}</div>
+                </div>
+            `).join('');
+            
+            // Update Stats
+            const done = tasks.filter(t => t.done).length;
+            const total = tasks.length;
+            document.getElementById('task-total').textContent = total;
+            document.getElementById('task-done').textContent = done;
+            document.getElementById('task-progress').textContent = Math.round(done / total * 100) + '%';
+            document.getElementById('progress-fill').style.width = (done / total * 100) + '%';
+            
+            if (done === total) {
+                document.getElementById('flow-status').textContent = '全部完成';
+                document.getElementById('flow-status').className = 'status-badge status-done';
+            }
+        }
+        
+        // Toggle Task
+        function toggleTask(id) {
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                task.done = !task.done;
+                renderTasks();
+            }
+        }
+        
+        // Tab Switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+            
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+        
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+        });
+        
+        // Camera Capture
+        function captureImage() {
+            document.getElementById('camera-input').click();
+        }
+        
+        function handleImageCapture(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('ocr-image').src = e.target.result;
+                    document.getElementById('ocr-capture').style.display = 'none';
+                    document.getElementById('ocr-result').classList.add('show');
+                    
+                    // Simulate OCR
+                    simulateOCR();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        // Simulate OCR (In real app, call OCR API)
+        function simulateOCR() {
+            document.getElementById('ocr-text').innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+            
+            setTimeout(() => {
+                document.getElementById('ocr-text').textContent = `设备铭牌信息：
+━━━━━━━━━━━━━━━━
+设备编号：A-001
+设备名称：空气压缩机
+型号：LU132-8
+功率：132kW
+电压：380V
+制造商：阿特拉斯·科普柯
+出厂日期：2020-03
+下次保养：2026-04-01`;
+            }, 2000);
+        }
+        
+        // Retry OCR
+        function retryOCR() {
+            document.getElementById('ocr-capture').style.display = 'block';
+            document.getElementById('ocr-result').classList.remove('show');
+            document.getElementById('camera-input').value = '';
+        }
+        
+        // Send to AI
+        function sendToAI() {
+            const ocrText = document.getElementById('ocr-text').textContent;
+            switchTab('ai');
+            addMessage('user', '请分析这个设备铭牌信息，给出维护建议：\n' + ocrText);
+            simulateAIResponse('我已收到设备铭牌信息。分析如下：\n\n📋 设备信息\n- 设备编号：A-001\n- 型号：LU132-8\n- 功率：132kW\n\n⚠️ 维护建议\n1. 下次保养日期：2026-04-01（建议提前1周安排）\n2. 已运行约6年，建议关注轴承状态\n3. 运行时注意监测电流和温度\n\n📞 备件建议\n- 空气过滤器\n- 油过滤器\n- 润滑油');
+        }
+        
+        // Chat Functions
+        function handleChatKeypress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+        
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+            
+            addMessage('user', text);
+            input.value = '';
+            
+            // Simulate AI response
+            setTimeout(() => {
+                let response = '';
+                if (text.includes('检查') || text.includes('巡检')) {
+                    response = '好的，我来帮您生成检查指令：\n\n📋 A区空压机检查清单\n\n1. 外观检查\n   □ 无异常声响\n   □ 无异常振动\n   □ 油位正常\n\n2. 运行参数\n   □ 出口压力：0.7-0.8MPa\n   □ 出口温度：<85℃\n   □ 电流：<240A\n\n3. 记录数据并上传系统';
+                } else if (text.includes('故障') || text.includes('异常')) {
+                    response = '请描述具体的故障现象，例如：\n- 设备报警代码\n- 异常声响或振动\n- 温度/压力异常\n\n我可以帮您分析可能的原因和建议的处理措施。';
+                } else {
+                    response = '收到您的问题！\n\n我可以帮您：\n1. 📋 生成检查指令\n2. 🔧 诊断设备故障\n3. 📖 解答操作疑问\n4. 📊 分析检测数据\n\n请告诉我您具体需要什么帮助？';
+                }
+                
+                addMessage('ai', response);
+            }, 1500);
+        }
+        
+        function addMessage(type, content) {
+            const messages = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = `message ${type}`;
+            div.innerHTML = `
+                <div class="message-avatar">${type === 'user' ? '👤' : '🤖'}</div>
+                <div class="message-content">${content}</div>
+            `;
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
+        
+        // Add Task
+        function addTask() {
+            const name = prompt('请输入任务名称：');
+            if (name) {
+                const desc = prompt('请输入任务描述：') || '';
+                const time = prompt('请输入时间（如 10:30）：') || '';
+                
+                tasks.push({
+                    id: tasks.length + 1,
+                    name: name,
+                    desc: desc,
+                    time: time,
+                    done: false
+                });
+                renderTasks();
+            }
+        }
+        
+        // Update Time
+        function updateTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'short', 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit', 
+                minute: '2-digit' 
+            };
+            document.getElementById('current-time').textContent = now.toLocaleString('zh-CN', options);
+        }
+        
+        // Initialize
+        renderTasks();
+        updateTime();
+        setInterval(updateTime, 60000);
+    </script>
+</body>
+</html>

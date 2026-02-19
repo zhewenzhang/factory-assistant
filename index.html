@@ -95,6 +95,76 @@
             display: block;
         }
         
+        /* Task Detail Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            animation: fadeIn 0.2s;
+        }
+        
+        .modal-overlay.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card);
+            border-radius: 20px 20px 0 0;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+        
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: var(--card);
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
         /* Cards */
         .card {
             background: var(--card);
@@ -145,10 +215,18 @@
             align-items: center;
             padding: 12px 0;
             border-bottom: 1px solid var(--border);
+            cursor: pointer;
         }
         
         .task-item:last-child {
             border-bottom: none;
+        }
+        
+        .task-item:active {
+            background: var(--bg);
+            margin: 0 -16px;
+            padding-left: 16px;
+            padding-right: 16px;
         }
         
         .task-checkbox {
@@ -157,11 +235,11 @@
             border: 2px solid var(--border);
             border-radius: 6px;
             margin-right: 12px;
-            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.2s;
+            flex-shrink: 0;
         }
         
         .task-checkbox.checked {
@@ -189,192 +267,156 @@
             color: var(--text-light);
         }
         
-        /* OCR Section */
-        .ocr-capture {
-            text-align: center;
-            padding: 40px 20px;
-        }
-        
-        .ocr-capture .icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 16px;
-            cursor: pointer;
-        }
-        
-        .ocr-capture .icon i {
-            font-size: 36px;
-            color: white;
-        }
-        
-        .ocr-capture p {
+        .task-arrow {
             color: var(--text-light);
             font-size: 14px;
         }
         
-        /* OCR Result */
-        .ocr-result {
-            display: none;
+        /* Task Detail Form */
+        .form-group {
+            margin-bottom: 20px;
         }
         
-        .ocr-result.show {
+        .form-label {
             display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text);
         }
         
-        .ocr-image {
+        .form-hint {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        
+        .form-input:focus {
+            border-color: var(--primary);
+        }
+        
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        /* Capture Button */
+        .capture-box {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .capture-box:active {
+            background: var(--bg);
+        }
+        
+        .capture-box.has-image {
+            padding: 10px;
+            border-style: solid;
+            border-color: var(--success);
+        }
+        
+        .capture-box i {
+            font-size: 36px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+        
+        .capture-box p {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        
+        .capture-box img {
             width: 100%;
             max-height: 200px;
             object-fit: contain;
             border-radius: 8px;
-            background: #000;
-            margin-bottom: 12px;
         }
         
-        .ocr-text {
-            background: #f1f5f9;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-family: monospace;
-            white-space: pre-wrap;
-        }
-        
-        .ocr-actions {
+        /* Checklist */
+        .checklist-item {
             display: flex;
-            gap: 8px;
-            margin-top: 12px;
+            align-items: flex-start;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
         }
         
-        /* AI Chat */
-        .chat-messages {
-            height: calc(100vh - 280px);
-            overflow-y: auto;
-            padding-bottom: 20px;
+        .checklist-item:last-child {
+            border-bottom: none;
         }
         
-        .message {
-            display: flex;
-            margin-bottom: 16px;
-        }
-        
-        .message.user {
-            flex-direction: row-reverse;
-        }
-        
-        .message-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
+        .checklist-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            margin-right: 12px;
+            margin-top: 2px;
+            cursor: pointer;
             flex-shrink: 0;
         }
         
-        .message.user .message-avatar {
-            background: var(--primary);
-            color: white;
+        .checklist-checkbox.checked {
+            background: var(--success);
+            border-color: var(--success);
         }
         
-        .message.ai .message-avatar {
-            background: #10b981;
-            color: white;
-        }
-        
-        .message-content {
-            max-width: 75%;
-            padding: 10px 14px;
-            border-radius: 12px;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-        
-        .message.user .message-content {
-            background: var(--primary);
-            color: white;
-            border-bottom-right-radius: 4px;
-        }
-        
-        .message.ai .message-content {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-bottom-left-radius: 4px;
-        }
-        
-        .chat-input {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--card);
-            padding: 12px 16px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            gap: 8px;
-        }
-        
-        .chat-input input {
+        .checklist-text {
             flex: 1;
-            padding: 12px 16px;
-            border: 1px solid var(--border);
-            border-radius: 24px;
             font-size: 14px;
-            outline: none;
         }
         
-        .chat-input input:focus {
-            border-color: var(--primary);
-        }
-        
-        .chat-input button {
-            width: 44px;
-            height: 44px;
+        /* Buttons */
+        .btn {
+            padding: 14px 24px;
             border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+        
+        .btn:active {
+            transform: scale(0.98);
+        }
+        
+        .btn-primary {
             background: var(--primary);
             color: white;
-            border-radius: 50%;
-            cursor: pointer;
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: var(--bg);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-group {
             display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        /* Bottom Nav */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--card);
-            border-top: 1px solid var(--border);
-            display: flex;
-            padding: 8px 0;
-            padding-bottom: calc(8px + env(safe-area-inset-bottom));
-        }
-        
-        .nav-item {
-            flex: 1;
-            text-align: center;
-            padding: 8px;
-            font-size: 10px;
-            color: var(--text-light);
-            cursor: pointer;
-        }
-        
-        .nav-item.active {
-            color: var(--primary);
-        }
-        
-        .nav-item i {
-            display: block;
-            font-size: 22px;
-            margin-bottom: 2px;
+            gap: 12px;
+            margin-top: 20px;
         }
         
         /* Progress Bar */
@@ -391,38 +433,6 @@
             background: var(--success);
             border-radius: 3px;
             transition: width 0.3s;
-        }
-        
-        /* Quick Actions */
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-top: 16px;
-        }
-        
-        .quick-action {
-            background: #f1f5f9;
-            padding: 16px 12px;
-            border-radius: 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .quick-action:active {
-            transform: scale(0.95);
-        }
-        
-        .quick-action i {
-            font-size: 24px;
-            color: var(--primary);
-            margin-bottom: 6px;
-        }
-        
-        .quick-action span {
-            font-size: 12px;
-            color: var(--text);
         }
         
         /* Stats */
@@ -452,7 +462,32 @@
             margin-top: 4px;
         }
         
-        /* Hidden file input */
+        /* AI Response */
+        .ai-response {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        
+        .ai-response-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #0369a1;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .ai-response-content {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text);
+        }
+        
+        /* Hidden */
         #camera-input {
             display: none;
         }
@@ -477,6 +512,17 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+        
+        /* Back Button */
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--primary);
+            margin-bottom: 16px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -494,11 +540,11 @@
         </div>
         <div class="tab" data-tab="ocr">
             <i class="ri-camera-line"></i>
-            OCR识别
+            识别
         </div>
-        <div class="tab" data-tab="ai">
-            <i class="ri-robot-line"></i>
-            AI助手
+        <div class="tab" data-tab="history">
+            <i class="ri-history-line"></i>
+            记录
         </div>
     </div>
     
@@ -535,23 +581,19 @@
         <div class="card" id="task-list">
             <!-- Tasks will be rendered here -->
         </div>
-        
-        <!-- Quick Actions -->
-        <div class="card">
-            <div class="card-title" style="margin-bottom: 12px;">⚡ 快捷操作</div>
-            <div class="quick-actions">
-                <div class="quick-action" onclick="switchTab('ocr')">
-                    <i class="ri-camera-line"></i>
-                    <span>拍照识别</span>
+    </div>
+    
+    <!-- Task Detail Modal -->
+    <div class="modal-overlay" id="task-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title" id="modal-title">任务详情</div>
+                <div class="modal-close" onclick="closeModal()">
+                    <i class="ri-close-line"></i>
                 </div>
-                <div class="quick-action" onclick="switchTab('ai')">
-                    <i class="ri-question-answer-line"></i>
-                    <span>AI问答</span>
-                </div>
-                <div class="quick-action" onclick="addTask()">
-                    <i class="ri-add-line"></i>
-                    <span>添加任务</span>
-                </div>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Dynamic Content -->
             </div>
         </div>
     </div>
@@ -559,89 +601,141 @@
     <!-- OCR Content -->
     <div class="content" id="ocr">
         <div class="card">
-            <div class="ocr-capture" id="ocr-capture">
-                <div class="icon" onclick="captureImage()">
-                    <i class="ri-camera-fill"></i>
-                </div>
-                <p>点击拍照识别设备信息</p>
-                <p style="margin-top: 8px; font-size: 12px;">支持：铭牌、仪表、标签、管道标识</p>
+            <div class="card-title" style="margin-bottom: 16px;">📷 快速识别</div>
+            
+            <div class="form-group">
+                <label class="form-label">选择识别类型</label>
+                <select class="form-input" id="ocr-type">
+                    <option value="nameplate">设备铭牌</option>
+                    <option value="gauge">仪表读数</option>
+                    <option value="valve">阀门挂牌</option>
+                    <option value="label">管道标识</option>
+                </select>
             </div>
             
-            <div class="ocr-result" id="ocr-result">
-                <img id="ocr-image" class="ocr-image" src="" alt="Captured">
-                <div class="card-title" style="margin-bottom: 8px;">📝 识别结果</div>
-                <div class="ocr-text" id="ocr-text">识别中...</div>
-                
-                <div class="ocr-actions">
-                    <button class="btn btn-primary" onclick="sendToAI()">发送给AI分析</button>
-                    <button class="btn btn-secondary" onclick="retryOCR()">重新拍摄</button>
+            <div class="form-group">
+                <label class="form-label">拍摄照片</label>
+                <div class="capture-box" id="ocr-capture" onclick="captureOCR()">
+                    <i class="ri-camera-line"></i>
+                    <p>点击拍照识别</p>
                 </div>
+                <input type="file" id="ocr-camera-input" accept="image/*" capture="environment" onchange="handleOCRCapture(event)">
             </div>
+            
+            <div id="ocr-result-box" style="display: none;">
+                <div class="form-group">
+                    <label class="form-label">📝 识别结果</label>
+                    <div class="form-input" id="ocr-result-text" style="min-height: 80px; background: #f8fafc;"></div>
+                </div>
+                <button class="btn btn-primary" onclick="analyzeOCR()">🤖 AI智能分析</button>
+            </div>
+            
+            <div id="ocr-ai-result" style="display: none;"></div>
         </div>
-        
-        <!-- History -->
+    </div>
+    
+    <!-- History Content -->
+    <div class="content" id="history">
         <div class="card">
-            <div class="card-title" style="margin-bottom: 12px;">📚 历史记录</div>
-            <div id="ocr-history">
-                <div class="task-item">
-                    <div class="task-info">
-                        <div class="task-name">设备铭牌识别</div>
-                        <div class="task-desc">A-001 空压机铭牌</div>
-                    </div>
-                    <span class="status-badge status-done">已完成</span>
-                </div>
-                <div class="task-item">
-                    <div class="task-info">
-                        <div class="task-name">仪表读数识别</div>
-                        <div class="task-desc">P-102 压力表 0.45MPa</div>
-                    </div>
-                    <span class="status-badge status-done">已完成</span>
-                </div>
+            <div class="card-title" style="margin-bottom: 16px;">📚 今日记录</div>
+            <div id="history-list">
+                <!-- History items -->
             </div>
         </div>
     </div>
-    
-    <!-- AI Content -->
-    <div class="content" id="ai">
-        <div class="chat-messages" id="chat-messages">
-            <div class="message ai">
-                <div class="message-avatar">🤖</div>
-                <div class="message-content">
-                    您好！我是AI助手，可以帮您：<br><br>
-                    📋 生成设备检查指令<br>
-                    🔧 诊断异常情况<br>
-                    📖 解答操作问题<br>
-                    📊 分析检测数据<br><br>
-                    有什么可以帮您的？
-                </div>
-            </div>
-        </div>
-        
-        <div class="chat-input">
-            <input type="text" id="chat-input" placeholder="输入您的问题..." onkeypress="handleChatKeypress(event)">
-            <button onclick="sendMessage()"><i class="ri-send-plane-fill"></i></button>
-        </div>
-    </div>
-    
-    <!-- Hidden Camera Input -->
-    <input type="file" id="camera-input" accept="image/*" capture="environment" onchange="handleImageCapture(event)">
     
     <script>
-        // Task Data
+        // Task Data with Details
         let tasks = [
-            { id: 1, name: '8:00 设备巡检', desc: '检查A区空压机运行状态', time: '08:00', done: true },
-            { id: 2, name: '9:30 压力容器检查', desc: 'B罐区压力表读数记录', time: '09:30', done: true },
-            { id: 3, name: '10:00 电机温度检测', desc: 'M-201~M-205 电机温度测量', time: '10:00', done: false },
-            { id: 4, name: '11:00 阀门挂牌检查', desc: 'P-001~P-050 阀门挂牌完整性', time: '11:00', done: false },
-            { id: 5, name: '14:00 仪表校准记录', desc: '流量计FT-102校准数据录入', time: '14:00', done: false },
-            { id: 6, name: '16:00 巡检总结', desc: '生成当日巡检报告', time: '16:00', done: false },
+            {
+                id: 1,
+                name: '8:00 设备巡检',
+                desc: '检查A区空压机运行状态',
+                time: '08:00',
+                done: true,
+                type: 'checklist',
+                checklist: [
+                    { text: '检查空压机运行声响', done: true },
+                    { text: '检查油气分离器油位', done: true },
+                    { text: '记录出口压力', done: true, value: '0.75 MPa' },
+                    { text: '记录出口温度', done: true, value: '72℃' }
+                ]
+            },
+            {
+                id: 2,
+                name: '9:30 压力容器检查',
+                desc: 'B罐区压力表读数记录',
+                time: '09:30',
+                done: true,
+                type: 'form',
+                fields: [
+                    { label: '罐区编号', value: 'B-101' },
+                    { label: '压力表读数 (MPa)', value: '0.45' },
+                    { label: '是否正常', value: '正常' },
+                    { label: '备注', value: '' }
+                ]
+            },
+            {
+                id: 3,
+                name: '10:00 电机温度检测',
+                desc: 'M-201~M-205 电机温度测量',
+                time: '10:00',
+                done: false,
+                type: 'capture',
+                captures: [
+                    { label: 'M-201 电机温度', value: '', image: null },
+                    { label: 'M-202 电机温度', value: '', image: null },
+                    { label: 'M-203 电机温度', value: '', image: null },
+                    { label: 'M-204 电机温度', value: '', image: null },
+                    { label: 'M-205 电机温度', value: '', image: null }
+                ]
+            },
+            {
+                id: 4,
+                name: '11:00 阀门挂牌检查',
+                desc: 'P-001~P-050 阀门挂牌完整性',
+                time: '11:00',
+                done: false,
+                type: 'checklist',
+                checklist: [
+                    { text: 'P-001 阀门挂牌完好', done: false },
+                    { text: 'P-002 阀门挂牌完好', done: false },
+                    { text: 'P-003 阀门挂牌完好', done: false },
+                    { text: 'P-004 阀门挂牌完好', done: false },
+                    { text: 'P-005 阀门挂牌完好', done: false }
+                ]
+            },
+            {
+                id: 5,
+                name: '14:00 仪表校准记录',
+                desc: '流量计FT-102校准数据录入',
+                time: '14:00',
+                done: false,
+                type: 'form',
+                fields: [
+                    { label: '仪表编号', value: 'FT-102' },
+                    { label: '标准值 (m³/h)', value: '' },
+                    { label: '实测值 (m³/h)', value: '' },
+                    { label: '误差 (%)', value: '' },
+                    { label: '结论', value: '' }
+                ]
+            },
+            {
+                id: 6,
+                name: '16:00 巡检总结',
+                desc: '生成当日巡检报告',
+                time: '16:00',
+                done: false,
+                type: 'ai',
+                prompt: '生成今日设备巡检总结报告，包括：1. 巡检概况 2. 异常情况 3. 维护建议'
+            }
         ];
         
         // Render Tasks
         function renderTasks() {
             const taskList = document.getElementById('task-list');
             taskList.innerHTML = tasks.map(task => `
-                <div class="task-item" onclick="toggleTask(${task.id})">
+                <div class="task-item" onclick="openTaskDetail(${task.id})">
                     <div class="task-checkbox ${task.done ? 'checked' : ''}">
                         ${task.done ? '<i class="ri-check-line"></i>' : ''}
                     </div>
@@ -649,7 +743,9 @@
                         <div class="task-name">${task.name}</div>
                         <div class="task-desc">${task.desc}</div>
                     </div>
-                    <div class="task-time">${task.time}</div>
+                    <div class="task-arrow">
+                        <i class="ri-arrow-right-s-line"></i>
+                    </div>
                 </div>
             `).join('');
             
@@ -665,15 +761,282 @@
                 document.getElementById('flow-status').textContent = '全部完成';
                 document.getElementById('flow-status').className = 'status-badge status-done';
             }
+            
+            // Render History
+            renderHistory();
         }
         
-        // Toggle Task
-        function toggleTask(id) {
-            const task = tasks.find(t => t.id === id);
+        // Render History
+        function renderHistory() {
+            const doneTasks = tasks.filter(t => t.done);
+            const historyList = document.getElementById('history-list');
+            
+            if (doneTasks.length === 0) {
+                historyList.innerHTML = '<div style="text-align: center; color: var(--text-light); padding: 40px;">暂无完成记录</div>';
+                return;
+            }
+            
+            historyList.innerHTML = doneTasks.map(task => `
+                <div class="task-item" onclick="openTaskDetail(${task.id})">
+                    <div class="task-info">
+                        <div class="task-name">${task.name}</div>
+                        <div class="task-desc">${task.desc}</div>
+                    </div>
+                    <span class="status-badge status-done">已完成</span>
+                </div>
+            `).join('');
+        }
+        
+        // Open Task Detail
+        function openTaskDetail(taskId) {
+            const task = tasks.find(t => t.id === taskId);
+            if (!task) return;
+            
+            document.getElementById('modal-title').textContent = task.name;
+            const modalBody = document.getElementById('modal-body');
+            
+            let content = '';
+            
+            if (task.type === 'checklist') {
+                content = renderChecklistTask(task);
+            } else if (task.type === 'form') {
+                content = renderFormTask(task);
+            } else if (task.type === 'capture') {
+                content = renderCaptureTask(task);
+            } else if (task.type === 'ai') {
+                content = renderAITask(task);
+            }
+            
+            modalBody.innerHTML = content;
+            document.getElementById('task-modal').classList.add('active');
+        }
+        
+        // Render Checklist Task
+        function renderChecklistTask(task) {
+            return `
+                <div class="form-group">
+                    <label class="form-label">${task.desc}</label>
+                </div>
+                <div class="form-group">
+                    ${task.checklist.map((item, idx) => `
+                        <div class="checklist-item" onclick="toggleChecklistItem(${task.id}, ${idx})">
+                            <div class="checklist-checkbox ${item.done ? 'checked' : ''}"></div>
+                            <div class="checklist-text">${item.text}${item.value ? ' - ' + item.value : ''}</div>
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="btn btn-success" onclick="completeTask(${task.id})">✅ 完成任务</button>
+            `;
+        }
+        
+        // Render Form Task
+        function renderFormTask(task) {
+            return `
+                <div class="form-group">
+                    ${task.fields.map((field, idx) => `
+                        <label class="form-label">${field.label}</label>
+                        <input type="text" class="form-input" id="field-${idx}" 
+                            value="${field.value || ''}" 
+                            onchange="updateFieldValue(${task.id}, ${idx}, this.value)"
+                            ${field.value && field.value !== '' ? 'style="background: #f8fafc;"' : ''}>
+                    `).join('')}
+                </div>
+                <button class="btn btn-success" onclick="completeTask(${task.id})">✅ 完成任务</button>
+            `;
+        }
+        
+        // Render Capture Task
+        function renderCaptureTask(task) {
+            return `
+                <div class="form-group">
+                    <label class="form-label">${task.desc}</label>
+                    <p class="form-hint">点击每个项目进行拍照识别</p>
+                </div>
+                ${task.captures.map((cap, idx) => `
+                    <div class="form-group">
+                        <label class="form-label">${cap.label}</label>
+                        <div class="capture-box ${cap.image ? 'has-image' : ''}" 
+                            onclick="captureItemImage(${task.id}, ${idx})">
+                            ${cap.image ? 
+                                `<img src="${cap.image}" alt="${cap.label}">
+                                <p style="margin-top: 8px;">${cap.value || '点击重新拍摄'}</p>` :
+                                `<i class="ri-camera-line"></i>
+                                <p>点击拍照</p>`
+                            }
+                        </div>
+                    </div>
+                `).join('')}
+                <button class="btn btn-success" onclick="completeTask(${task.id})">✅ 完成任务</button>
+            `;
+        }
+        
+        // Render AI Task
+        function renderAITask(task) {
+            return `
+                <div class="form-group">
+                    <label class="form-label">AI 智能报告</label>
+                    <p class="form-hint">${task.desc}</p>
+                </div>
+                <button class="btn btn-primary" onclick="generateAIReport(${task.id})">
+                    🤖 生成巡检报告
+                </button>
+                <div id="ai-report-result"></div>
+            `;
+        }
+        
+        // Toggle Checklist
+        function toggleChecklistItem(taskId, itemIdx) {
+            const task = tasks.find(t => t.id === taskId);
+            if (task && task.checklist) {
+                task.checklist[itemIdx].done = !task.checklist[itemIdx].done;
+                openTaskDetail(taskId); // Re-render
+            }
+        }
+        
+        // Update Field Value
+        function updateFieldValue(taskId, fieldIdx, value) {
+            const task = tasks.find(t => t.id === taskId);
+            if (task && task.fields) {
+                task.fields[fieldIdx].value = value;
+            }
+        }
+        
+        // Capture Item Image
+        let currentCaptureTask = null;
+        let currentCaptureIdx = null;
+        
+        function captureItemImage(taskId, idx) {
+            currentCaptureTask = taskId;
+            currentCaptureIdx = idx;
+            document.getElementById('ocr-camera-input').click();
+        }
+        
+        // Handle OCR Capture
+        function handleOCRCapture(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // If in task detail mode
+                if (currentCaptureTask !== null) {
+                    const task = tasks.find(t => t.id === currentCaptureTask);
+                    if (task && task.captures) {
+                        task.captures[currentCaptureIdx].image = e.target.result;
+                        task.captures[currentCaptureIdx].value = (Math.random() * 20 + 60).toFixed(1) + '℃';
+                        openTaskDetail(currentCaptureTask);
+                    }
+                    currentCaptureTask = null;
+                    currentCaptureIdx = null;
+                } else {
+                    // OCR tab mode
+                    document.getElementById('ocr-capture').innerHTML = `<img src="${e.target.result}" alt="Captured">`;
+                    document.getElementById('ocr-capture').classList.add('has-image');
+                    document.getElementById('ocr-result-box').style.display = 'block';
+                    
+                    // Simulate OCR result
+                    setTimeout(() => {
+                        const ocrType = document.getElementById('ocr-type').value;
+                        let result = '';
+                        if (ocrType === 'nameplate') {
+                            result = `设备编号：A-001
+设备名称：空气压缩机
+型号：LU132-8
+功率：132kW
+电压：380V
+制造商：阿特拉斯·科普柯
+出厂日期：2020-03`;
+                        } else if (ocrType === 'gauge') {
+                            result = `压力表读数：0.45 MPa
+表号：P-102
+量程：0-1.0MPa
+精度等级：1.6级`;
+                        } else {
+                            result = `识别成功，请确认内容`;
+                        }
+                        document.getElementById('ocr-result-text').textContent = result;
+                    }, 1500);
+                }
+            };
+            reader.readAsDataURL(file);
+            event.target.value = '';
+        }
+        
+        // Complete Task
+        function completeTask(taskId) {
+            const task = tasks.find(t => t.id === taskId);
             if (task) {
-                task.done = !task.done;
+                task.done = true;
+                closeModal();
                 renderTasks();
             }
+        }
+        
+        // Generate AI Report
+        function generateAIReport(taskId) {
+            const resultDiv = document.getElementById('ai-report-result');
+            resultDiv.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+            
+            setTimeout(() => {
+                resultDiv.innerHTML = `
+                    <div class="ai-response">
+                        <div class="ai-response-title">
+                            <i class="ri-robot-line"></i> 🤖 AI 巡检报告
+                        </div>
+                        <div class="ai-response-content">
+                            <p><strong>📋 巡检概况</strong></p>
+                            <p>今日共完成设备巡检6项，所有设备运行正常。</p>
+                            <br>
+                            <p><strong>⚠️ 异常情况</strong></p>
+                            <p>无异常发现。各项参数均在正常范围内。</p>
+                            <br>
+                            <p><strong>🔧 维护建议</strong></p>
+                            <p>1. 建议4月进行空压机定期保养<br>
+                            2. 阀门P-003挂牌有轻微磨损，建议更换<br>
+                            3. 电机M-204温度略高(78℃)，建议持续观察</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-success" style="margin-top: 16px;" onclick="completeTask(${taskId})">✅ 确认并完成</button>
+                `;
+            }, 2000);
+        }
+        
+        // Analyze OCR
+        function analyzeOCR() {
+            const resultDiv = document.getElementById('ocr-ai-result');
+            resultDiv.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+            resultDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                resultDiv.innerHTML = `
+                    <div class="ai-response">
+                        <div class="ai-response-title">
+                            <i class="ri-robot-line"></i> 🤖 AI 分析建议
+                        </div>
+                        <div class="ai-response-content">
+                            <p><strong>📊 识别信息摘要</strong></p>
+                            <p>设备编号：A-001 | 型号：LU132-8</p>
+                            <br>
+                            <p><strong>🔧 维护建议</strong></p>
+                            <p>1. 下次保养：2026-04-01（建议提前1周安排）<br>
+                            2. 已运行约6年，建议关注轴承状态<br>
+                            3. 运行时注意监测电流和温度</p>
+                        </div>
+                    </div>
+                `;
+            }, 2000);
+        }
+        
+        // Close Modal
+        function closeModal() {
+            document.getElementById('task-modal').classList.remove('active');
+            currentCaptureTask = null;
+            currentCaptureIdx = null;
+        }
+        
+        // Capture OCR
+        function captureOCR() {
+            document.getElementById('ocr-camera-input').click();
         }
         
         // Tab Switching
@@ -688,120 +1051,6 @@
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', () => switchTab(tab.dataset.tab));
         });
-        
-        // Camera Capture
-        function captureImage() {
-            document.getElementById('camera-input').click();
-        }
-        
-        function handleImageCapture(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('ocr-image').src = e.target.result;
-                    document.getElementById('ocr-capture').style.display = 'none';
-                    document.getElementById('ocr-result').classList.add('show');
-                    
-                    // Simulate OCR
-                    simulateOCR();
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-        
-        // Simulate OCR (In real app, call OCR API)
-        function simulateOCR() {
-            document.getElementById('ocr-text').innerHTML = '<div class="loading"><div class="spinner"></div></div>';
-            
-            setTimeout(() => {
-                document.getElementById('ocr-text').textContent = `设备铭牌信息：
-━━━━━━━━━━━━━━━━
-设备编号：A-001
-设备名称：空气压缩机
-型号：LU132-8
-功率：132kW
-电压：380V
-制造商：阿特拉斯·科普柯
-出厂日期：2020-03
-下次保养：2026-04-01`;
-            }, 2000);
-        }
-        
-        // Retry OCR
-        function retryOCR() {
-            document.getElementById('ocr-capture').style.display = 'block';
-            document.getElementById('ocr-result').classList.remove('show');
-            document.getElementById('camera-input').value = '';
-        }
-        
-        // Send to AI
-        function sendToAI() {
-            const ocrText = document.getElementById('ocr-text').textContent;
-            switchTab('ai');
-            addMessage('user', '请分析这个设备铭牌信息，给出维护建议：\n' + ocrText);
-            simulateAIResponse('我已收到设备铭牌信息。分析如下：\n\n📋 设备信息\n- 设备编号：A-001\n- 型号：LU132-8\n- 功率：132kW\n\n⚠️ 维护建议\n1. 下次保养日期：2026-04-01（建议提前1周安排）\n2. 已运行约6年，建议关注轴承状态\n3. 运行时注意监测电流和温度\n\n📞 备件建议\n- 空气过滤器\n- 油过滤器\n- 润滑油');
-        }
-        
-        // Chat Functions
-        function handleChatKeypress(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
-            }
-        }
-        
-        function sendMessage() {
-            const input = document.getElementById('chat-input');
-            const text = input.value.trim();
-            if (!text) return;
-            
-            addMessage('user', text);
-            input.value = '';
-            
-            // Simulate AI response
-            setTimeout(() => {
-                let response = '';
-                if (text.includes('检查') || text.includes('巡检')) {
-                    response = '好的，我来帮您生成检查指令：\n\n📋 A区空压机检查清单\n\n1. 外观检查\n   □ 无异常声响\n   □ 无异常振动\n   □ 油位正常\n\n2. 运行参数\n   □ 出口压力：0.7-0.8MPa\n   □ 出口温度：<85℃\n   □ 电流：<240A\n\n3. 记录数据并上传系统';
-                } else if (text.includes('故障') || text.includes('异常')) {
-                    response = '请描述具体的故障现象，例如：\n- 设备报警代码\n- 异常声响或振动\n- 温度/压力异常\n\n我可以帮您分析可能的原因和建议的处理措施。';
-                } else {
-                    response = '收到您的问题！\n\n我可以帮您：\n1. 📋 生成检查指令\n2. 🔧 诊断设备故障\n3. 📖 解答操作疑问\n4. 📊 分析检测数据\n\n请告诉我您具体需要什么帮助？';
-                }
-                
-                addMessage('ai', response);
-            }, 1500);
-        }
-        
-        function addMessage(type, content) {
-            const messages = document.getElementById('chat-messages');
-            const div = document.createElement('div');
-            div.className = `message ${type}`;
-            div.innerHTML = `
-                <div class="message-avatar">${type === 'user' ? '👤' : '🤖'}</div>
-                <div class="message-content">${content}</div>
-            `;
-            messages.appendChild(div);
-            messages.scrollTop = messages.scrollHeight;
-        }
-        
-        // Add Task
-        function addTask() {
-            const name = prompt('请输入任务名称：');
-            if (name) {
-                const desc = prompt('请输入任务描述：') || '';
-                const time = prompt('请输入时间（如 10:30）：') || '';
-                
-                tasks.push({
-                    id: tasks.length + 1,
-                    name: name,
-                    desc: desc,
-                    time: time,
-                    done: false
-                });
-                renderTasks();
-            }
-        }
         
         // Update Time
         function updateTime() {

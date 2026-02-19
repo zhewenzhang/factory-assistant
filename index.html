@@ -18,10 +18,12 @@
         .login-logo p { color: var(--text-light); font-size: 12px; margin-top: 4px; }
         .form-group { margin-bottom: 16px; }
         .form-label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; }
-        .form-input, .form-select { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; font-size: 14px; }
+        .form-input, .form-select, .form-textarea { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; font-size: 14px; }
         .btn { padding: 12px 20px; border: none; border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer; width: 100%; background: var(--primary); color: white; }
         .btn-small { width: auto; padding: 8px 14px; font-size: 12px; }
         .btn-secondary { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
+        .btn-success { background: var(--success); }
+        .btn-warning { background: var(--warning); }
         .btn-danger { background: var(--danger); }
         
         /* App */
@@ -55,23 +57,14 @@
         .content.active { display: block; }
         
         /* Stats */
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
-        .stat-card { background: var(--card); padding: 14px; border-radius: 12px; text-align: center; }
-        .stat-value { font-size: 20px; font-weight: 700; color: var(--primary); }
-        .stat-label { font-size: 11px; color: var(--text-light); margin-top: 4px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+        .stat-card { background: var(--card); padding: 12px 8px; border-radius: 10px; text-align: center; }
+        .stat-value { font-size: 18px; font-weight: 700; color: var(--primary); }
+        .stat-label { font-size: 10px; color: var(--text-light); margin-top: 2px; }
         
         /* Card */
         .card { background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
         .card-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-        
-        /* List */
-        .list-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
-        .list-item:last-child { border-bottom: none; }
-        .list-item:active { background: var(--bg); margin: 0 -16px; padding-left: 16px; padding-right: 16px; }
-        .list-info { flex: 1; }
-        .list-name { font-size: 14px; font-weight: 500; }
-        .list-meta { font-size: 12px; color: var(--text-light); }
-        .list-tag { font-size: 10px; padding: 3px 8px; border-radius: 10px; background: var(--bg); }
         
         /* Task */
         .task-item { display: flex; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
@@ -84,18 +77,37 @@
         .task-info { flex: 1; }
         .task-name { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
         .task-meta { font-size: 12px; color: var(--text-light); }
-        .task-status { font-size: 11px; padding: 4px 10px; border-radius: 12px; }
-        .task-status.pending { background: #fef3c7; color: #d97706; }
-        .task-status.done { background: #dcfce7; color: #16a34a; }
+        
+        /* Status */
+        .task-status { font-size: 10px; padding: 4px 8px; border-radius: 10px; }
+        .status-pending { background: #fef3c7; color: #d97706; }
+        .status-processing { background: #dbeafe; color: #2563eb; }
+        .status-waiting { background: #fce7f3; color: #db2777; }
+        .status-approved { background: #dcfce7; color: #16a34a; }
+        .status-rejected { background: #fee2e2; color: #dc2626; }
+        
+        /* Progress */
+        .progress-bar { height: 6px; background: var(--border); border-radius: 3px; margin-top: 8px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--success); border-radius: 3px; transition: width 0.3s; }
         
         /* Flow */
         .flow-step { display: flex; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--border); }
         .flow-step:last-child { border-bottom: none; }
         .step-num { width: 26px; height: 26px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; margin-right: 12px; flex-shrink: 0; }
         .step-num.done { background: var(--success); }
+        .step-num.waiting { background: var(--warning); }
         .step-content { flex: 1; }
-        .step-title { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+        .step-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
         .step-check { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+        
+        /* Timeline */
+        .timeline { margin-top: 12px; padding-left: 16px; border-left: 2px solid var(--border); }
+        .timeline-item { position: relative; padding-left: 12px; margin-bottom: 12px; }
+        .timeline-item::before { content: ''; position: absolute; left: -19px; top: 4px; width: 8px; height: 8px; border-radius: 50%; background: var(--primary); }
+        .timeline-item.done::before { background: var(--success); }
+        .timeline-item.current::before { background: var(--warning); }
+        .timeline-date { font-size: 11px; color: var(--text-light); }
+        .timeline-text { font-size: 13px; }
         
         /* Modal */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 16px; }
@@ -108,14 +120,20 @@
         .modal-footer { padding: 12px 16px; border-top: 1px solid var(--border); display: flex; gap: 10px; }
         .modal-footer .btn { flex: 1; }
         
+        /* List */
+        .list-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
+        .list-item:last-child { border-bottom: none; }
+        .list-info { flex: 1; }
+        .list-name { font-size: 14px; font-weight: 500; }
+        .list-meta { font-size: 12px; color: var(--text-light); }
+        
         /* Table */
         .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
         .data-table th, .data-table td { padding: 10px 6px; text-align: left; border-bottom: 1px solid var(--border); }
         .data-table th { font-weight: 600; color: var(--text-light); font-size: 11px; background: var(--bg); }
         
-        /* Admin */
-        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .empty { text-align: center; padding: 40px; color: var(--text-light); }
+        .notice { background: #fef3c7; padding: 12px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; }
     </style>
 </head>
 <body>
@@ -139,9 +157,10 @@
             </form>
             <div style="margin-top: 16px; text-align: center; font-size: 12px; color: var(--text-light);">
                 <p>测试账号：</p>
-                <p>admin / admin123 (管理员)</p>
-                <p>supervisor / 123456 (主管)</p>
-                <p>engineer / 123456 (工程师)</p>
+                <p>admin / admin123 (决策层)</p>
+                <p>supervisor / 123456 (管理层)</p>
+                <p>zhangsan / 123456 (执行层-生管)</p>
+                <p>lisi / 123456 (执行层-设备)</p>
             </div>
         </div>
     </div>
@@ -179,42 +198,84 @@
     
     <script>
         // ========== Config ==========
-        const roleNames = { admin: '管理员', supervisor: '主管', engineer: '工程师' };
-        const roleNamesCN = { admin: '管理员', supervisor: '主管', engineer: '工程师' };
         const levelNames = { 1: '执行层', 2: '管理层', 3: '决策层' };
         const levelBadges = { 1: 'level-1', 2: 'level-2', 3: 'level-3' };
         const deptNames = { producer: '生管', equipment: '设备', quality: '品保', process: '工艺', manufacturing: '制造' };
         
         // ========== Data ==========
-        // 用户数据
+        // 用户
         let users = [
             { id: 'u001', username: 'admin', password: 'admin123', role: 'admin', level: 3, levelName: '决策层', dept: '管理', name: '系统管理员', avatar: '👔' },
             { id: 'u002', username: 'supervisor', password: '123456', role: 'supervisor', level: 2, levelName: '管理层', dept: '生管', name: '张主管', avatar: '👨‍💼', subordinates: ['u003', 'u004', 'u005'] },
             { id: 'u003', username: 'zhangsan', password: '123456', role: 'engineer', level: 1, levelName: '执行层', dept: 'producer', deptName: '生管', name: '张三', avatar: '👨‍💻', supervisor: 'u002' },
             { id: 'u004', username: 'lisi', password: '123456', role: 'engineer', level: 1, levelName: '执行层', dept: 'equipment', deptName: '设备', name: '李四', avatar: '🔧', supervisor: 'u002' },
-            { id: 'u005', username: 'wangwu', password: '123456', role: 'engineer', level: 1, levelName: '执行层', dept: 'quality', deptName: '品保', name: '王五', avatar: '✅', supervisor: 'u002' },
-            { id: 'u006', username: 'engineer', password: '123456', role: 'engineer', level: 1, levelName: '执行层', dept: 'equipment', deptName: '设备', name: '陈工程师', avatar: '🔧', supervisor: 'u002' }
+            { id: 'u005', username: 'wangwu', password: '123456', role: 'engineer', level: 1, levelName: '执行层', dept: 'quality', deptName: '品保', name: '王五', avatar: '✅', supervisor: 'u002' }
         ];
         
-        // 任务数据
+        // 任务 - 含签核流程
+        // status: pending(待执行) -> processing(执行中) -> waiting_approve(待验收) -> approved(已完成) / rejected(已驳回)
         let tasks = [
-            { id: 1, title: '09:00 排配确认', desc: '确认今日生产排配', dept: 'producer', priority: 'high', status: 'pending', assigneeId: 'u003', assigneeName: '张三', supervisorId: 'u002', steps: [{t:'打开排配系统',d:false},{t:'确认各线排配',d:false},{t:'记录异常',d:false}] },
-            { id: 2, title: '11:00 产能记录', desc: '记录产能利用率', dept: 'producer', priority: 'medium', status: 'pending', assigneeId: 'u003', assigneeName: '张三', supervisorId: 'u002', steps: [{t:'采集数据',d:false},{t:'录入系统',d:false}] },
-            { id: 3, title: '08:00 设备点检', desc: 'A区设备点检', dept: 'equipment', priority: 'high', status: 'done', assigneeId: 'u004', assigneeName: '李四', supervisorId: 'u002', steps: [{t:'外观检查',d:true},{t:'参数记录',d:true},{t:'无异常',d:true}] },
-            { id: 4, title: '14:00 设备保养', desc: 'B-101季度保养', dept: 'equipment', priority: 'medium', status: 'pending', assigneeId: 'u004', assigneeName: '李四', supervisorId: 'u002', steps: [{t:'停机确认',d:false},{t:'清洁保养',d:false},{t:'更换配件',d:false},{t:'试机确认',d:false}] },
-            { id: 5, title: '09:00 IQC检验', desc: '来料LOT检验', dept: 'quality', priority: 'high', status: 'pending', assigneeId: 'u005', assigneeName: '王五', supervisorId: 'u002', steps: [{t:'外观检验',d:false},{t:'尺寸测量',d:false},{t:'判定结果',d:false}] }
-        ];
-        
-        // 指令（决策层发布）
-        let commands = [
-            { id: 1, title: '安全生产月启动', content: '本月为重点安全生产月，请各部门加强巡检', from: 'u001', fromName: '系统管理员', to: 'u002', date: '2026-02-19', read: false }
+            { 
+                id: 1, title: '08:30 晨间生产排配确认', desc: '确认今日各产线排配计划', dept: 'producer', priority: 'high', 
+                status: 'pending', assigneeId: 'u003', assigneeName: '张三', supervisorId: 'u002',
+                progress: 0, approveStatus: null,
+                steps: [
+                    {t:'登录排配系统', d:false, a:false}, 
+                    {t:'确认L1-L3排配', d:false, a:false}, 
+                    {t:'检查物料备料', d:false, a:false},
+                    {t:'提交确认', d:false, a:false}
+                ],
+                timeline: []
+            },
+            { 
+                id: 2, title: '10:00 产能利用率记录', desc: '记录昨日产能数据', dept: 'producer', priority: 'medium', 
+                status: 'pending', assigneeId: 'u003', assigneeName: '张三', supervisorId: 'u002',
+                progress: 0, approveStatus: null,
+                steps: [
+                    {t:'采集产能数据', d:false, a:false}, 
+                    {t:'录入系统', d:false, a:false}, 
+                    {t:'异常分析', d:false, a:false}
+                ],
+                timeline: []
+            },
+            { 
+                id: 3, title: '08:00 A区设备点检', desc: 'A-001~A-005设备点检', dept: 'equipment', priority: 'high', 
+                status: 'pending', assigneeId: 'u004', assigneeName: '李四', supervisorId: 'u002',
+                progress: 0, approveStatus: null,
+                steps: [
+                    {t:'外观检查', d:false, a:false}, 
+                    {t:'运行参数记录', d:false, a:false}, 
+                    {t:'异常记录', d:false, a:false}
+                ],
+                timeline: []
+            },
+            { 
+                id: 4, title: '14:00 设备定期保养', desc: 'B-101季度保养', dept: 'equipment', priority: 'medium', 
+                status: 'pending', assigneeId: 'u004', assigneeName: '李四', supervisorId: 'u002',
+                progress: 0, approveStatus: null,
+                steps: [
+                    {t:'停机确认', d:false, a:false}, 
+                    {t:'清洁保养', d:false, a:false}, 
+                    {t:'更换滤芯', d:false, a:false},
+                    {t:'试机确认', d:false, a:false}
+                ],
+                timeline: []
+            },
+            { 
+                id: 5, title: '09:00 IQC来料检验', desc: 'LOT#20260220-001检验', dept: 'quality', priority: 'high', 
+                status: 'pending', assigneeId: 'u005', assigneeName: '王五', supervisorId: 'u002',
+                progress: 0, approveStatus: null,
+                steps: [
+                    {t:'外观检验', d:false, a:false}, 
+                    {t:'尺寸测量', d:false, a:false}, 
+                    {t:'判定结果', d:false, a:false}
+                ],
+                timeline: []
+            }
         ];
         
         // 记录
-        let records = [
-            { date: '19', month: '02', title: '设备点检完成', desc: 'A区5台设备正常', user: '李四' },
-            { date: '18', month: '02', title: '排配确认完成', desc: '达成率98%', user: '张三' }
-        ];
+        let records = [];
         
         let currentUser = null;
         
@@ -257,13 +318,9 @@
         // ========== Tabs ==========
         function renderTabs() {
             let tabs = [];
-            if (currentUser.level === 1) {
-                tabs = ['📋 任务', '📚 记录'];
-            } else if (currentUser.level === 2) {
-                tabs = ['📋 任务', '➕ 分配', '👥 团队', '📚 记录'];
-            } else if (currentUser.level === 3) {
-                tabs = ['📋 任务', '📢 指令', '👥 用户', '📚 记录'];
-            }
+            if (currentUser.level === 1) tabs = ['📋 任务', '📚 记录'];
+            else if (currentUser.level === 2) tabs = ['📋 任务', '✅ 待验收', '➕ 分配', '👥 团队'];
+            else if (currentUser.level === 3) tabs = ['📋 任务', '📢 指令', '👥 用户'];
             
             document.getElementById('main-tabs').innerHTML = tabs.map((t, i) => 
                 `<div class="tab ${i===0?'active':''}" onclick="switchTab(${i})">${t}</div>`
@@ -278,147 +335,163 @@
         // ========== Content ==========
         function renderContent() {
             let html = '';
-            
-            if (currentUser.level === 1) {
-                html = renderEngineerContent();
-            } else if (currentUser.level === 2) {
-                html = renderSupervisorContent();
-            } else if (currentUser.level === 3) {
-                html = renderAdminContent();
-            }
-            
+            if (currentUser.level === 1) html = renderEngineerContent();
+            else if (currentUser.level === 2) html = renderSupervisorContent();
+            else if (currentUser.level === 3) html = renderAdminContent();
             document.getElementById('tab-contents').innerHTML = html;
         }
         
         // ========== Engineer (执行层) ==========
         function renderEngineerContent() {
             const myTasks = tasks.filter(t => t.assigneeId === currentUser.id);
-            const pending = myTasks.filter(t => t.status === 'pending').length;
-            const done = myTasks.filter(t => t.status === 'done').length;
+            const pending = myTasks.filter(t => t.status === 'pending' || t.status === 'processing').length;
+            const waiting = myTasks.filter(t => t.status === 'waiting_approve').length;
+            const done = myTasks.filter(t => t.status === 'approved').length;
             
             return `
                 <div class="tab-content" style="display:block">
                     <div class="stats-grid">
-                        <div class="stat-card"><div class="stat-value">${myTasks.length}</div><div class="stat-label">今日任务</div></div>
-                        <div class="stat-card"><div class="stat-value">${pending}</div><div class="stat-label">待完成</div></div>
+                        <div class="stat-card"><div class="stat-value">${myTasks.length}</div><div class="stat-label">总任务</div></div>
+                        <div class="stat-card"><div class="stat-value">${pending}</div><div class="stat-label">执行中</div></div>
+                        <div class="stat-card"><div class="stat-value">${waiting}</div><div class="stat-label">待验收</div></div>
                         <div class="stat-card"><div class="stat-value">${done}</div><div class="stat-label">已完成</div></div>
                     </div>
+                    
+                    ${waiting > 0 ? `<div class="notice">⏳ 您有 ${waiting} 项任务待主管验收</div>` : ''}
+                    
                     <div class="card">
                         <div class="card-title">📋 我的任务</div>
-                        ${myTasks.length === 0 ? '<div class="empty">暂无任务</div>' : myTasks.map(t => `
-                            <div class="task-item" onclick="openTask(${t.id})">
-                                <div class="task-priority ${t.priority}"></div>
-                                <div class="task-info">
-                                    <div class="task-name">${t.title}</div>
-                                    <div class="task-meta">${t.desc}</div>
-                                </div>
-                                <span class="task-status ${t.status}">${t.status==='pending'?'待执行':'已完成'}</span>
-                            </div>
-                        `).join('')}
+                        ${myTasks.length === 0 ? '<div class="empty">暂无任务</div>' : myTasks.map(t => renderTaskItem(t)).join('')}
                     </div>
                 </div>
                 <div class="tab-content">
                     <div class="card">
                         <div class="card-title">📚 工作记录</div>
-                        ${records.filter(r => r.user === currentUser.name).length === 0 ? '<div class="empty">暂无记录</div>' : records.filter(r => r.user === currentUser.name).map(r => `
-                            <div class="list-item">
-                                <div style="width:40px;text-align:center;margin-right:12px;">
-                                    <div style="font-size:18px;font-weight:700;color:var(--primary)">${r.date}</div>
-                                    <div style="font-size:11px;color:var(--text-light)">${r.month}月</div>
+                        ${records.filter(r => r.userId === currentUser.id).length === 0 ? '<div class="empty">暂无记录</div>' : 
+                            records.filter(r => r.userId === currentUser.id).map(r => `
+                                <div class="list-item">
+                                    <div style="width:40px;text-align:center;margin-right:12px;">
+                                        <div style="font-size:18px;font-weight:700;color:var(--primary)">${r.date}</div>
+                                        <div style="font-size:11px;color:var(--text-light)">${r.month}月</div>
+                                    </div>
+                                    <div class="list-info">
+                                        <div class="list-name">${r.title}</div>
+                                        <div class="list-meta">${r.desc}</div>
+                                    </div>
                                 </div>
-                                <div class="list-info">
-                                    <div class="list-name">${r.title}</div>
-                                    <div class="list-meta">${r.desc}</div>
-                                </div>
-                            </div>
-                        `).join('')}
+                            `).join('')}
                     </div>
+                </div>
+            `;
+        }
+        
+        function renderTaskItem(t) {
+            let statusClass = '', statusText = '';
+            if (t.status === 'pending') { statusClass = 'status-pending'; statusText = '待执行'; }
+            else if (t.status === 'processing') { statusClass = 'status-processing'; statusText = '执行中'; }
+            else if (t.status === 'waiting_approve') { statusClass = 'status-waiting'; statusText = '待验收'; }
+            else if (t.status === 'approved') { statusClass = 'status-approved'; statusText = '已完成'; }
+            else if (t.status === 'rejected') { statusClass = 'status-rejected'; statusText = '已驳回'; }
+            
+            return `
+                <div class="task-item" onclick="openTask(${t.id})">
+                    <div class="task-priority ${t.priority}"></div>
+                    <div class="task-info">
+                        <div class="task-name">${t.title}</div>
+                        <div class="task-meta">${t.desc}</div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:${t.progress}%"></div></div>
+                    </div>
+                    <span class="task-status ${statusClass}">${statusText}</span>
                 </div>
             `;
         }
         
         // ========== Supervisor (管理层) ==========
         function renderSupervisorContent() {
-            // 下属列表
-            const subordinates = users.filter(u => u.supervisor === currentUser.id);
             const myTasks = tasks.filter(t => t.supervisorId === currentUser.id);
-            const pending = myTasks.filter(t => t.status === 'pending').length;
+            const pending = myTasks.filter(t => t.status === 'pending' || t.status === 'processing').length;
+            const waiting = myTasks.filter(t => t.status === 'waiting_approve').length;
+            const subordinates = users.filter(u => u.supervisor === currentUser.id);
             
+            // Tab 0: 全部任务
+            let tab0 = `
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="stat-value">${myTasks.length}</div><div class="stat-label">分配任务</div></div>
+                    <div class="stat-card"><div class="stat-value">${pending}</div><div class="stat-label">执行中</div></div>
+                    <div class="stat-card"><div class="stat-value">${waiting}</div><div class="stat-label">待验收</div></div>
+                    <div class="stat-card"><div class="stat-value">${myTasks.filter(t=>t.status==='approved').length}</div><div class="stat-label">已完成</div></div>
+                </div>
+                <div class="card">
+                    <div class="card-title">📋 全部任务</div>
+                    ${myTasks.map(t => renderTaskItem(t)).join('')}
+                </div>
+            `;
+            
+            // Tab 1: 待验收
+            const waitingTasks = myTasks.filter(t => t.status === 'waiting_approve');
+            let tab1 = `
+                <div class="card">
+                    <div class="card-title">✅ 待验收任务 (${waitingTasks.length})</div>
+                    ${waitingTasks.length === 0 ? '<div class="empty">暂无待验收任务</div>' : waitingTasks.map(t => renderApproveItem(t)).join('')}
+                </div>
+            `;
+            
+            // Tab 2: 分配任务
+            let tab2 = `
+                <div class="card">
+                    <div class="card-title">➕ 分配新任务</div>
+                    <div class="form-group">
+                        <label class="form-label">选择执行人</label>
+                        <select class="form-input" id="assign-ee">
+                            ${subordinates.map(s => `<option value="${s.id}">${s.name} (${s.deptName})</option>`).join('')}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">任务类型</label>
+                        <select class="form-input" id="assign-type">
+                            <option value="producer">生产排配确认</option>
+                            <option value="equipment">设备点检</option>
+                            <option value="quality">IQC检验</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">任务描述</label>
+                        <input type="text" class="form-input" id="assign-desc" placeholder="输入任务描述">
+                    </div>
+                    <button class="btn" onclick="assignTask()">确认分配</button>
+                </div>
+            `;
+            
+            // Tab 3: 团队
+            let tab3 = `
+                <div class="card">
+                    <div class="card-title">👥 我的团队 (${subordinates.length}人)</div>
+                    ${subordinates.map(s => `
+                        <div class="list-item">
+                            <div class="user-avatar" style="margin-right:12px;width:36px;height:36px;font-size:14px;">${s.avatar}</div>
+                            <div class="list-info">
+                                <div class="list-name">${s.name}</div>
+                                <div class="list-meta">${s.deptName} · ${s.levelName}</div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            return `<div class="tab-content" style="display:block">${tab0}</div><div class="tab-content">${tab1}</div><div class="tab-content">${tab2}</div><div class="tab-content">${tab3}</div>`;
+        }
+        
+        function renderApproveItem(t) {
+            const ee = users.find(u => u.id === t.assigneeId);
             return `
-                <div class="tab-content" style="display:block">
-                    <div class="stats-grid">
-                        <div class="stat-card"><div class="stat-value">${subordinates.length}</div><div class="stat-label">下属人数</div></div>
-                        <div class="stat-card"><div class="stat-value">${myTasks.length}</div><div class="stat-label">分配任务</div></div>
-                        <div class="stat-card"><div class="stat-value">${pending}</div><div class="stat-label">待完成</div></div>
+                <div class="task-item" onclick="openApprove(${t.id})">
+                    <div class="task-priority ${t.priority}"></div>
+                    <div class="task-info">
+                        <div class="task-name">${t.title}</div>
+                        <div class="task-meta">执行人: ${ee ? ee.name : ''}</div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:${t.progress}%"></div></div>
                     </div>
-                    <div class="card">
-                        <div class="card-title">📋 分配的任务</div>
-                        ${myTasks.length === 0 ? '<div class="empty">暂无任务</div>' : myTasks.map(t => `
-                            <div class="task-item" onclick="openTask(${t.id})">
-                                <div class="task-priority ${t.priority}"></div>
-                                <div class="task-info">
-                                    <div class="task-name">${t.title}</div>
-                                    <div class="task-meta">执行人: ${t.assigneeName}</div>
-                                </div>
-                                <span class="task-status ${t.status}">${t.status==='pending'?'待执行':'已完成'}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-                <div class="tab-content">
-                    <div class="card">
-                        <div class="card-title">➕ 分配新任务</div>
-                        <div class="form-group">
-                            <label class="form-label">选择执行人</label>
-                            <select class="form-input" id="assign-ee">
-                                ${subordinates.map(s => `<option value="${s.id}">${s.name} (${s.deptName})</option>`).join('')}
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">任务类型</label>
-                            <select class="form-input" id="assign-type">
-                                <option value="producer">生产排配确认</option>
-                                <option value="equipment">设备点检</option>
-                                <option value="quality">IQC检验</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">任务描述</label>
-                            <input type="text" class="form-input" id="assign-desc" placeholder="输入任务描述">
-                        </div>
-                        <button class="btn" onclick="assignTask()">确认分配</button>
-                    </div>
-                </div>
-                <div class="tab-content">
-                    <div class="card">
-                        <div class="card-title">👥 我的团队 (${subordinates.length}人)</div>
-                        ${subordinates.map(s => `
-                            <div class="list-item">
-                                <div class="user-avatar" style="margin-right:12px;width:36px;height:36px;font-size:14px;">${s.avatar}</div>
-                                <div class="list-info">
-                                    <div class="list-name">${s.name}</div>
-                                    <div class="list-meta">${s.deptName} · ${s.levelName}</div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-                <div class="tab-content">
-                    <div class="card">
-                        <div class="card-title">📚 团队记录</div>
-                        ${records.map(r => `
-                            <div class="list-item">
-                                <div style="width:40px;text-align:center;margin-right:12px;">
-                                    <div style="font-size:18px;font-weight:700;color:var(--primary)">${r.date}</div>
-                                    <div style="font-size:11px;color:var(--text-light)">${r.month}月</div>
-                                </div>
-                                <div class="list-info">
-                                    <div class="list-name">${r.title}</div>
-                                    <div class="list-meta">${r.desc} · ${r.user}</div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
+                    <span class="task-status status-waiting">验收</span>
                 </div>
             `;
         }
@@ -426,8 +499,7 @@
         // ========== Admin (决策层) ==========
         function renderAdminContent() {
             const allTasks = tasks;
-            const pending = tasks.filter(t => t.status === 'pending').length;
-            const unreadCommands = commands.filter(c => !c.read && c.to === currentUser.id).length;
+            const pending = tasks.filter(t => t.status === 'pending' || t.status === 'processing').length;
             
             return `
                 <div class="tab-content" style="display:block">
@@ -438,75 +510,27 @@
                     </div>
                     <div class="card">
                         <div class="card-title">📋 所有任务</div>
-                        ${allTasks.map(t => `
-                            <div class="task-item">
-                                <div class="task-priority ${t.priority}"></div>
-                                <div class="task-info">
-                                    <div class="task-name">${t.title}</div>
-                                    <div class="task-meta">${deptNames[t.dept]} · ${t.assigneeName}</div>
-                                </div>
-                                <span class="task-status ${t.status}">${t.status==='pending'?'待执行':'已完成'}</span>
-                            </div>
-                        `).join('')}
+                        ${allTasks.map(t => renderTaskItem(t)).join('')}
                     </div>
                 </div>
                 <div class="tab-content">
                     <div class="card">
                         <div class="card-title">📢 发布指令</div>
                         <div class="form-group">
-                            <label class="form-label">指令内容</label>
-                            <textarea class="form-input" id="command-content" rows="3" placeholder="输入指令内容"></textarea>
+                            <textarea class="form-textarea" id="command-content" rows="3" placeholder="输入指令内容"></textarea>
                         </div>
                         <button class="btn" onclick="publishCommand()">发布指令</button>
                     </div>
-                    <div class="card">
-                        <div class="card-title">📨 收到的指令</div>
-                        ${commands.filter(c => c.to === currentUser.id || c.to === 'all').map(c => `
-                            <div class="list-item">
-                                <div class="list-info">
-                                    <div class="list-name">${c.title}</div>
-                                    <div class="list-meta">${c.content}</div>
-                                    <div style="font-size:11px;color:var(--text-light);margin-top:4px;">${c.fromName} · ${c.date}</div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
                 </div>
                 <div class="tab-content">
                     <div class="card">
-                        <div class="admin-header">
-                            <div class="card-title" style="margin:0">👥 用户管理</div>
-                            <button class="btn btn-small" onclick="showAddUser()">+ 添加用户</button>
-                        </div>
+                        <div class="card-title">👥 用户管理</div>
                         <table class="data-table">
-                            <tr><th>姓名</th><th>账号</th><th>部门</th><th>层级</th><th>操作</th></tr>
+                            <tr><th>姓名</th><th>账号</th><th>部门</th><th>层级</th></tr>
                             ${users.map(u => `
-                                <tr>
-                                    <td>${u.avatar} ${u.name}</td>
-                                    <td>${u.username}</td>
-                                    <td>${u.deptName || u.dept}</td>
-                                    <td><span class="level-badge ${levelBadges[u.level]}">${u.levelName}</span></td>
-                                    <td><button class="btn btn-small btn-secondary" onclick="editUser('${u.id}')">编辑</button></td>
-                                </tr>
+                                <tr><td>${u.avatar} ${u.name}</td><td>${u.username}</td><td>${u.deptName||u.dept}</td><td><span class="level-badge ${levelBadges[u.level]}">${u.levelName}</span></td></tr>
                             `).join('')}
                         </table>
-                    </div>
-                </div>
-                <div class="tab-content">
-                    <div class="card">
-                        <div class="card-title">📚 全部记录</div>
-                        ${records.map(r => `
-                            <div class="list-item">
-                                <div style="width:40px;text-align:center;margin-right:12px;">
-                                    <div style="font-size:18px;font-weight:700;color:var(--primary)">${r.date}</div>
-                                    <div style="font-size:11px;color:var(--text-light)">${r.month}月</div>
-                                </div>
-                                <div class="list-info">
-                                    <div class="list-name">${r.title}</div>
-                                    <div class="list-meta">${r.desc} · ${r.user}</div>
-                                </div>
-                            </div>
-                        `).join('')}
                     </div>
                 </div>
             `;
@@ -518,18 +542,17 @@
             if (!task) return;
             
             const doneSteps = task.steps.filter(s => s.d).length;
-            const progress = Math.round(doneSteps / task.steps.length * 100);
+            task.progress = Math.round(doneSteps / task.steps.length * 100);
             
             let body = `
                 <div style="font-size:13px;color:var(--text-light);margin-bottom:12px">${task.desc}</div>
                 <div style="margin-bottom:16px">
-                    <span>进度: ${progress}%</span>
-                    <div style="height:4px;background:var(--border);border-radius:2px;margin-top:6px">
-                        <div style="height:100%;width:${progress}%;background:var(--success);border-radius:2px"></div>
-                    </div>
+                    <span style="font-size:13px">进度: ${task.progress}%</span>
+                    <div class="progress-bar"><div class="progress-fill" style="width:${task.progress}%"></div></div>
                 </div>
             `;
             
+            // 步骤
             task.steps.forEach((step, idx) => {
                 body += `
                     <div class="flow-step">
@@ -537,18 +560,49 @@
                         <div class="step-content">
                             <div class="step-title">${step.t}</div>
                             ${step.d ? '<div style="color:var(--success)">✓ 已完成</div>' : 
+                                task.status === 'waiting_approve' ? '<div style="color:var(--text-light)">等待验收</div>' :
                                 `<label class="step-check"><input type="checkbox" onchange="toggleStep(${taskId},${idx},this.checked)"> 确认完成</label>`}
                         </div>
                     </div>
                 `;
             });
             
+            // 签核状态
+            if (task.status === 'waiting_approve') {
+                body += `
+                    <div style="margin-top:16px;padding:12px;background:#fce7f3;border-radius:8px;">
+                        <div style="font-size:13px;font-weight:500;color:#db2777">⏳ 待主管验收</div>
+                        <div style="font-size:12px;color:var(--text-light);margin-top:4px">已完成所有步骤，等待主管确认</div>
+                    </div>
+                `;
+            } else if (task.status === 'approved') {
+                body += `
+                    <div style="margin-top:16px;padding:12px;background:#dcfce7;border-radius:8px;">
+                        <div style="font-size:13px;font-weight:500;color:#16a34a">✅ 已完成 - 主管验收通过</div>
+                    </div>
+                `;
+            } else if (task.status === 'rejected') {
+                body += `
+                    <div style="margin-top:16px;padding:12px;background:#fee2e2;border-radius:8px;">
+                        <div style="font-size:13px;font-weight:500;color:#dc2626">❌ 已驳回 - 需重新执行</div>
+                    </div>
+                `;
+            }
+            
             document.getElementById('modal-title').textContent = task.title;
             document.getElementById('modal-body').innerHTML = body;
-            document.getElementById('modal-footer').innerHTML = `
-                <button class="btn btn-secondary" onclick="closeModal()">取消</button>
-                <button class="btn" onclick="${progress===100?'completeTask('+taskId+')':'saveProgress('+taskId+')'}">${progress===100?'完成任务':'保存'}</button>
-            `;
+            
+            let footer = '';
+            if (currentUser.level === 1) {
+                if (task.status === 'waiting_approve') {
+                    footer = `<button class="btn btn-secondary" onclick="closeModal()">等待验收</button>`;
+                } else if (task.progress === 100) {
+                    footer = `<button class="btn btn-warning" onclick="submitForApprove(${taskId})">📤 提交验收</button>`;
+                } else {
+                    footer = `<button class="btn btn-secondary" onclick="closeModal()">取消</button><button class="btn" onclick="saveProgress(${taskId})">💾 保存</button>`;
+                }
+            }
+            document.getElementById('modal-footer').innerHTML = footer;
             
             document.getElementById('modal').classList.add('active');
         }
@@ -556,7 +610,11 @@
         function toggleStep(taskId, idx, checked) {
             const task = tasks.find(t => t.id === taskId);
             task.steps[idx].d = checked;
-            task.status = task.steps.every(s => s.d) ? 'done' : 'pending';
+            
+            const doneSteps = task.steps.filter(s => s.d).length;
+            task.progress = Math.round(doneSteps / task.steps.length * 100);
+            task.status = task.progress > 0 ? 'processing' : 'pending';
+            
             openTask(taskId);
             renderContent();
         }
@@ -567,30 +625,116 @@
             renderContent();
         }
         
-        function completeTask(taskId) {
+        // 提交验收
+        function submitForApprove(taskId) {
             const task = tasks.find(t => t.id === taskId);
-            task.status = 'done';
-            task.steps.forEach(s => s.d = true);
+            task.status = 'waiting_approve';
             
-            const user = users.find(u => u.id === task.assigneeId);
-            records.unshift({
-                date: new Date().getDate(),
-                month: '02',
-                title: task.title,
-                desc: '已完成',
-                user: user ? user.name : ''
+            // 添加时间线
+            task.timeline.push({
+                time: new Date().toLocaleString('zh-CN'),
+                text: '提交验收'
             });
             
-            alert('✅ 任务完成！');
+            alert('📤 已提交验收，等待主管确认');
             closeModal();
             renderContent();
         }
         
-        function closeModal() {
-            document.getElementById('modal').classList.remove('active');
+        // ========== Supervisor: 验收 ==========
+        function openApprove(taskId) {
+            const task = tasks.find(t => t.id === taskId);
+            if (!task) return;
+            
+            const ee = users.find(u => u.id === task.assigneeId);
+            
+            let body = `
+                <div style="font-size:13px;color:var(--text-light);margin-bottom:12px">${task.desc}</div>
+                <div style="margin-bottom:16px">
+                    <span style="font-size:13px">执行进度: ${task.progress}%</span>
+                    <div class="progress-bar"><div class="progress-fill" style="width:${task.progress}%"></div></div>
+                </div>
+                <div class="notice">执行人: ${ee ? ee.name : ''} 已完成所有步骤，请验收</div>
+                
+                <div class="card-title" style="margin-top:16px">执行步骤</div>
+            `;
+            
+            task.steps.forEach((step, idx) => {
+                body += `
+                    <div class="flow-step">
+                        <div class="step-num done">${idx+1}</div>
+                        <div class="step-content">
+                            <div class="step-title">${step.t}</div>
+                            <div style="color:var(--success)">✓ 已完成</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            // 时间线
+            if (task.timeline && task.timeline.length > 0) {
+                body += `<div class="card-title" style="margin-top:16px">时间线</div><div class="timeline">`;
+                task.timeline.forEach(item => {
+                    body += `<div class="timeline-item done"><div class="timeline-date">${item.time}</div><div class="timeline-text">${item.text}</div></div>`;
+                });
+                body += '</div>';
+            }
+            
+            document.getElementById('modal-title').textContent = '验收: ' + task.title;
+            document.getElementById('modal-body').innerHTML = body;
+            document.getElementById('modal-footer').innerHTML = `
+                <button class="btn btn-danger" onclick="rejectTask(${taskId})">❌ 驳回</button>
+                <button class="btn btn-success" onclick="approveTask(${taskId})">✅ 通过验收</button>
+            `;
+            
+            document.getElementById('modal').classList.add('active');
         }
         
-        // ========== Supervisor Functions ==========
+        // 验收通过
+        function approveTask(taskId) {
+            const task = tasks.find(t => t.id === taskId);
+            const ee = users.find(u => u.id === task.assigneeId);
+            
+            task.status = 'approved';
+            task.approveStatus = 'approved';
+            task.timeline.push({
+                time: new Date().toLocaleString('zh-CN'),
+                text: '验收通过'
+            });
+            
+            // 添加到记录
+            records.unshift({
+                date: new Date().getDate(),
+                month: '02',
+                title: task.title,
+                desc: '已验收通过',
+                userId: task.assigneeId,
+                userName: ee ? ee.name : ''
+            });
+            
+            alert('✅ 验收通过！');
+            closeModal();
+            renderContent();
+        }
+        
+        // 驳回
+        function rejectTask(taskId) {
+            const task = tasks.find(t => t.id === taskId);
+            task.status = 'rejected';
+            task.approveStatus = 'rejected';
+            task.progress = 0;
+            task.steps.forEach(s => s.d = false);
+            task.timeline.push({
+                time: new Date().toLocaleString('zh-CN'),
+                text: '被驳回，需重新执行'
+            });
+            
+            alert('❌ 已驳回，执行人需重新执行');
+            closeModal();
+            renderContent();
+        }
+        
+        // ========== Assign Task ==========
         function assignTask() {
             const eeId = document.getElementById('assign-ee').value;
             const type = document.getElementById('assign-type').value;
@@ -598,7 +742,7 @@
             
             const ee = users.find(u => u.id === eeId);
             const templates = {
-                producer: { title: '生产排配确认', steps: ['打开排配系统','确认各线','记录异常'] },
+                producer: { title: '生产排配确认', steps: ['登录系统','确认排配','检查物料','提交'] },
                 equipment: { title: '设备点检', steps: ['外观检查','参数记录','异常记录'] },
                 quality: { title: 'IQC检验', steps: ['外观检验','尺寸测量','判定结果'] }
             };
@@ -614,7 +758,10 @@
                 assigneeId: eeId,
                 assigneeName: ee.name,
                 supervisorId: currentUser.id,
-                steps: tpl.steps.map(s => ({t: s, d: false}))
+                progress: 0,
+                approveStatus: null,
+                steps: tpl.steps.map(s => ({t: s, d: false})),
+                timeline: [{ time: new Date().toLocaleString('zh-CN'), text: '任务分配' }]
             };
             
             tasks.unshift(newTask);
@@ -624,148 +771,16 @@
             renderContent();
         }
         
-        // ========== Admin Functions ==========
-        function showAddUser() {
-            document.getElementById('modal-title').textContent = '添加用户';
-            document.getElementById('modal-body').innerHTML = `
-                <div class="form-group">
-                    <label class="form-label">姓名</label>
-                    <input type="text" class="form-input" id="new-name" placeholder="姓名">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">用户名</label>
-                    <input type="text" class="form-input" id="new-username" placeholder="登录账号">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">密码</label>
-                    <input type="password" class="form-input" id="new-password" placeholder="密码">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">部门</label>
-                    <select class="form-input" id="new-dept">
-                        <option value="producer">生管</option>
-                        <option value="equipment">设备</option>
-                        <option value="quality">品保</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">层级</label>
-                    <select class="form-input" id="new-level">
-                        <option value="1">执行层</option>
-                        <option value="2">管理层</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">主管 (执行层需指定)</label>
-                    <select class="form-input" id="new-supervisor">
-                        <option value="">无</option>
-                        ${users.filter(u => u.level === 2).map(u => `<option value="${u.id}">${u.name}</option>`).join('')}
-                    </select>
-                </div>
-            `;
-            document.getElementById('modal-footer').innerHTML = `
-                <button class="btn btn-secondary" onclick="closeModal()">取消</button>
-                <button class="btn" onclick="addUser()">添加</button>
-            `;
-            document.getElementById('modal').classList.add('active');
-        }
-        
-        function addUser() {
-            const name = document.getElementById('new-name').value;
-            const username = document.getElementById('new-username').value;
-            const password = document.getElementById('new-password').value;
-            const dept = document.getElementById('new-dept').value;
-            const level = parseInt(document.getElementById('new-level').value);
-            const supervisor = document.getElementById('new-supervisor').value;
-            
-            if (!name || !username || !password) {
-                alert('请填写完整信息');
-                return;
-            }
-            
-            const newUser = {
-                id: 'u' + (users.length + 1),
-                username,
-                password,
-                role: level === 1 ? 'engineer' : 'supervisor',
-                level,
-                levelName: levelNames[level],
-                dept,
-                deptName: deptNames[dept],
-                name,
-                avatar: level === 1 ? '👨‍💻' : '👨‍💼',
-                supervisor: supervisor || undefined
-            };
-            
-            users.push(newUser);
-            alert('✅ 用户添加成功');
-            closeModal();
-            renderContent();
-        }
-        
-        function editUser(userId) {
-            const user = users.find(u => u.id === userId);
-            if (!user) return;
-            
-            document.getElementById('modal-title').textContent = '编辑用户';
-            document.getElementById('modal-body').innerHTML = `
-                <div class="form-group">
-                    <label class="form-label">姓名</label>
-                    <input type="text" class="form-input" id="edit-name" value="${user.name}">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">新密码 (留空保持不变)</label>
-                    <input type="password" class="form-input" id="edit-password" placeholder="新密码">
-                </div>
-            `;
-            document.getElementById('modal-footer').innerHTML = `
-                <button class="btn btn-secondary" onclick="closeModal()">取消</button>
-                <button class="btn btn-danger" onclick="deleteUser('${userId}')">删除</button>
-                <button class="btn" onclick="saveUser('${userId}')">保存</button>
-            `;
-            document.getElementById('modal').classList.add('active');
-        }
-        
-        function saveUser(userId) {
-            const user = users.find(u => u.id === userId);
-            user.name = document.getElementById('edit-name').value;
-            const newPass = document.getElementById('edit-password').value;
-            if (newPass) user.password = newPass;
-            
-            alert('✅ 已保存');
-            closeModal();
-            renderContent();
-        }
-        
-        function deleteUser(userId) {
-            if (!confirm('确定删除该用户？')) return;
-            users = users.filter(u => u.id !== userId);
-            alert('✅ 已删除');
-            closeModal();
-            renderContent();
-        }
-        
+        // ========== Commands ==========
         function publishCommand() {
             const content = document.getElementById('command-content').value;
-            if (!content) {
-                alert('请输入指令内容');
-                return;
-            }
-            
-            commands.unshift({
-                id: commands.length + 1,
-                title: '新指令',
-                content,
-                from: currentUser.id,
-                fromName: currentUser.name,
-                to: 'all',
-                date: new Date().toISOString().split('T')[0],
-                read: false
-            });
-            
+            if (!content) { alert('请输入指令内容'); return; }
             alert('✅ 指令已发布');
             document.getElementById('command-content').value = '';
-            renderContent();
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
         }
         
         // ========== Init ==========
